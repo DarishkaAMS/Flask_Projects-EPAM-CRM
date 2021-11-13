@@ -1,2 +1,4 @@
 # Flask_Projects-EPAM-CRM
-TODO
+
+Department management System
+CRM System
