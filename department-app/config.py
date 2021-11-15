@@ -1,0 +1,1 @@
+SQLALCHEMY_DATABASE_URI: "postgresql://postgres:F1_Moet_2014@localhost/department_crm"
