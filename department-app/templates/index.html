@@ -20,22 +20,39 @@
       {% endif %}
       <form action="/submit" method="POST">
         <div class="form-group">
-          <h3>Customer Name</h3>
+          <h3>Employee First Name</h3>
           <input
             type="text"
-            name="customer"
-            placeholder="Name of vehicle owner"
+            name="first_name"
+            placeholder="First Name"
           />
         </div>
         <div class="form-group">
-          <h3>Dealer</h3>
-          <select name="dealer">
-            <option value="">Select Dealer</option>
-            <option value="Tom Smith">Tom Smith</option>
-            <option value="Karen Swanson">Karen Swanson</option>
-            <option value="Jim Johnson">Jim Johnson</option>
-            <option value="Shauna Gifford">Shauna Gifford</option>
+          <h3>Employee Last Name</h3>
+          <input
+            type="text"
+            name="last_name"
+            placeholder="Last Name"
+          />
+        </div>
+        <div class="form-group">
+          <h3>Sector</h3>
+          <select name="department">
+            <option value="">Select Department</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Sales">Sales</option>
+            <option value="Analytics">Analytics</option>
+            <option value="Accounting">Accounting</option>
+            <option value="HR">HR</option>
           </select>
+        </div>
+        <div class="form-group">
+          <h3>Employee Salary</h3>
+          <input
+            type="text"
+            name="salary"
+            placeholder="Salary"
+          />
         </div>
         <div class="form-group">
           <h3>Please rate your dealer</h3>
@@ -51,7 +68,7 @@
           <input type="radio" name="rating" value="10" checked /> 10
         </div>
         <div class="form-group">
-          <h3>Comments about your experience</h3>
+          <h3>Comments about employee experience</h3>
           <textarea
             name="comments"
             id=""
@@ -60,11 +77,6 @@
             placeholder="Tell us what you liked and/or did not like"
           ></textarea>
         </div>
-<!--        <div>-->
-<!--          <textarea name="new_field">-->
-
-<!--          </textarea>-->
-<!--        </div>-->
         <input type="submit" value="Submit" class="btn" />
       </form>
     </div>

@@ -1,17 +1,24 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__, instance_relative_config=True)
-app.config.from_pyfile('config.py')
+# app.config.from_pyfile('config.py')
 
 ENV = 'dev'
+
+# load_dotenv()
+# SQLALCHEMY_DATABASE_URI = os.getenv('DB_CREDENTIALS')
+# print('DB_CREDENTIALS', DB_CREDENTIALS)
+# print('SQLALCHEMY_DATABASE_URI', SQLALCHEMY_DATABASE_URI)
 
 if ENV == 'dev':
     app.debug = True
     app.secret_key = 'dev'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_CREDENTIALS')}"
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 
 else:
     app.debug = False
@@ -22,21 +29,23 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-class Feedback(db.Model):
-    __tablename__ = 'feedback'
+class Employee(db.Model):
+    __tablename__ = 'employees'
     id = db.Column(db.Integer, primary_key=True)
-    customer = db.Column(db.String(200), unique=True)
-    dealer = db.Column(db.String(200))
+    first_name = db.Column(db.String(200))
+    last_name = db.Column(db.String(200), unique=True)
+    department = db.Column(db.String(25))
+    salary = db.Column(db.Integer)
     rating = db.Column(db.Integer)
     comments = db.Column(db.Text())
-    # new_field = db.Column(db.Text())
 
-    def __init__(self, customer, dealer, rating, comments):
-        self.customer = customer
-        self.dealer = dealer
+    def __init__(self, first_name, last_name, department, salary, rating, comments):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.department = department
+        self.salary = salary
         self.rating = rating
         self.comments = comments
-        # self.new_field = new_field
 
 
 @app.route('/')
@@ -47,22 +56,23 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit():
     if request.method == 'POST':
-        customer = request.form['customer']
-        dealer = request.form['dealer']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        department = request.form['department']
+        salary = request.form['salary']
         rating = request.form['rating']
         comments = request.form['comments']
-        # new_field = request.form['new_field']
 
-        if customer == '' or dealer == '':
+        if first_name == '' or last_name == '' or department == '':
             return render_template('index.html', message='Please enter required fields')
-
-        if db.session.query(Feedback).filter(Feedback.customer == customer).count() == 0:
-            data = Feedback(customer, dealer, rating, comments)
+        if db.session.query(Employee).filter(Employee.last_name == last_name).count() == 0:
+            data = Employee(first_name, last_name, department, salary, rating, comments)
             db.session.add(data)
             db.session.commit()
+            print("SEND")
             # send_mail(customer, dealer, rating, comments)
             # return render_template('success.html')
-        return render_template('index.html', message='You have already submitted feedback')
+        return render_template('index.html', message='Your department data has been saved')
 
 
 if __name__ == "__main__":
