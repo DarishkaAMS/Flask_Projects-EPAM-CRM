@@ -44,6 +44,9 @@ class Employee(db.Model):
         self.rating = rating
         self.comments = comments
 
+    def __str__(self):
+        return f'Personal data of {self.first_name} {self.last_name}'
+
 
 @app.route('/')
 def index():
