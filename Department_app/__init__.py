@@ -19,8 +19,7 @@ def create_app():
 
     if ENV == 'dev':
         app.debug = True
-        # app.secret_key = 'dev'
-        app.config['SECRET_KEY'] = 'gt563sxkjt66eyhcof22zjl097'
+        app.config['SECRET_KEY'] = 'SECRET_KEY'
         app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_CREDENTIALS')}"
 
     else:
