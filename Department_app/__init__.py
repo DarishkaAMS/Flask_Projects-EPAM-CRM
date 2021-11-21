@@ -4,6 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 import os
 
+from .models.department import Department
+from .models.employee import Employee
+
 from .views.views import views
 from .views.auth import auth
 
