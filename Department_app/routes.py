@@ -61,3 +61,15 @@ def logout_page_view():
     logout_user()
     flash('Bye now! Come back again!', category='info')
     return redirect(url_for('home_page_view'))
+
+
+@app.route('/departments')
+def departments_page_view():
+    departments = Department.query.all()
+    return render_template('departments.html', departments=departments)
+
+
+
+#
+# @app.route('/employee')
+# def employee_view_page:
