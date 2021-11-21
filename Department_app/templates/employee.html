@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ current_user.first_name }} | {{ current_user.last_name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3" align="center" style="color:#343a40">
+                <h2>{{ current_user.first_name }} <b> {{ current_user.last_name }} </b>
+                <h2>Manage <b> Your Account </b>
+                </h2>
+
+                <table class="table table-hover table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Date of Birth</th>
+                        <th>Email Address</th>
+                        <th>Department</th>
+                        <th>Salary</th>
+                        <th>Action</th>
+                    </tr>
+
+                    <tr>
+                        <td>{{current_user.id}}</td>
+                        <td>{{current_user.first_name}}</td>
+                        <td>{{current_user.last_name}}</td>
+                        <td>{{current_user.date_of_birth}}</td>
+                        <td>{{current_user.email_address}}</td>
+                        <td>{{current_user.department}}</td>
+                        <td>{{current_user.salary}}</td>
+
+                        <td>
+                            <a href="#" class="btn btn-warning btn-xs" data-toggle="modal"
+                               data-target="#}">Edit</a>
+                            <a href="#" class="btn btn-danger btn-xs"
+                               onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

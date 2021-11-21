@@ -69,7 +69,9 @@ def departments_page_view():
     return render_template('departments.html', departments=departments)
 
 
+@app.route('/employee/<id>', methods=['POST', 'GET'])
+def employee_page_view(id):
+    employee = Employee.query.filter_by(id=id)
 
-#
-# @app.route('/employee')
-# def employee_view_page:
+    return render_template('employee.html', employee=employee)
+

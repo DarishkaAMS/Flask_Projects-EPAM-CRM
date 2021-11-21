@@ -37,7 +37,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link">Welcome, {{ current_user.first_name }} {{ current_user.last_name }}</a>
+                        <a class="nav-link" href="{{ url_for('employee_page_view', id=current_user.id) }}">Welcome, {{ current_user.first_name }} {{ current_user.last_name }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('logout_page_view') }}">Logout</a>
