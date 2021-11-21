@@ -11,7 +11,6 @@ app = Flask(__name__, instance_relative_config=True)
 
 load_dotenv()
 DB_CREDENTIALS = getenv('DB_CREDENTIALS')
-# print("OS", getenv('DB_CREDENTIALS'))
 
 app.debug = True
 app.config['SECRET_KEY'] = 'SECRET_KEY'
