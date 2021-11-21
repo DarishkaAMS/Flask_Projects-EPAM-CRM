@@ -7,3 +7,6 @@ class Department(db.Model):
     name = db.Column(db.String(25))
     head = db.Column(db.String(25))
     employee = db.relationship('Employee')
+
+    def __repr__(self):
+        return f"<{self.name} Department>"

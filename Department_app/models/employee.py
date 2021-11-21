@@ -12,3 +12,6 @@ class Employee (db.Model, UserMixin):
     salary = db.Column(db.Integer)
     password = db.Column(db.String(25))
     department_id = db.Column(db.Integer, db.ForeignKey('department.id'))
+
+    def __repr__(self):
+        return f"<Employee - {self.first_name} {self.last_name} >"
