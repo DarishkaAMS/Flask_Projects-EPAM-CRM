@@ -10,7 +10,6 @@ app = Flask(__name__, instance_relative_config=True)
 
 load_dotenv()
 DB_CREDENTIALS = getenv('DB_CREDENTIALS')
-DB_CREDENTIALS = 'postgres:F1_Moet_2014@localhost/department_crm'
 
 app.debug = True
 app.config['SECRET_KEY'] = 'SECRET_KEY'

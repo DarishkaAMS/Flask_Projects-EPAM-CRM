@@ -13,6 +13,9 @@ Register Page
             <h1 class="h3 mb-3 font-weight-normal">
                 Let's Create Your Account
             </h1>
+            <i> Fields marked with * are required </i>
+            <br/>
+            <br/>
             {{ form.first_name.label() }}
             {{ form.first_name(class="form-control", placeholder="What is Employee's First Name?") }}
 
@@ -23,7 +26,7 @@ Register Page
             {{ form.email_address(class="form-control", placeholder="Hmmm... Let's stay in touch with the Employee") }}
 
             {{ form.date_of_birth.label() }}
-            {{ form.date_of_birth(class="form-control", placeholder="When Employee was born") }}
+            {{ form.date_of_birth(class="form-control", type="date", max="2003-01-01", placeholder="When Employee was born") }}
 
             {{ form.department.label() }}
             {{ form.department(class="form-control", placeholder="What is the Employee's department?") }}
