@@ -1,4 +1,7 @@
-from flask import Blueprint, flash, render_template, request
+from flask import Blueprint, flash, redirect, render_template, request, url_for
+from werkzeug.security import check_password_hash, generate_password_hash
+# from ..models.employee import Employee
+from .. import db
 
 auth = Blueprint('auth', __name__)
 
@@ -15,6 +18,7 @@ def logout():
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
+    from ..models.employee import Employee
     if request.method == "POST":
         first_name = request.form.get('firstName')
         last_name = request.form.get('lastName')
@@ -39,7 +43,14 @@ def sign_up():
         elif password1 != password2:
             flash('Passwords don\'t match.', category='error')
         else:
+            new_employee = Employee(first_name=first_name, last_name=last_name, email=email,
+                                    date_of_birth=date_of_birth, department=department, salary=salary,
+                                    password=generate_password_hash(password1, method='sha256'))
+            db.session.add(new_employee)
+            db.session.commit()
             flash('Account has been creates', category='success')
+            return redirect(url_for('views.home'))
+
         print("DEP", first_name, last_name, date_of_birth, email, department, salary, password1, password2)
     return render_template('sign_up.html')
 
