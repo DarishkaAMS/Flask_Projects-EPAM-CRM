@@ -1,5 +1,5 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
-from flask_login import login_user, logout_user
+from flask_login import current_user, login_user, logout_user
 # from ..models.employee import Employee
 
 from . import app, db
@@ -49,7 +49,7 @@ def login_page_view():
             login_user(attempted_employee)
             flash(f'Welcome Back, {attempted_employee.first_name} {attempted_employee.last_name}!', category='success')
             # UPDATE TO DEPARTMENT
-            return redirect(url_for('home_page_view'))
+            return redirect(url_for('departments_page_view'))
         else:
             flash('Sorry... But email and password are not match! Please try again', category='danger')
 
@@ -69,9 +69,36 @@ def departments_page_view():
     return render_template('departments.html', departments=departments)
 
 
-@app.route('/employee/<id>', methods=['POST', 'GET'])
+@app.route('/employee/<int:id>', methods=['GET'])
 def employee_page_view(id):
-    employee = Employee.query.filter_by(id=id)
-
+    employee = Employee.query.get_or_404(id)
     return render_template('employee.html', employee=employee)
 
+
+@app.route('/employee/<int:id>/update', methods=['GET', 'POST'])
+def employee_update_view(id):
+    employee = Employee.query.get_or_404(id)
+    # if employee.id != current_user:
+    #     abort(403)
+    form = RegisterForm()
+    if form.validate_on_submit():
+        employee.first_name = form.first_name.data
+        employee.last_name = form.last_name.data
+        employee.email_address = form.email_address.data
+        employee.date_of_birth = form.date_of_birth.data
+        password = form.password_1.data
+        db.session.commit()
+        flash('Everything is updated!', category='success')
+
+        return redirect(url_for('employee.html', id=employee.id))
+
+
+@app.route("/employee/<int:id>/delete", methods=['POST'])
+def employee_delete_view(id):
+    employee = Employee.query.get_or_404(id)
+    # if employee.id != current_user:
+    #     abort(403)
+    db.session.delete(employee)
+    db.session.commit()
+    flash('Your account has been successfully deleted!', category='success')
+    return redirect(url_for('home_page_view'))
