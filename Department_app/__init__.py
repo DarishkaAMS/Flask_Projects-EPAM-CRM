@@ -17,7 +17,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{DB_CREDENTIALS}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-print(DB_CREDENTIALS)
 # app.register_blueprint(routes, url_prefix='/')
 
 
@@ -26,7 +25,7 @@ def create_database():
     if not path.exists('website/' + str(DB_CREDENTIALS)):
         # from .models import Department, Employee
         db.create_all()
-        print('Created Database!', DB_CREDENTIALS)
+        print('Created Database!')
 
 
 create_database()

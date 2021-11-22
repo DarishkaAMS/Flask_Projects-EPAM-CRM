@@ -1,9 +1,9 @@
-from flask import Blueprint, flash, redirect, render_template, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
 # from ..models.employee import Employee
 
 from . import app, db
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, UpdateAccountForm
 from .models import Employee, Department
 
 # routes = Blueprint('routes', __name__)
@@ -40,6 +40,9 @@ def register_page_view():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page_view():
+    if current_user.is_authenticated:
+        return redirect(url_for('home_page_view'))
+
     form = LoginForm()
     if form.validate_on_submit():
         attempted_employee = Employee.query.filter_by(email_address=form.email_address.data).first()
@@ -78,19 +81,28 @@ def employee_page_view(id):
 @app.route('/employee/<int:id>/update', methods=['GET', 'POST'])
 def employee_update_view(id):
     employee = Employee.query.get_or_404(id)
+    print("EMPL", employee.first_name)
     # if employee.id != current_user:
     #     abort(403)
-    form = RegisterForm()
+    form = UpdateAccountForm()
     if form.validate_on_submit():
         employee.first_name = form.first_name.data
         employee.last_name = form.last_name.data
         employee.email_address = form.email_address.data
         employee.date_of_birth = form.date_of_birth.data
-        password = form.password_1.data
+        # password = form.password_1.data
         db.session.commit()
         flash('Everything is updated!', category='success')
-
         return redirect(url_for('employee.html', id=employee.id))
+
+    elif request.method == 'GET':
+        form.first_name.data = employee.first_name
+        form.last_name.data = employee.last_name
+        form.email_address.data = employee.email_address
+        form.date_of_birth.data = employee.date_of_birth
+
+    return render_template('register.html', title='Update Post',
+                           form=form, legend='Update Post')
 
 
 @app.route("/employee/<int:id>/delete", methods=['POST'])
