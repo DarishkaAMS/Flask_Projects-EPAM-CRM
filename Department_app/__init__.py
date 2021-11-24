@@ -2,39 +2,49 @@ from dotenv import load_dotenv
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_migrate import Migrate
+from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 
-from os import getenv, path
+from config import Config
 
-app = Flask(__name__, instance_relative_config=True)
-
-load_dotenv()
-DB_CREDENTIALS = getenv('DB_CREDENTIALS')
-
-app.debug = True
-app.config['SECRET_KEY'] = 'SECRET_KEY'
-app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{DB_CREDENTIALS}"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-# app.register_blueprint(routes, url_prefix='/')
+db = SQLAlchemy()
+login_manager = LoginManager()
+bcrypt = Bcrypt()
 
 
-def create_database():
-    load_dotenv()
-    if not path.exists('website/' + str(DB_CREDENTIALS)):
-        # from .models import Department, Employee
-        db.create_all()
-        print('Created Database!')
+def create_app():
+    """
+    Create flask application
+    :return: the created flask application
+    """
+    app = Flask(__name__)
+    app.config.from_object(Config)
 
+    db.init_app(app)
 
-create_database()
+    bcrypt.init_app(app)
 
+    login_manager.init_app(app)
 
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
-login_manager.login_view = "login_page_view"
-login_manager.login_message_category = "info"
+    Migrate(app, db)
 
-from . import routes
+    from .views import user as user_blueprint
+    app.register_blueprint(user_blueprint)
+
+    from .rest import employee_api, department_api
+
+    api = Api(app)
+
+    # adding the department resources
+    api.add_resource(department_api.DepartmentListApi, '/api/departments')
+    api.add_resource(department_api.Department, '/api/departments/<id>')
+
+    # adding the employee resources
+    api.add_resource(employee_api.EmployeeListApi, '/api/employees')
+    api.add_resource(employee_api.Employee, '/api/employees/<id>')
+
+    from . import models
+
+    return app
 
