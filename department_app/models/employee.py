@@ -16,11 +16,11 @@ class Employee (db.Model, UserMixin):
     __tablename__ = 'employees'
 
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(25))
-    last_name = db.Column(db.String(25))
+    first_name = db.Column(db.String(25), nullable=False)
+    last_name = db.Column(db.String(25), nullable=False)
     email_address = db.Column(db.String(50), nullable=False, unique=True)
     # department = db.Column(db.String(15), nullable=False)
-    date_of_birth = db.Column(db.Date(), nullable=False)
+    date_of_birth = db.Column(db.Date)
     salary = db.Column(db.Integer)
     password_hash = db.Column(db.String(length=60), nullable=False)
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))

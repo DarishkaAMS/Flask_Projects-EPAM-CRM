@@ -62,7 +62,7 @@ class EmployeeForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
     salary = StringField('Salary', validators=[DataRequired()])
-    birthday = StringField('Birthday', validators=[DataRequired()])
+    date_of_birth = StringField('Date of Birth', validators=[DataRequired()])
     submit = SubmitField(label='Submit')
 
 

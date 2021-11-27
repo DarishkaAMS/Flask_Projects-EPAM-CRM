@@ -26,8 +26,8 @@ def register_page():
             first_name=form.first_name.data,
             last_name=form.last_name.data,
             email_address=form.email_address.data,
-            date_of_birth=form.date_of_birth.data,
-            salary=form.salary.data,
+            # date_of_birth=form.date_of_birth.data,
+            # salary=form.salary.data,
             password_hash=form.password.data
         )
 
@@ -40,6 +40,7 @@ def register_page():
               f'as {employee_to_create.first_name} {employee_to_create.last_name}', category='success')
 
         # redirect to the home page
+        print("DATA, ", employee_to_create)
         return redirect(url_for('user.home_page'))
 
     # pylint: disable=no-member
@@ -49,6 +50,7 @@ def register_page():
             flash(f'There was an error with creating a user: {err_msg}', category='danger')
 
     # load registration template
+
     return render_template('auth/register.html', form=form)
 
 

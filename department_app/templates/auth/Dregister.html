@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Register Page
+{% endblock %}
+
+{% block content %}
+<body class="text-center">
+    <div class="container">
+        <form method="POST" class="form-register" style="color:white">
+            {{ form.hidden_tag() }}
+            <img class="mb-4" src="https://ctl.s6img.com/society6/img/2DZ5pCs1LDlhj5rV7ITQmVdkYxU/w_700/posters/top/~artwork,fw_2718,fh_3618,fx_-450,iw_3618,ih_3618/s6-0089/a/34685025_16296864/~~/black-cat-dcv-posters.jpg" alt="DarishkaAMS" width="350" height="350">
+            <h1 class="h3 mb-3 font-weight-normal">
+                Let's Create Your Account
+            </h1>
+            <i> Fields marked with * are required </i>
+            <br/>
+            <br/>
+            {{ form.first_name.label() }}
+            {{ form.first_name(class="form-control", placeholder="What is Employee's First Name?") }}
+
+            {{ form.last_name.label() }}
+            {{ form.last_name(class="form-control", placeholder="What is Employee's  Last Name?") }}
+
+            {{ form.email_address.label() }}
+            {{ form.email_address(class="form-control", placeholder="Hmmm... Let's stay in touch with the Employee") }}
+
+            {{ form.date_of_birth.label() }}
+            {{ form.date_of_birth(class="form-control", type="date", max="2003-01-01", placeholder="When Employee was born") }}
+
+            {{ form.department.label() }}
+            {{ form.department(class="form-control", placeholder="What is the Employee's department?") }}
+
+            {{ form.salary.label() }}
+            {{ form.salary(class="form-control", placeholder="What is the Employee's salary") }}
+
+            {{ form.password_1.label() }}
+            {{ form.password_1(class="form-control", placeholder="How about a secret word?") }}
+
+            {{ form.password_2.label() }}
+            {{ form.password_2(class="form-control", placeholder="And again") }}
+
+            <br>
+
+            <div class="checkbox mb-3">
+               <h6>Already have an account?</h6>
+               <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('login_page_view') }}"><b> Login </b></a>
+            </div>
+
+            {{ form.submit(class="btn btn-lg btn-block btn-success") }}
+        </form>
+    </div>
+</body>
+{% endblock %}
