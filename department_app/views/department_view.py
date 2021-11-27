@@ -21,8 +21,7 @@ def show_departments():
     """
     Show all departments
     """
-    departments = Department.query.all()
-    # departments = Department.query.order_by(Department.name.desc()).all()
+    departments = Department.query.order_by(Department.name).all()
 
     return render_template('departments/departments.html', departments=departments)
 
