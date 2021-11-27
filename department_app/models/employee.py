@@ -25,27 +25,27 @@ class Employee (db.Model, UserMixin):
     password_hash = db.Column(db.String(length=150), nullable=False)
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
 
-    @property
-    def password(self):
-        """
-        Prevent password from being accessed
-        """
-        return self.password
+    # @property
+    # def password(self):
+    #     """
+    #     Prevent password from being accessed
+    #     """
+    #     return self.password
         # raise AttributeError('Password is not readable attribute.')
 
-    @password.setter
-    def password(self, plain_text_password):
-        """
-        Hash password
-        """
-        self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
-
-    def check_password_correction(self, attempted_password):
-        """
-        Check if hashed password matches attempted password
-        :return: `True` or `False`
-        """
-        return bcrypt.check_password_hash(self.password_hash, attempted_password)
+    # @password.setter
+    # def password(self, plain_text_password):
+    #     """
+    #     Hash password
+    #     """
+    #     self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
+    #
+    # def check_password_correction(self, attempted_password):
+    #     """
+    #     Check if hashed password matches attempted password
+    #     :return: `True` or `False`
+    #     """
+    #     return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
     # def calculate_age(self, birth):
     #     """
@@ -75,7 +75,7 @@ class Employee (db.Model, UserMixin):
         Representation of the Employee
         :return: a string representing the employee by first name and last name
         """
-        return f"<Employee - {self.first_name} {self.last_name}>"
+        return f"<Employee - {self.id}"
 
 
 @login_manager.user_loader

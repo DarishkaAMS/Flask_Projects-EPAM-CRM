@@ -21,7 +21,7 @@ class RegisterForm(FlaskForm):
     # date_of_birth = DateField(label='Date of Birth:', format='%Y-%m-%d')
     # department = StringField(label='Department')
     # salary = IntegerField(label='Salary')
-    password = PasswordField(label='Password', validators=[Length(min=6), DataRequired()])
+    password_hash = PasswordField(label='Password', validators=[Length(min=6), DataRequired()])
     confirm_password = PasswordField(label='Confirm Password', validators=[
         EqualTo('password'),
         DataRequired()
@@ -51,7 +51,7 @@ class LoginForm(FlaskForm):
     Form for users to login
     """
     email_address = StringField(label='Email:', validators=[DataRequired(), Email()])
-    password = PasswordField(label='Password:', validators=[DataRequired()])
+    password_hash = PasswordField(label='Password:', validators=[DataRequired()])
     submit = SubmitField(label='Sign in')
 
 

@@ -3,7 +3,7 @@ This module represents the logic on routes starting with /register, /login and /
 """
 # pylint: disable=cyclic-import
 # pylint: disable=import-error
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -22,35 +22,40 @@ def register_page():
     Add an employee to the database through the registration form
     """
     form = RegisterForm()
-    if form.validate_on_submit():
-        employee_to_create = Employee(
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            email_address=form.email_address.data,
-            # date_of_birth=form.date_of_birth.data,
-            # salary=form.salary.data,
-            # password_hash=form.password.data
-            password_hash=generate_password_hash(form.password.data, method='sha256')
 
-        )
+    if request.method == 'POST':
+        form = RegisterForm()
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        email_address = form.email_address.data
+        password_hash = form.password_hash.data
+        confirm_password = form.confirm_password.data
 
-        # pylint: disable=no-member
-        # add employee to the database
-        db.session.add(employee_to_create)
-        db.session.commit()
-        login_user(employee_to_create)
-        flash(f'Account has been created successfully! You are now logged in '
-              f'as {employee_to_create.first_name} {employee_to_create.last_name}', category='success')
+        if len(password_hash) < 6:
+            flash('Password must be at least 6 characters.', category='error')
+        elif password_hash != confirm_password:
+            flash('Passwords don\'t match.', category='error')
+        else:
+                employee_to_create = Employee(
+                    first_name=first_name,
+                    last_name=last_name,
+                    email_address=email_address,
+                    password_hash=generate_password_hash(form.password_hash.data, method='sha256')
 
-        # redirect to the home page
-        print("DATA, ", employee_to_create)
-        return redirect(url_for('user.home_page'))
+                )
 
-    # pylint: disable=no-member
-    # if there are no errors from the validations
-    if form.errors != {}:
-        for err_msg in form.errors.values():
-            flash(f'There was an error with creating a user: {err_msg}', category='danger')
+                db.session.add(employee_to_create)
+                db.session.commit()
+                login_user(employee_to_create)
+                flash(f'Account has been created successfully! You are now logged in '
+                      f'as {employee_to_create.first_name} {employee_to_create.last_name}', category='success')
+
+                print("DATA, ", employee_to_create)
+                return redirect(url_for('user.home_page'))
+
+                if form.errors != {}:
+                    for err_msg in form.errors.values():
+                        flash(f'There was an error with creating a user: {err_msg}', category='danger')
 
     # load registration template
     return render_template('auth/register.html', form=form)
@@ -64,19 +69,22 @@ def login_page():
     """
     form = LoginForm()
     if form.validate_on_submit():
+        email_address = request.form.get('email_address')
+        password_hash = request.form.get('password_hash')
 
-        # pylint: disable=no-else-return
-        attempted_employee = Employee.query.filter_by(email_address=form.email_address.data).first()
-        if attempted_employee and attempted_employee.check_password_correction(
-                attempted_password=form.password.data
-        ):
-            # log employee in
-            login_user(attempted_employee)
-            flash(f'Success! You are logged in as: '
-                  f'{attempted_employee.username}', category='success')
-
-            # redirect to the home page after login
-            return redirect(url_for('user.home_page'))
+        print("PASSWORD", password_hash)
+        attempted_employee = Employee.query.filter_by(email_address=email_address).first()
+        # if attempted_employee and attempted_employee.check_password_correction(
+        #         attempted_password=form.password.data
+        # ):
+        if attempted_employee:
+            if check_password_hash(attempted_employee.password_hash, password_hash):
+                login_user(attempted_employee)
+                flash(f'Success! You are logged in as '
+                      f'{attempted_employee.first_name} {attempted_employee.last_name}', category='success')
+                return redirect(url_for('user.home_page'))
+            else:
+                flash('Incorrect password, please, try again.', category='error')
 
         elif not attempted_employee:
             flash('This login does not exist!', category='danger')
@@ -96,7 +104,7 @@ def logout_page():
     Allow employee to logout moving to home page.
     """
     logout_user()
-    flash('You have been logged out See Ya!', category='info')
+    flash('You have been logged out. See Ya!', category='info')
 
     # redirect to the home page
     return redirect(url_for('user.home_page'))
