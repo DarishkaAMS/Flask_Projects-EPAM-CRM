@@ -22,10 +22,10 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ url_for('home_page_view') }}">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ url_for('user.home_page') }}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('departments_page_view') }}">Departments</a>
+                    <a class="nav-link" href="{{ url_for('user.show_departments') }}">Departments</a>
                 </li>
             </ul>
               {% if current_user.is_authenticated %}
@@ -37,19 +37,19 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('employee_page_view', id=current_user.id) }}">Welcome, {{ current_user.first_name }} {{ current_user.last_name }}</a>
+                        <a class="nav-link" href="{{ url_for('show_employees', id=current_user.id) }}">Welcome, {{ current_user.first_name }} {{ current_user.last_name }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('logout_page_view') }}">Logout</a>
+                        <a class="nav-link" href="{{ url_for('user.home_page') }}">Logout</a>
                     </li>
                 </ul>
               {% else %}
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('login_page_view') }}">Login</a>
+                        <a class="nav-link" href="{{ url_for('user.login_page') }}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('register_page_view') }}">Register</a>
+                        <a class="nav-link" href="{{ url_for('user.register_page') }}">Register</a>
                     </li>
                 </ul>
               {% endif %}
