@@ -88,8 +88,9 @@ def delete_department(id):
     Delete a department from the database
     """
     department = Department.query.get_or_404(id)
-    db.session.delete(department)
-    db.session.commit()
-    flash(f'You have successfully deleted the {department.name} department.', category='success')
+    if department:
+        db.session.delete(department)
+        db.session.commit()
+        flash(f'You have successfully deleted the {department.name} department.', category='success')
 
     return redirect(url_for('user.show_departments'))
