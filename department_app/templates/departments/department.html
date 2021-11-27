@@ -8,19 +8,27 @@ Departments
 
 {% if current_user.is_authenticated %}
 
-DEPARTMENT WITHOUT S
-
-{% else %}
-<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-dark" style="color:white">
-    <div class="col-md-5 p-lg-5 mx-auto my-5">
-        <h1 class="display-4 font-weight-normal"> It looks like I don't know you... Please login or register  </h1>
-        <a class="btn btn-outline-primary" href="{{ url_for('login_page_view') }}"> Login </a>
-        <a class="btn btn-outline-primary" href="{{url_for('register_page_view')}}"> Register </a>
-    </div>
-    <div class="product-device box-shadow d-none d-md-block"></div>
-    <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
+<body class="text-center">
+<div class="container">
+    <br/>
+    <br/>
+    <form method="POST" class="form-departments" style="color:white">
+        {{ form.hidden_tag() }}
+        <img class="mb-4" src="https://res.cloudinary.com/teepublic/image/private/s--_qmoVU7I--/c_crop,x_10,y_10/c_fit,w_1109/c_crop,g_north_west,h_1260,w_1260,x_-76,y_-109/co_rgb:ffffff,e_colorize,u_Misc:One%20Pixel%20Gray/c_scale,g_north_west,h_1260,w_1260/fl_layer_apply,g_north_west,x_-76,y_-109/bo_180px_solid_white/e_overlay,fl_layer_apply,h_1260,l_Misc:Art%20Print%20Bumpmap,w_1260/e_shadow,x_6,y_6/c_limit,h_1134,w_1134/c_lpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_jpg,h_630,q_90,w_630/v1468533284/production/designs/584729_1.jpg" alt="DarishkaAMS" width="350" height="350">
+        {% if add_dep %}
+        <h1 class="h3 mb-3 font-weight-normal">Add Department</h1>
+        {% else %}
+        <h1 class="h3 mb-3 font-weight-normal">Edit Department</h1>
+        {% endif %}
+        <br>
+        {{ form.name.label() }}
+        {{ form.name(class="form-control", placeholder="Name") }}
+        {{ form.head.label() }}
+        {{ form.head(class="form-control", placeholder="Head of the department") }}
+        <br>
+        {{ form.submit(class="btn btn-lg btn-primary") }}
+    </form>
 </div>
+</body>
 {% endif %}
-
-
 {% endblock %}
