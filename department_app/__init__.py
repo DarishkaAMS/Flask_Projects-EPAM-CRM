@@ -6,12 +6,10 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils.functions import database_exists
-from sqlalchemy import inspect
-
 
 from dotenv import load_dotenv
 from config import Config
-from os import path
+
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -56,7 +54,7 @@ def create_app():
 
 def create_database(app):
     """
-    Create DB
+    Create DB using configs
     """
     if not database_exists(app.config["SQLALCHEMY_DATABASE_URI"]):
         print('There is no such Database')
