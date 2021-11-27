@@ -75,10 +75,12 @@ Departments
 <!--                    {% endif %}-->
 <!--                </td>-->
                 <td>
-                    <a href="{{ url_for('user.edit_department', id=department.id) }}">Edit</a>
+                    <a href="{{ url_for('user.edit_department', id=department.id) }}" class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
                 </td>
                 <td>
-                    <a href="{{ url_for('user.delete_department', id=department.id) }}">
+                    <a href="{{ url_for('user.delete_department', id=department.id) }}" class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i>
                         Delete
                     </a>

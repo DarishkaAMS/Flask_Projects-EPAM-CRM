@@ -73,7 +73,7 @@ def edit_department(id):
         department.head = form.head.data
         # pylint: disable=no-member
         db.session.commit()
-        flash('You have successfully edited the department.', category='success')
+        flash(f'You have successfully edited the {department.name} Department.', category='success')
 
         # redirect to the departments page
         return redirect(url_for('user.show_departments'))
@@ -97,7 +97,7 @@ def delete_department(id):
     # pylint: disable=no-member
     db.session.delete(department)
     db.session.commit()
-    flash('You have successfully deleted the department.', category='success')
+    flash(f'You have successfully deleted the {department.name} department.', category='success')
 
     # redirect to the departments page
     return redirect(url_for('user.show_departments'))
