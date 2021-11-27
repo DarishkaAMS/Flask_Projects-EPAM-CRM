@@ -28,6 +28,7 @@ def register_page():
         first_name = form.first_name.data
         last_name = form.last_name.data
         email_address = form.email_address.data
+        date_of_birth = form.date_of_birth.data
         password_hash = form.password_hash.data
         confirm_password = form.confirm_password.data
 
@@ -40,6 +41,7 @@ def register_page():
                 first_name=first_name,
                 last_name=last_name,
                 email_address=email_address,
+                date_of_birth = date_of_birth,
                 password_hash=generate_password_hash(form.password_hash.data, method='sha256')
 
             )
