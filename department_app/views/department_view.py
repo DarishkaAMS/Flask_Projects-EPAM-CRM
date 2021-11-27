@@ -47,7 +47,6 @@ def add_department():
             flash('You have successfully added a new department.', category='success')
 
         except:
-
             flash('Department already exists!', category='danger')
 
         return redirect(url_for('user.show_departments'))
@@ -56,8 +55,6 @@ def add_department():
                            add_dep=add_dep, form=form)
 
 
-# pylint: disable=invalid-name
-# pylint: disable=redefined-builtin
 @user.route('/departments/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_department(id):
@@ -71,11 +68,10 @@ def edit_department(id):
     if form.validate_on_submit():
         department.name = form.name.data
         department.head = form.head.data
-        # pylint: disable=no-member
+
         db.session.commit()
         flash(f'You have successfully edited the {department.name} Department.', category='success')
 
-        # redirect to the departments page
         return redirect(url_for('user.show_departments'))
 
     form.name.data = department.name
@@ -86,7 +82,6 @@ def edit_department(id):
                            department=department)
 
 
-# pylint: disable=invalid-name
 @user.route('/departments/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_department(id):
@@ -94,10 +89,8 @@ def delete_department(id):
     Delete a department from the database
     """
     department = Department.query.get_or_404(id)
-    # pylint: disable=no-member
     db.session.delete(department)
     db.session.commit()
     flash(f'You have successfully deleted the {department.name} department.', category='success')
 
-    # redirect to the departments page
     return redirect(url_for('user.show_departments'))
