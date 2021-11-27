@@ -50,7 +50,6 @@ def register_page():
             flash(f'There was an error with creating a user: {err_msg}', category='danger')
 
     # load registration template
-
     return render_template('auth/register.html', form=form)
 
 
@@ -94,7 +93,7 @@ def logout_page():
     Allow employee to logout moving to home page.
     """
     logout_user()
-    flash('You have been logged out!', category='info')
+    flash('You have been logged out See Ya!', category='info')
 
     # redirect to the home page
     return redirect(url_for('user.home_page'))
