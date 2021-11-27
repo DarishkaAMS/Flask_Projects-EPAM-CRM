@@ -32,9 +32,9 @@ def register_page():
         confirm_password = form.confirm_password.data
 
         if len(password_hash) < 6:
-            flash('Password must be at least 6 characters.', category='error')
+            flash('Password must be at least 6 characters.', category='danger')
         elif password_hash != confirm_password:
-            flash('Passwords don\'t match.', category='error')
+            flash('Passwords don\'t match.', category='danger')
         else:
                 employee_to_create = Employee(
                     first_name=first_name,
