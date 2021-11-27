@@ -39,41 +39,21 @@ Departments
                     0
                     {% endif %}
                 </td>
-                <!--                <td>-->
-                <!--                    &lt;!&ndash;-->
-                <!--                    Calculate the average salary for each department based on-->
-                <!--                    employee salary data and the number of employees in the department-->
-                <!--                    &ndash;&gt;-->
-                <!--                    {% set salaries = [] %}-->
-                <!--                    {% for employee in department.employees | sort(attribute='salary') %}-->
-                <!--                    {% if employee.salary %}-->
-                <!--                    {% if salaries.append(employee.salary) %}-->
-                <!--                    {% endif %}-->
-                <!--                    {% endif %}-->
-                <!--                    {% endfor %}-->
-                <!--                    {% if department.employees.count() > 0 %}-->
-                <!--                    ${{ (salaries | sum / salaries | count) | round(2) }}-->
-                <!--                    {% else %}-->
-                <!--                    0-->
-                <!--                    {% endif %}-->
-                <!--                </td>-->
-                <!--                <td>-->
-                <!--                    &lt;!&ndash;-->
-                <!--                    Calculate the average age of employees for each department based on-->
-                <!--                    employee birthdays and the number of employees in the department-->
-                <!--                    &ndash;&gt;-->
-                <!--                    {% set ages = [] %}-->
-                <!--                    {% for employee in department.employees %}-->
-                <!--                    {% if employee.birthday %}-->
-                <!--                    {% if ages.append(employee.calculate_age(employee.birthday)) %}{% endif %}-->
-                <!--                    {% endif %}-->
-                <!--                    {% endfor %}-->
-                <!--                    {% if department.employees.count() > 0 %}-->
-                <!--                    {{ (ages | sum / ages | count) | round(1) }} y.o.-->
-                <!--                    {% else %}-->
-                <!--                    0-->
-                <!--                    {% endif %}-->
-                <!--                </td>-->
+                <td>
+                    {% set salaries = [] %}
+                    {% for employee in department.employees | sort(attribute='salary') %}
+                    {% if employee.salary %}
+                    {% if salaries.append(employee.salary) %}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% if department.employees.count() > 0 %}
+                    ${{ (salaries | sum / salaries | count) | round(2) }}
+                    {% else %}
+                    0
+                    {% endif %}
+                </td>
+
                 <td>
                     <a href="{{ url_for('user.edit_department', id=department.id) }}" class="btn btn-warning btn-sm">
                         Edit
@@ -91,8 +71,8 @@ Departments
                     <div class="modal fade" id="exampleModalCenter{{department.id}}">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content" style="color:black">
-                                <div class="modal-header" >
-<!--                                    <h5 class="modal-title" id="exampleModalLongTitle{{department.id}}">-->
+                                <div class="modal-header">
+                                    <!--                                    <h5 class="modal-title" id="exampleModalLongTitle{{department.id}}">-->
                                     <h5>
                                         Deleting {{ department.name }} Department Permanently
                                     </h5>
