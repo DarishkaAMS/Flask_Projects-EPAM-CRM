@@ -5,6 +5,9 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy_utils.functions import database_exists
+from sqlalchemy import inspect
+
 
 from dotenv import load_dotenv
 from config import Config
@@ -23,6 +26,7 @@ def create_app():
     """
     app = Flask(__name__)
     app.config.from_object(Config)
+
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
@@ -46,14 +50,19 @@ def create_app():
     from .models.employee import Employee
 
     create_database(app)
-    print('CREATE EXISTS!', db)
 
     return app
 
 
 def create_database(app):
-    # if not path.exists('website/' + DB_NAME):
-    #     db.create_all(app=app)
-    print('Created EXISTS!', db)
-    db.create_all(app=app)
-    print('Created Database!', db)
+    """
+    Create DB
+    """
+    if not database_exists(app.config["SQLALCHEMY_DATABASE_URI"]):
+        print('There is no such Database')
+
+    try:
+        db.create_all(app=app)
+    except Exception as e:
+        return f'The error has occurred while trying to create DB - {e}'
+
