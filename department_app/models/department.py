@@ -15,7 +15,7 @@ class Department(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(25), unique=True)
     head = db.Column(db.String(25))
-    employee = db.relationship('Employee', backref='department', lazy='dynamic')
+    employees = db.relationship('Employee', backref='department', lazy='dynamic')
 
     def to_dict(self):
         """

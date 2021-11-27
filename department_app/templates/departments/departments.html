@@ -15,7 +15,7 @@ Departments
     {% if departments %}
     <hr class="intro-divider">
     <div class="center">
-        <table class="table table-striped table-bordered">
+        <table class="table table-striped table-dark">
             <thead>
             <tr>
                 <th> Name</th>
@@ -39,24 +39,24 @@ Departments
                     0
                     {% endif %}
                 </td>
-                <td>
-                    <!--
-                    Calculate the average salary for each department based on
-                    employee salary data and the number of employees in the department
-                    -->
-                    {% set salaries = [] %}
-                    {% for employee in department.employees | sort(attribute='salary') %}
-                    {% if employee.salary %}
-                    {% if salaries.append(employee.salary) %}
-                    {% endif %}
-                    {% endif %}
-                    {% endfor %}
-                    {% if department.employees.count() > 0 %}
-                    ${{ (salaries | sum / salaries | count) | round(2) }}
-                    {% else %}
-                    0
-                    {% endif %}
-                </td>
+<!--                <td>-->
+<!--                    &lt;!&ndash;-->
+<!--                    Calculate the average salary for each department based on-->
+<!--                    employee salary data and the number of employees in the department-->
+<!--                    &ndash;&gt;-->
+<!--                    {% set salaries = [] %}-->
+<!--                    {% for employee in department.employees | sort(attribute='salary') %}-->
+<!--                    {% if employee.salary %}-->
+<!--                    {% if salaries.append(employee.salary) %}-->
+<!--                    {% endif %}-->
+<!--                    {% endif %}-->
+<!--                    {% endfor %}-->
+<!--                    {% if department.employees.count() > 0 %}-->
+<!--                    ${{ (salaries | sum / salaries | count) | round(2) }}-->
+<!--                    {% else %}-->
+<!--                    0-->
+<!--                    {% endif %}-->
+<!--                </td>-->
 <!--                <td>-->
 <!--                    &lt;!&ndash;-->
 <!--                    Calculate the average age of employees for each department based on-->

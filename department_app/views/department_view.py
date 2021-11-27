@@ -42,20 +42,16 @@ def add_department():
             head=form.head.data
         )
         try:
-            # pylint: disable=no-member
-            # add department to the database
             db.session.add(department_to_create)
             db.session.commit()
             flash('You have successfully added a new department.', category='success')
-        # pylint: disable=bare-except
+
         except:
-            # in case department already exists
+
             flash('Department already exists!', category='danger')
 
-        # redirect to department page
         return redirect(url_for('user.show_departments'))
 
-    # load department template
     return render_template('departments/department.html', action='Add',
                            add_dep=add_dep, form=form)
 
