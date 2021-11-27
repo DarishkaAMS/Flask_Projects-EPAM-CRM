@@ -1,35 +1,40 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Login Page
+Login Page
 {% endblock %}
 
 {% block content %}
 <body class="text-center">
-    <div class="container">
-        <form method="POST" class="form-signin" style="color:white">
-            {{ form.hidden_tag() }}
-            <img src="https://ctl.s6img.com/society6/img/UBU-qEQqPx-Bva2doxhWr-Ez2w4/w_700/canvas/~artwork/s6-original-art-uploads/society6/uploads/misc/4ccdfb64f5774bd789721b706213502c/~~/black-and-white-cat-cat-lady-art-cat-art-cats-black-and-white-cat-canvas.jpg" alt="back_cat" width="350" height="350">
-            <h1 class="h3 mb-3 font-weight-normal bg-dark">
-                Please Login
-            </h1>
-            <br>
-            {{ form.email_address.label() }}
-            {{ form.email_address(class="form-control", placeholder="Email Address") }}
+<div class="container">
+    <br/>
+    <br/>
+    <form method="POST" class="form-signin" style="color:white">
+        {{ form.hidden_tag() }}
+        <img src="https://ctl.s6img.com/society6/img/UBU-qEQqPx-Bva2doxhWr-Ez2w4/w_700/canvas/~artwork/s6-original-art-uploads/society6/uploads/misc/4ccdfb64f5774bd789721b706213502c/~~/black-and-white-cat-cat-lady-art-cat-art-cats-black-and-white-cat-canvas.jpg"
+             alt="back_cat" width="350" height="350">
+        <br/>
+        <h1 class="h3 mb-3 font-weight-normal">
+            Please Login
+        </h1>
+        <i style="color:pink"> using your Email and Password </i>
+        <br/>
+        {{ form.email_address.label() }}
+        {{ form.email_address(class="form-control", placeholder="Email Address") }}
 
-            {{ form.password.label() }}
-            {{ form.password(class="form-control", placeholder="Password") }}
+        {{ form.password.label() }}
+        {{ form.password(class="form-control", placeholder="Password") }}
 
-            <br>
+        <br>
 
-            <div class="checkbox mb-3">
-               <h6>Do not have an account?</h6>
-               <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('user.register_page') }}"><b>Register</b></a>
-            </div>
+        <div class="checkbox mb-3">
+            <h6>Do not have an account?</h6>
+            <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('user.register_page') }}"><b>Register</b></a>
+        </div>
 
-            {{ form.submit(class="btn btn-lg btn-block btn-success") }}
+        {{ form.submit(class="btn btn-lg btn-block btn-success") }}
 
-        </form>
-    </div>
+    </form>
+</div>
 </body>
 {% endblock %}

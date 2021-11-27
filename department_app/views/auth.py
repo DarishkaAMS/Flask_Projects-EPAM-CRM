@@ -5,6 +5,7 @@ This module represents the logic on routes starting with /register, /login and /
 # pylint: disable=import-error
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # pylint: disable=relative-beyond-top-level
 from .. import db
@@ -28,7 +29,9 @@ def register_page():
             email_address=form.email_address.data,
             # date_of_birth=form.date_of_birth.data,
             # salary=form.salary.data,
-            password_hash=form.password.data
+            # password_hash=form.password.data
+            password_hash=generate_password_hash(form.password.data, method='sha256')
+
         )
 
         # pylint: disable=no-member
