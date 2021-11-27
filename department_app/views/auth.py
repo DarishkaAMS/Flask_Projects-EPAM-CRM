@@ -36,28 +36,27 @@ def register_page():
         elif password_hash != confirm_password:
             flash('Passwords don\'t match.', category='danger')
         else:
-                employee_to_create = Employee(
-                    first_name=first_name,
-                    last_name=last_name,
-                    email_address=email_address,
-                    password_hash=generate_password_hash(form.password_hash.data, method='sha256')
+            employee_to_create = Employee(
+                first_name=first_name,
+                last_name=last_name,
+                email_address=email_address,
+                password_hash=generate_password_hash(form.password_hash.data, method='sha256')
 
-                )
+            )
 
-                db.session.add(employee_to_create)
-                db.session.commit()
-                login_user(employee_to_create)
-                flash(f'Account has been created successfully! You are now logged in '
-                      f'as {employee_to_create.first_name} {employee_to_create.last_name}', category='success')
+            db.session.add(employee_to_create)
+            db.session.commit()
+            login_user(employee_to_create)
+            flash(f'Account has been created successfully! You are now logged in '
+                  f'as {employee_to_create.first_name} {employee_to_create.last_name}', category='success')
 
-                print("DATA, ", employee_to_create)
-                return redirect(url_for('user.home_page'))
+            print("DATA, ", employee_to_create)
+            return redirect(url_for('user.home_page'))
 
-                if form.errors != {}:
-                    for err_msg in form.errors.values():
-                        flash(f'There was an error with creating a user: {err_msg}', category='danger')
+            if form.errors != {}:
+                for err_msg in form.errors.values():
+                    flash(f'There was an error with creating a user: {err_msg}', category='danger')
 
-    # load registration template
     return render_template('auth/register.html', form=form)
 
 
@@ -72,11 +71,7 @@ def login_page():
         email_address = request.form.get('email_address')
         password_hash = request.form.get('password_hash')
 
-        print("PASSWORD", password_hash)
         attempted_employee = Employee.query.filter_by(email_address=email_address).first()
-        # if attempted_employee and attempted_employee.check_password_correction(
-        #         attempted_password=form.password.data
-        # ):
         if attempted_employee:
             if check_password_hash(attempted_employee.password_hash, password_hash):
                 login_user(attempted_employee)
@@ -84,15 +79,14 @@ def login_page():
                       f'{attempted_employee.first_name} {attempted_employee.last_name}', category='success')
                 return redirect(url_for('user.home_page'))
             else:
-                flash('Incorrect password, please, try again.', category='error')
+                flash('Incorrect password, please, try again.', category='danger')
 
         elif not attempted_employee:
-            flash('This login does not exist!', category='danger')
+            flash('This Employee does not exist!', category='danger')
 
         else:
             flash('Email and password are not match! Please try again!', category='danger')
 
-    # load login template
     return render_template('auth/login.html', form=form)
 
 
@@ -106,5 +100,4 @@ def logout_page():
     logout_user()
     flash('You have been logged out. See Ya!', category='info')
 
-    # redirect to the home page
     return redirect(url_for('user.home_page'))
