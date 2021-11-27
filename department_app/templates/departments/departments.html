@@ -60,10 +60,6 @@ Departments
                     </a>
                 </td>
                 <td>
-                    <!--                    <a href="{{ url_for('user.delete_department', id=department.id) }}" class="btn btn-danger btn-sm">-->
-                    <!--                        <i class="fa fa-trash"></i>-->
-                    <!--                        Delete-->
-                    <!--                    </a>                    -->
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                             data-target="#exampleModalCenter{{department.id}}">
                         Delete
@@ -72,8 +68,7 @@ Departments
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content" style="color:black">
                                 <div class="modal-header">
-                                    <!--                                    <h5 class="modal-title" id="exampleModalLongTitle{{department.id}}">-->
-                                    <h5>
+                                    <h5 align="center">
                                         Deleting {{ department.name }} Department Permanently
                                     </h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
