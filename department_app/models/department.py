@@ -34,4 +34,4 @@ class Department(db.Model):
         Representation of the department
         :return: a string representing the department by name
         """
-        return f"<{self.name} Department>"
+        return f"{self.name} Department"

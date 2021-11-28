@@ -66,11 +66,10 @@ class EmployeeForm(FlaskForm):
     submit = SubmitField(label='Submit')
 
 
-# pylint: disable=unnecessary-lambda
 class EmployeeAssignForm(FlaskForm):
     """
-    Form to assign departments to employees
+    Form to assign departments and sales to employees
     """
-    department = QuerySelectField(query_factory=lambda: Department.query.all(),
-                                  get_label="name")
+    department = QuerySelectField(query_factory=lambda: Department.query.all(), get_label="name")
+    salary = IntegerField(label='Salary')
     submit = SubmitField(label='Submit')

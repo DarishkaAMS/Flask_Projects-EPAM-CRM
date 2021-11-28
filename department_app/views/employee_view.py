@@ -33,6 +33,7 @@ def show_employee(id):
     Show employee
     """
     employee = Employee.query.get_or_404(id)
+    print("employee", employee.department)
 
     return render_template('employees/employee.html', employee=employee)
 
@@ -46,17 +47,17 @@ def assign_employee(id):
     Assign a department to an employee
     """
     employee_to_assign = Employee.query.get_or_404(id)
-
     form = EmployeeAssignForm(obj=employee_to_assign)
+
     if form.validate_on_submit():
         employee_to_assign.department = form.department.data
-        # pylint: disable=no-member
+        print("form.department.data", type(form.department.data), form.department.name)
         db.session.add(employee_to_assign)
         db.session.commit()
         flash('You have successfully assigned a department.', category='success')
 
         # redirect to the employees page
-        return redirect(url_for('user.show_employees'))
+        return redirect(url_for('user.show_employee', id=employee_to_assign.id))
 
     return render_template('employees/assign_employee.html',
                            employee=employee_to_assign, form=form)

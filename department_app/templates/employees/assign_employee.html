@@ -1,10 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SOME</title>
-</head>
-<body>
-ASSIGN EMPLOYEE
+{% extends "base.html" %}
+{% block title %}
+Assign Employee
+{% endblock %}
+{% block content %}
+<body class="text-center">
+<div class="container">
+    <br/>
+    <br/>
+    <form method="POST" class="form-employees" style="color:white">
+        {{ form.hidden_tag() }}
+        <img class="mb-4"
+             src="https://dbdzm869oupei.cloudfront.net/img/sticker/preview/14671.png"
+             alt="DarishkaAMS" width="350" height="350">
+
+        <h1 class="h3 mb-3 font-weight-normal">Assign Employee</h1>
+        <small> <i style="color:pink"> Select Necessary Fields </i> </small>
+        <br>
+        <br>
+        {{ form.department.label() }}
+        {{ form.department(class="form-control", placeholder="Department") }}
+        <br>
+        <h1> SALARY </h1>
+        {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+    </form>
+</div>
 </body>
-</html>
+{% endblock %}

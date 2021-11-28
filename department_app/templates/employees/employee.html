@@ -33,7 +33,9 @@
                             <th>Email Address</th>
                             <th>Department</th>
                             <th>Salary</th>
-                            <th>Action</th>
+                            <th>Update</th>
+                            <th>Assign</th>
+                            <th>Delete</th>
                         </tr>
                         </thead>
                         <tr>
@@ -50,6 +52,13 @@
                                    class="btn btn-warning btn-sm">
                                     Update
                                 </a>
+                            </td>
+                            <td>
+                                <a href="{{ url_for('user.assign_employee', id=employee.id) }}"
+                                   class="btn btn-success btn-sm">
+                                    Assign
+                                </a>
+                            </td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                         data-target="#exampleModalCenter{{current_user.id}}">
