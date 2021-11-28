@@ -99,36 +99,33 @@ def add_employee():
 
 
 # pylint: disable=invalid-name
-@user.route('/employees/edit/<int:id>', methods=['GET', 'POST'])
+@user.route('/employees/employee/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
 def update_employee(id):
     """
     Edit an employee
     """
     add_emp = False
-
     employee = Employee.query.get_or_404(id)
     form = EmployeeForm(obj=employee)
+    print("NOOOO", form.validate_on_submit())
     if form.validate_on_submit():
-        first_name = form.first_name.data,
-        last_name = form.last_name.data,
-        email_address = form.email_address.data,
-        date_of_birth = form.date_of_birth.data,
-        department = form.department.data,
-        salary = form.salary.data,
-        # pylint: disable=no-member
-        db.session.commit()
-        flash('You have successfully edited the employee.', category='success')
+        print("YEEEEEs")
+        employee.first_name = form.first_name.data,
+        employee.last_name = form.last_name.data,
+        employee.email_address = form.email_address.data,
+        employee.date_of_birth = form.date_of_birth.data,
 
-        # redirect to the employees page
-        return redirect(url_for('user.show_employees'))
+        db.session.commit()
+        flash('You have successfully edited Your Account.', category='success')
+
+        return redirect(url_for('user.show_employee'))
 
     form.first_name.data = employee.first_name,
     form.last_name.data = employee.last_name,
     form.email_address.data = employee.email_address,
     form.date_of_birth.data = employee.date_of_birth,
-    form.department.data = employee.department,
-    form.salary.data = employee.salary,
+
     return render_template('employees/employee.html', action="Edit",
                            add_emp=add_emp, form=form,
                            employee=employee)

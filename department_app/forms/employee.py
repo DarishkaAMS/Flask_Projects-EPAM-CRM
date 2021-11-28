@@ -43,7 +43,7 @@ class RegisterForm(FlaskForm):
         """
         email_address = Employee.query.filter_by(email_address=email_to_check.data).first()
         if email_address:
-            raise ValidationError('Hmmm... I have already seen this e-mail address. Please try some other one')
+            raise ValidationError('Hmm... I have already seen this e-mail address. Please try some other one')
 
 
 class LoginForm(FlaskForm):
@@ -59,10 +59,10 @@ class EmployeeForm(FlaskForm):
     """
     Form to add or edit an employee
     """
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name', validators=[DataRequired()])
-    salary = StringField('Salary', validators=[DataRequired()])
-    date_of_birth = StringField('Date of Birth', validators=[DataRequired()])
+    first_name = StringField(label='First Name', validators=[DataRequired()])
+    last_name = StringField(label='Last Name', validators=[DataRequired()])
+    email_address = StringField(label='Email Address', validators=[DataRequired()])
+    date_of_birth = DateField(label='Date of Birth', validators=[DataRequired()])
     submit = SubmitField(label='Submit')
 
 

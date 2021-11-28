@@ -55,14 +55,13 @@ Departments
 
                 <td>
                     <a href="{{ url_for('user.edit_department', id=department.id) }}" class="btn btn-warning btn-sm">
-                        Edit
+                        Update
                     </a>
                 </td>
                 <td>
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                             data-target="#exampleModalCenter{{department.id}}">
                         Delete
-                    </button>
                     </button>
                     <div class="modal fade" id="exampleModalCenter{{department.id}}">
                         <div class="modal-dialog modal-dialog-centered" role="document">

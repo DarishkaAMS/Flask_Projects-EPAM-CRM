@@ -6,7 +6,6 @@ from wtforms import PasswordField, StringField, SubmitField, ValidationError
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
-# pylint: disable=relative-beyond-top-level
 from ..models.employee import Employee
 from ..models.department import Department
 

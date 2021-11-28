@@ -55,7 +55,7 @@ class Employee (db.Model, UserMixin):
         Representation of the Employee
         :return: a string representing the employee by first name and last name
         """
-        return f"<Employee - {self.id}"
+        return f"Employee - {self.id}"
 
 
 @login_manager.user_loader

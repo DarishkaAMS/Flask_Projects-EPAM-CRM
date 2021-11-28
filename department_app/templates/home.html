@@ -19,7 +19,7 @@ Home Page
         <a class="btn btn-outline-primary" href="{{ url_for('user.login_page') }}">Login</a>
         <a class="btn btn-outline-primary" href="{{ url_for('user.register_page') }}">Register</a>
         {% else %}
-        <a class="btn btn-outline-primary" href="{{ url_for('user.login_page') }}">Go to My Page</a>
+        <a class="btn btn-outline-primary" href="{{ url_for('user.show_employee', id=current_user.id) }}">Go to My Page</a>
         {% endif %}
     </div>
     <div class="product-device box-shadow d-none d-md-block"></div>
