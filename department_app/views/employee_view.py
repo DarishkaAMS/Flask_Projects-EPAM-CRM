@@ -111,9 +111,7 @@ def update_employee(id):
     employee = Employee.query.get_or_404(id)
     form = EmployeeForm(obj=employee)
 
-    print(form.first_name.data, type(form.first_name.data))
     if form.validate_on_submit():
-        # print("FISRT", employee.first_name, form.date_of_birth.data)
         employee.first_name = form.first_name.data
         employee.last_name = form.last_name.data
         employee.email_address = form.email_address.data
