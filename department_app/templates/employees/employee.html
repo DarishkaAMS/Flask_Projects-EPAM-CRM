@@ -45,7 +45,7 @@
                             <td>{{current_user.date_of_birth}}</td>
                             <td>{{current_user.email_address}}</td>
                             <td>{{current_user.department}}</td>
-                            <td>{{current_user.salary}}</td>
+                            <td>$ {{current_user.salary}}</td>
 
                             <td>
                                 <a href="{{ url_for('user.update_employee', id=current_user.id) }}"
