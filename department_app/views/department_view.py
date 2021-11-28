@@ -26,7 +26,7 @@ def show_departments():
     return render_template('departments/departments.html', departments=departments)
 
 
-@user.route('/departments', methods=['GET'])
+@user.route('/departments/department/<int:id>/update', methods=['GET'])
 @login_required
 def read_department(id):
     """
@@ -67,7 +67,7 @@ def add_department():
 
 @user.route('/departments/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
-def edit_department(id):
+def update_department(id):
     """
     Edit a department
     """
