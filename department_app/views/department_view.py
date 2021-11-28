@@ -64,6 +64,7 @@ def edit_department(id):
 
     department = Department.query.get_or_404(id)
     form = DepartmentForm(obj=department)
+
     if form.validate_on_submit():
         department.name = form.name.data
         department.head = form.head.data
