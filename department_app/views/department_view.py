@@ -61,7 +61,7 @@ def add_department():
 
         return redirect(url_for('user.show_departments'))
 
-    return render_template('departments/department.html', action='Add',
+    return render_template('departments/update_department.html', action='Add',
                            add_dep=add_dep, form=form)
 
 
