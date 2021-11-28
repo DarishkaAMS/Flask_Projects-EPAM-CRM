@@ -5,68 +5,78 @@
 {% endblock %}
 
 {% block content %}
+<div align="center">
+    <br/>
+    <img src="https://i5.walmartimages.com/asr/203a0700-5368-4e2a-bc67-a5dadde04f30_1.bbd191a726fcfcb655675d37380fbd18.jpeg"
+         alt="back_cat" width="250" height="350">
+    <br/>
+    <br/>
+    <div class="container">
+        <div class="row">
+            <div class="col md-12">
+                <div class="jumbotron p-3" align="center" style="color:#343a40">
+                    <h2>{{ current_user.first_name }} {{ current_user.last_name }}
+                        <br/>
+                        <small> <i style="color:pink"> here you can </i> </small>
+                        <br/>
+                        Manage Your Account
+                        </h2>
 
-<div class="container">
-    <div class="row">
-        <div class="col md-12">
-            <div class="jumbotron p-3" align="center" style="color:#343a40">
-                <h2>{{ current_user.first_name }} <b> {{ current_user.last_name }} </b>
-                    <h2>Manage <b> Your Account </b>
-                    </h2>
+                        <table class="table table-hover table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Date of Birth</th>
+                                <th>Email Address</th>
+                                <th>Department</th>
+                                <th>Salary</th>
+                                <th>Action</th>
+                            </tr>
 
-                    <table class="table table-hover table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Date of Birth</th>
-                            <th>Email Address</th>
-                            <th>Department</th>
-                            <th>Salary</th>
-                            <th>Action</th>
-                        </tr>
+                            <tr>
+                                <td>{{current_user.id}}</td>
+                                <td>{{current_user.first_name}}</td>
+                                <td>{{current_user.last_name}}</td>
+                                <td>{{current_user.date_of_birth}}</td>
+                                <td>{{current_user.email_address}}</td>
+                                <td>{{current_user.department}}</td>
+                                <td>{{current_user.salary}}</td>
 
-                        <tr>
-                            <td>{{current_user.id}}</td>
-                            <td>{{current_user.first_name}}</td>
-                            <td>{{current_user.last_name}}</td>
-                            <td>{{current_user.date_of_birth}}</td>
-                            <td>{{current_user.email_address}}</td>
-                            <td>{{current_user.department}}</td>
-                            <td>{{current_user.salary}}</td>
-
-                            <td>
-                                <a class="btn btn-warning btn-xs"
-                                   href="{{ url_for('employee_update_view', id=current_user.id)}}">Update</a>
-                                <a href="#" class="btn btn-danger btn-xs" data-toggle="modal"
-                                   data-target="#deleteModal">Delete</a>
-                            </td>
-                        </tr>
-                    </table>
-                    <!-- Modal -->
-                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
-                         aria-labelledby="deleteModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <form action="{{ url_for('employee_delete_view', id=current_user.id) }}" method="POST">
-                                        <input class="btn btn-danger" type="submit" value="Delete">
-                                    </form>
+                                <td>
+                                    <a class="btn btn-warning btn-xs"
+                                       href="{{ url_for('user.update_employee', id=current_user.id)}}">Update</a>
+                                    <a href="#" class="btn btn-danger btn-xs" data-toggle="modal"
+                                       data-target="#deleteModal">Delete</a>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- Modal -->
+                        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+                             aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <form action="{{ url_for('user.delete_employee', id=current_user.id) }}"
+                                              method="POST">
+                                            <input class="btn btn-danger" type="submit" value="Delete">
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                </div>
             </div>
         </div>
     </div>
+
 </div>
-
-
 {% endblock %}

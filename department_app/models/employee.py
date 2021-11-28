@@ -23,6 +23,7 @@ class Employee (db.Model, UserMixin):
     date_of_birth = db.Column(db.Date)
     salary = db.Column(db.Integer)
     password_hash = db.Column(db.String(length=150), nullable=False)
+    # What if dep NAME
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
 
 

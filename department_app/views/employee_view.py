@@ -26,6 +26,17 @@ def show_employees():
     return render_template('employees/employees.html', employees=employees)
 
 
+@user.route('/employees/employee/<int:id>', methods=['GET', 'POST'])
+@login_required
+def show_employee(id):
+    """
+    Show employee
+    """
+    employee = Employee.query.get_or_404(id)
+
+    return render_template('employees/employee.html', employee=employee)
+
+
 # pylint: disable=invalid-name
 # pylint: disable=redefined-builtin
 @user.route('/employees/assign/<int:id>', methods=['GET', 'POST'])
@@ -90,7 +101,7 @@ def add_employee():
 # pylint: disable=invalid-name
 @user.route('/employees/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
-def edit_employee(id):
+def update_employee(id):
     """
     Edit an employee
     """
