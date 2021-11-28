@@ -145,4 +145,4 @@ def delete_employee(id):
     flash('You have successfully deleted the employee.', category='success')
 
     # redirect to the employees page
-    return redirect(url_for('user.show_employees'))
+    return redirect(url_for('user.home_page'))
