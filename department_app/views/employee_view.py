@@ -4,13 +4,13 @@ This module represents the logic on routes starting with /employees
 
 # pylint: disable=cyclic-import
 # pylint: disable=import-error
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_required
 
 # pylint: disable=relative-beyond-top-level
 from .. import db
 from ..models.employee import Employee
-from ..forms.employee import EmployeeAssignForm, EmployeeForm
+from ..forms.employee import EmployeeAssignForm, EmployeeForm, RegisterForm
 
 from . import user
 
@@ -70,7 +70,7 @@ def add_employee():
     """
     add_emp = True
 
-    form = EmployeeForm()
+    form = RegisterForm()
     if form.validate_on_submit():
         employee_to_add = Employee(
             first_name=form.first_name.data,
@@ -105,30 +105,48 @@ def update_employee(id):
     """
     Edit an employee
     """
-    add_emp = False
     employee = Employee.query.get_or_404(id)
+    add_emp = False
+    # if post.author != current_user:
+    #     abort(403)
+    # form = PostForm()
     form = EmployeeForm(obj=employee)
-    print("NOOOO", form.validate_on_submit())
     if form.validate_on_submit():
-        print("YEEEEEs")
         employee.first_name = form.first_name.data,
-        employee.last_name = form.last_name.data,
-        employee.email_address = form.email_address.data,
-        employee.date_of_birth = form.date_of_birth.data,
+        # last_name = form.last_name.data
+        # email_address = form.email_address.data
+        # date_of_birth = form.date_of_birth.data
+        # password_hash = form.password_hash.data
+        # confirm_password = form.confirm_password.data
+    #
+    # add_emp = False
+    # employee = Employee.query.get_or_404(id)
+    # # print("EMPL", employee.__dir__())
+    # form = EmployeeForm(obj=employee)
+    # # form = RegisterForm(obj=employee)
+    # # if form.errors:
+    # print("form.errors", form.errors)
+    # print("NOOOO", form.validate_on_submit())
+    # if form.validate_on_submit():
+    #     print("YEEEEEs")
+    #     employee.first_name = form.first_name.data,
+    #     employee.last_name = form.last_name.data,
+    #     employee.email_address = form.email_address.data,
+    #     employee.date_of_birth = form.date_of_birth.data,
 
         db.session.commit()
         flash('You have successfully edited Your Account.', category='success')
 
-        return redirect(url_for('user.show_employee'))
+        return redirect(url_for('user.show_employee', id=employee.id))
 
-    form.first_name.data = employee.first_name,
-    form.last_name.data = employee.last_name,
-    form.email_address.data = employee.email_address,
-    form.date_of_birth.data = employee.date_of_birth,
+    elif request.method == 'GET':
+        form.first_name.data = employee.first_name,
+    # form.last_name.data = employee.last_name,
+    # form.email_address.data = employee.email_address,
+    # form.date_of_birth.data = employee.date_of_birth
 
-    return render_template('employees/employee.html', action="Edit",
-                           add_emp=add_emp, form=form,
-                           employee=employee)
+    return render_template('employees/update_employee.html', title='Update Employee',
+                           form=form, legend='Update Employee')
 
 
 # pylint: disable=invalid-name

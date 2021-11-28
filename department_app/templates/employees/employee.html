@@ -50,7 +50,39 @@
                                    class="btn btn-warning btn-sm">
                                     Update
                                 </a>
-                            </td>
+<!--                                <a href="{{ url_for('user.update_employee', id=current_user.id) }}"-->
+<!--                                   class="btn btn-warning btn-sm" data-toggle="modal"-->
+<!--                                   data-target="#modaledit{{current_user.id}}">Update</a>-->
+<!--                                <div id="modaledit{{current_user.id}}" class="modal fade" role="dialog">-->
+<!--                                    <div class="modal-dialog">-->
+<!--                                        <div class="modal-content">-->
+<!--                                            <div class="modal-header">-->
+<!--                                                <h4 class="modal-title">Update Information</h4>-->
+<!--                                            </div>-->
+<!--                                            <div class="modal-body">-->
+<!--                                                <form action="{{url_for('user.update_employee', id=current_user.id)}}" method="POST">-->
+<!--                                                    <div class="form-group">-->
+<!--                                                        <label>Name:</label>-->
+<!--                                                        <input type="hidden" name="id" value="{{current_user.id}}">-->
+
+<!--                                                        <input type="text" class="form-control" name="first_name"-->
+<!--                                                               value="{{current_user.first_name}}">-->
+<!--                                                    </div>-->
+<!--                                                    <div class="form-group">-->
+<!--                                                        <button class="btn btn-primary" type="submit">Update</button>-->
+
+<!--                                                    </div>-->
+<!--                                                </form>-->
+<!--                                            </div>-->
+<!--                                            <div class="modal-footer">-->
+<!--                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">-->
+<!--                                                    Close-->
+<!--                                                </button>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </td>-->
                             <td>
                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                         data-target="#exampleModalCenter{{current_user.id}}">
