@@ -44,8 +44,16 @@
                             <td>{{current_user.last_name}}</td>
                             <td>{{current_user.date_of_birth}}</td>
                             <td>{{current_user.email_address}}</td>
+                            {% if current_user.department %}
                             <td>{{current_user.department}}</td>
+                            {% else %}
+                            <td> TBD </td>
+                            {% endif %}
+                            {% if current_user.salary %}
                             <td>$ {{current_user.salary}}</td>
+                            {% else %}
+                            <td> TBD </td>
+                            {% endif %}
 
                             <td>
                                 <a href="{{ url_for('user.update_employee', id=current_user.id) }}"

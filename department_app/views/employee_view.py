@@ -17,7 +17,7 @@ from . import user
 
 @user.route('/employees')
 @login_required
-def show_employees():
+def retrieve_employees():
     """
     Show all employees
     """
@@ -26,9 +26,45 @@ def show_employees():
     return render_template('employees/employees.html', employees=employees)
 
 
+@user.route('/employees/add', methods=['GET', 'POST'])
+@login_required
+def create_employee():
+    """
+    Add an employee to the database
+    """
+    add_emp = True
+
+    form = RegisterForm()
+    if form.validate_on_submit():
+        employee_to_add = Employee(
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            email_address=form.email_address.data,
+            date_of_birth=form.date_of_birth.data,
+            department=form.department.data,
+            salary=form.salary.data,
+        )
+        try:
+            # pylint: disable=no-member
+            # add employee to the database
+            db.session.add(employee_to_add)
+            db.session.commit()
+            flash('You have successfully added a new employee.', category='success')
+        # pylint: disable=bare-except
+        except:
+            flash('Something went wrong when creating a new employee.', category='danger')
+
+        # redirect to employee page
+        return redirect(url_for('user.show_employees'))
+
+    # load employee template
+    return render_template('employees/employee.html', action='Add',
+                           add_emp=add_emp, form=form)
+
+
 @user.route('/employees/employee/<int:id>', methods=['GET', 'POST'])
 @login_required
-def show_employee(id):
+def retrieve_employee(id):
     """
     Show employee
     """
@@ -61,42 +97,6 @@ def assign_employee(id):
 
     return render_template('employees/assign_employee.html',
                            employee=employee_to_assign, form=form)
-
-
-@user.route('/employees/add', methods=['GET', 'POST'])
-@login_required
-def add_employee():
-    """
-    Add an employee to the database
-    """
-    add_emp = True
-
-    form = RegisterForm()
-    if form.validate_on_submit():
-        employee_to_add = Employee(
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            email_address=form.email_address.data,
-            date_of_birth=form.date_of_birth.data,
-            department=form.department.data,
-            salary=form.salary.data,
-        )
-        try:
-            # pylint: disable=no-member
-            # add employee to the database
-            db.session.add(employee_to_add)
-            db.session.commit()
-            flash('You have successfully added a new employee.', category='success')
-        # pylint: disable=bare-except
-        except:
-            flash('Something went wrong when creating a new employee.', category='danger')
-
-        # redirect to employee page
-        return redirect(url_for('user.show_employees'))
-
-    # load employee template
-    return render_template('employees/employee.html', action='Add',
-                           add_emp=add_emp, form=form)
 
 
 # pylint: disable=invalid-name

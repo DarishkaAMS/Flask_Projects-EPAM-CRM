@@ -28,15 +28,6 @@ class RegisterForm(FlaskForm):
     ])
     submit = SubmitField(label='Create Account')
 
-    # pylint: disable=no-self-use
-    # def validate_username(self, username_to_check):
-    #     """
-    #     Username validation function
-    #     """
-    #     user = Employee.query.filter_by(username=username_to_check.data).first()
-    #     if user:
-    #         raise ValidationError('Username already exist! Please try a different username')
-
     def validate_email_address(self, email_to_check):
         """
         Email validation function
@@ -46,6 +37,7 @@ class RegisterForm(FlaskForm):
             raise ValidationError('Hmm... I have already seen this e-mail address. Please try some other one')
 
 
+# Do We Need this?
 class LoginForm(FlaskForm):
     """
     Form for users to login

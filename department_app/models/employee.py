@@ -19,21 +19,11 @@ class Employee (db.Model, UserMixin):
     first_name = db.Column(db.String(25), nullable=False)
     last_name = db.Column(db.String(25), nullable=False)
     email_address = db.Column(db.String(50), nullable=False, unique=True)
-    # department = db.Column(db.String(15), nullable=False)
     date_of_birth = db.Column(db.Date)
     salary = db.Column(db.Integer)
     password_hash = db.Column(db.String(length=150), nullable=False)
     # What if dep NAME
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
-
-
-    # def calculate_age(self, birth):
-    #     """
-    #     Calculate the age of an employee by date of birth
-    #     :return: the age of the employee
-    #     """
-    #     today = date.today()
-    #     return today.year - birth.year - ((today.month, today.day) < (birth.month, birth.day))
 
     def to_dict(self):
         """
