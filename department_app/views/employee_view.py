@@ -33,7 +33,6 @@ def show_employee(id):
     Show employee
     """
     employee = Employee.query.get_or_404(id)
-    print("employee", employee.department)
 
     return render_template('employees/employee.html', employee=employee)
 
