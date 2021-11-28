@@ -17,7 +17,7 @@ from . import user
 
 @user.route('/departments', methods=['GET', 'POST'])
 @login_required
-def show_departments():
+def retrieve_departments():
     """
     Show all departments
     """
@@ -26,20 +26,9 @@ def show_departments():
     return render_template('departments/departments.html', departments=departments)
 
 
-@user.route('/departments/department/<int:id>/update', methods=['GET'])
-@login_required
-def read_department(id):
-    """
-    Show department
-    """
-    department = Department.query.get_or_404(id)
-
-    return render_template('departments/department.html', department=department)
-
-
 @user.route('/departments/add', methods=['GET', 'POST'])
 @login_required
-def add_department():
+def create_department():
     """
     Add a department to the database
     """
@@ -59,13 +48,24 @@ def add_department():
         except:
             flash('Department already exists!', category='danger')
 
-        return redirect(url_for('user.show_departments'))
+        return redirect(url_for('user.retrieve_departments'))
 
     return render_template('departments/update_department.html', action='Add',
                            add_dep=add_dep, form=form)
 
 
-@user.route('/departments/edit/<int:id>', methods=['GET', 'POST'])
+@user.route('/departments/department/<int:id>', methods=['GET'])
+@login_required
+def retrieve_department(id):
+    """
+    Show department
+    """
+    department = Department.query.get_or_404(id)
+
+    return render_template('departments/department.html', department=department)
+
+
+@user.route('/departments/department/<int:id>/update', methods=['GET', 'POST'])
 @login_required
 def update_department(id):
     """
@@ -83,7 +83,7 @@ def update_department(id):
         db.session.commit()
         flash(f'You have successfully edited the {department.name} Department.', category='success')
 
-        return redirect(url_for('user.show_departments'))
+        return redirect(url_for('user.retrieve_departments'))
 
     form.name.data = department.name
     form.head.data = department.head
@@ -93,7 +93,7 @@ def update_department(id):
                            department=department)
 
 
-@user.route('/departments/delete/<int:id>', methods=['GET', 'POST'])
+@user.route('/departments/department/<int:id>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_department(id):
     """
@@ -105,4 +105,4 @@ def delete_department(id):
         db.session.commit()
         flash(f'You have successfully deleted the {department.name} department.', category='success')
 
-    return redirect(url_for('user.show_departments'))
+    return redirect(url_for('user.retrieve_departments'))

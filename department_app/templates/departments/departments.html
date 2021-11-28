@@ -62,7 +62,7 @@ Departments
                         </a>
                     </td>
                     <td>
-                        <a href="{{ url_for('user.read_department', id=department.id) }}"
+                        <a href="{{ url_for('user.retrieve_department', id=department.id) }}"
                            class="btn btn-success btn-sm">
                             Details
                         </a>
@@ -111,7 +111,7 @@ Departments
                 <i style="color:pink"> It looks like no Departments have been added. </i>
                 <hr class="intro-divider">
                 {% endif %}
-                <a href="{{ url_for('user.add_department') }}" class="btn btn-primary btn-lg">
+                <a href="{{ url_for('user.create_department') }}" class="btn btn-primary btn-lg">
                     <i class="fa fa-plus"></i>
                     Add Department
                 </a>

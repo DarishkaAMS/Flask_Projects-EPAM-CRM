@@ -26,7 +26,7 @@
                 </li>
                 {% if current_user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('user.show_departments') }}">Departments</a>
+                    <a class="nav-link" href="{{ url_for('user.retrieve_departments') }}">Departments</a>
                 </li>
                 {% endif %}
             </ul>
