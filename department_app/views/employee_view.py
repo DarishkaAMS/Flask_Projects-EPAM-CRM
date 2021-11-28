@@ -51,7 +51,8 @@ def assign_employee(id):
 
     if form.validate_on_submit():
         employee_to_assign.department = form.department.data
-        print("form.department.data", type(form.department.data), form.department.name)
+        employee_to_assign.salary = form.salary.data
+
         db.session.add(employee_to_assign)
         db.session.commit()
         flash('You have successfully assigned a department.', category='success')
