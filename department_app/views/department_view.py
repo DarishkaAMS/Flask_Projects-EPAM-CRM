@@ -26,6 +26,17 @@ def show_departments():
     return render_template('departments/departments.html', departments=departments)
 
 
+@user.route('/departments', methods=['GET'])
+@login_required
+def read_department(id):
+    """
+    Show department
+    """
+    department = Department.query.get_or_404(id)
+
+    return render_template('departments/department.html', department=department)
+
+
 @user.route('/departments/add', methods=['GET', 'POST'])
 @login_required
 def add_department():
@@ -77,7 +88,7 @@ def edit_department(id):
     form.name.data = department.name
     form.head.data = department.head
 
-    return render_template('departments/department.html', action="Edit",
+    return render_template('departments/update_department.html', action="Edit",
                            add_dep=add_dep, form=form,
                            department=department)
 
