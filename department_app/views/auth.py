@@ -36,6 +36,9 @@ def register_page():
             flash('Password must be at least 6 characters.', category='danger')
         elif password_hash != confirm_password:
             flash('Passwords don\'t match.', category='danger')
+            # IF EMAIL IS ALREADY Exist
+        elif Employee.query.filter_by(email_address=email_address).first():
+            flash('I have already registered an Employee with such email', category='danger')
         else:
             employee_to_create = Employee(
                 first_name=first_name,
