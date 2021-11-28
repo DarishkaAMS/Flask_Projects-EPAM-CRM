@@ -26,7 +26,7 @@ def retrieve_employees():
     return render_template('employees/employees.html', employees=employees)
 
 
-@user.route('/employees/add', methods=['GET', 'POST'])
+@user.route('/employees/create', methods=['GET', 'POST'])
 @login_required
 def create_employee():
     """
@@ -55,7 +55,7 @@ def create_employee():
             flash('Something went wrong when creating a new employee.', category='danger')
 
         # redirect to employee page
-        return redirect(url_for('user.show_employees'))
+        return redirect(url_for('user.retrieve_employees'))
 
     # load employee template
     return render_template('employees/employee.html', action='Add',
@@ -93,14 +93,14 @@ def assign_employee(id):
         flash('You have successfully assigned a department.', category='success')
 
         # redirect to the employees page
-        return redirect(url_for('user.show_employee', id=employee_to_assign.id))
+        return redirect(url_for('user.retrieve_employee', id=employee_to_assign.id))
 
     return render_template('employees/assign_employee.html',
                            employee=employee_to_assign, form=form)
 
 
 # pylint: disable=invalid-name
-@user.route('/employees/employee/<int:id>/edit', methods=['GET', 'POST'])
+@user.route('/employees/employee/<int:id>/update', methods=['GET', 'POST'])
 @login_required
 def update_employee(id):
     """
@@ -121,7 +121,7 @@ def update_employee(id):
         db.session.commit()
         flash('You have successfully edited Your Account.', category='success')
 
-        return redirect(url_for('user.show_employee', id=employee.id))
+        return redirect(url_for('user.retrieve_employee', id=employee.id))
 
     elif request.method == 'GET':
         form.first_name.data = employee.first_name
@@ -134,7 +134,7 @@ def update_employee(id):
 
 
 # pylint: disable=invalid-name
-@user.route('/employees/delete/<int:id>', methods=['GET', 'POST'])
+@user.route('/employees/employee/<int:id>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_employee(id):
     """

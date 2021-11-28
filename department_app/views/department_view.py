@@ -26,7 +26,7 @@ def retrieve_departments():
     return render_template('departments/departments.html', departments=departments)
 
 
-@user.route('/departments/add', methods=['GET', 'POST'])
+@user.route('/departments/create', methods=['GET', 'POST'])
 @login_required
 def create_department():
     """

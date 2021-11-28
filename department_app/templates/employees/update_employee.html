@@ -31,7 +31,7 @@
         {{ form.date_of_birth(class="form-control", type="date", max="2003-01-01", placeholder="Date of Birth") }}
         <br>
         {{ form.submit(class="btn btn-lg btn-primary") }}
-        <a href="{{ url_for('user.show_employee', id=current_user.id) }}"
+        <a href="{{ url_for('user.retrieve_employee', id=current_user.id) }}"
            class="btn btn-secondary btn-lg">
             Go Back
         </a>
