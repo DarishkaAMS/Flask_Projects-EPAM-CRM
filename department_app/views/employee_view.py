@@ -4,18 +4,18 @@ This module represents the logic on routes starting with /employees
 
 # pylint: disable=cyclic-import
 # pylint: disable=import-error
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request, session
 from flask_login import login_required
 
 # pylint: disable=relative-beyond-top-level
 from .. import db
 from ..models.employee import Employee
-from ..forms.employee import EmployeeAssignForm, EmployeeForm, RegisterForm
+from ..forms.employee import EmployeeAssignForm, EmployeeForm, RegisterForm, EmployeeDateInfoForm
 
 from . import user
 
 
-@user.route('/employees')
+@user.route('/employees', methods=['GET', 'POST'])
 @login_required
 def retrieve_employees():
     """
@@ -23,7 +23,27 @@ def retrieve_employees():
     """
     employees = Employee.query.order_by(Employee.first_name).all()
 
-    return render_template('employees/employees.html', employees=employees)
+    form = EmployeeDateInfoForm()
+    if form.validate_on_submit():
+        session['start_date'] = form.start_date.data
+        session['end_date'] = form.end_date.data
+        # print(session['end_date'], session['start_date'])
+        for employee in employees:
+            if employee.date_of_birth:
+                print(session['start_date'], employee.date_of_birth, session['end_date'])
+                if session['start_date'] < employee.date_of_birth < session['end_date']:
+                    print(employee.first_name)
+
+        return redirect('date')
+
+    return render_template('employees/employees.html', employees=employees, form=form)
+
+
+@user.route('/date', methods=['GET', 'POST'])
+def date():
+    start_date = session['start_date']
+    end_date = session['end_date']
+    return render_template('employees/date.html')
 
 
 @user.route('/employees/create', methods=['GET', 'POST'])

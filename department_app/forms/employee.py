@@ -65,3 +65,12 @@ class EmployeeAssignForm(FlaskForm):
     department = QuerySelectField(query_factory=lambda: Department.query.all(), get_label="name")
     salary = IntegerField(label='Salary')
     submit = SubmitField(label='Submit')
+
+
+class EmployeeDateInfoForm(FlaskForm):
+    """
+    Form to assign departments and sales to employees
+    """
+    start_date = DateField('Start Date', format='%Y-%m-%d', validators=[DataRequired()])
+    end_date = DateField('End Date', format='%Y-%m-%d', validators=[DataRequired()])
+    submit = SubmitField('Submit')

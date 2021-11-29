@@ -16,6 +16,15 @@ Employees
         {% if employees %}
         <hr class="intro-divider">
         <div class="center">
+<h4> Select a date range </h4>
+<form action="" method='POST' name="myform">
+    {{ form.csrt_token }}
+    {{ form.start_date.label }} {{form.start_date(class='datepicker')}} {{form.hidden_tag()}}
+    {{ form.end_date.label }} {{form.end_date(class='datepicker')}} {{form.hidden_tag()}}
+    <p>
+    {{form.submit()}}
+    </p>
+</form>
             <table class="table table-striped table-dark">
                 <thead>
                 <tr>
