@@ -6,5 +6,11 @@
 <h4>Start Date is: {{session['start_date']}}</h4>
 <h4>End Date is: {{session['end_date']}}</h4>
 
+{% for employee in employee_list %}
+<tr>
+    <td> {{ employee.first_name }}</td>
+</tr>
+
+{% endfor %}
 </body>
 {% endblock %}

@@ -28,13 +28,15 @@ def retrieve_employees():
         session['start_date'] = form.start_date.data
         session['end_date'] = form.end_date.data
         # print(session['end_date'], session['start_date'])
+        employee_list = []
         for employee in employees:
             if employee.date_of_birth:
                 print(session['start_date'], employee.date_of_birth, session['end_date'])
                 if session['start_date'] < employee.date_of_birth < session['end_date']:
+                    employee_list.append(employee)
                     print(employee.first_name)
 
-        return redirect('date')
+        return render_template('employees/date.html', employee_list=employee_list)
 
     return render_template('employees/employees.html', employees=employees, form=form)
 
