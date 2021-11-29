@@ -87,10 +87,10 @@ def assign_employee(id):
     if form.validate_on_submit():
         employee_to_assign.department = form.department.data
         employee_to_assign.salary = form.salary.data
-
+        print("employee_to_assign.salary", employee_to_assign.salary)
         db.session.add(employee_to_assign)
         db.session.commit()
-        flash('You have successfully assigned a department.', category='success')
+        flash('You have successfully assigned an Employee.', category='success')
 
         # redirect to the employees page
         return redirect(url_for('user.retrieve_employee', id=employee_to_assign.id))
