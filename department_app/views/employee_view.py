@@ -21,7 +21,7 @@ def retrieve_employees():
     """
     Show all employees
     """
-    employees = Employee.query.all()
+    employees = Employee.query.order_by(Employee.first_name).all()
 
     return render_template('employees/employees.html', employees=employees)
 
