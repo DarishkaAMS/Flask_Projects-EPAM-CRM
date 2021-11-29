@@ -12,9 +12,11 @@ Registration Page
         <img class="mb-4"
              src="https://ctl.s6img.com/society6/img/2DZ5pCs1LDlhj5rV7ITQmVdkYxU/w_700/posters/top/~artwork,fw_2718,fh_3618,fx_-450,iw_3618,ih_3618/s6-0089/a/34685025_16296864/~~/black-cat-dcv-posters.jpg"
              alt="DarishkaAMS" width="350" height="350">
-        <h1 class="h3 mb-3 font-weight-normal">
-            Let's Create Your Account
-        </h1>
+        {% if add_employee %}
+        <h1 class="h3 mb-3 font-weight-normal">Add Employee</h1>
+        {% else %}
+        <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+        {% endif %}
         <i style="color:pink"> Fields marked with * are required </i>
         <br>
         <br/>

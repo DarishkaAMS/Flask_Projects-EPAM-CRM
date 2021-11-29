@@ -32,7 +32,7 @@ def create_employee():
     """
     Add an employee to the database
     """
-    add_emp = True
+    add_employee = True
 
     form = RegisterForm()
     if form.validate_on_submit():
@@ -58,8 +58,7 @@ def create_employee():
         return redirect(url_for('user.retrieve_employees'))
 
     # load employee template
-    return render_template('employees/employee.html', action='Add',
-                           add_emp=add_emp, form=form)
+    return render_template('auth/register.html', form=form, add_employee=add_employee)
 
 
 @user.route('/employees/employee/<int:id>', methods=['GET', 'POST'])
