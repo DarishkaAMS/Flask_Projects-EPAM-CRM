@@ -1,6 +1,11 @@
+from dotenv import load_dotenv
 from itsdangerous import URLSafeTimedSerializer
+import os
 
-from run import app
+from . import create_app
+
+# CHANGE
+app = create_app()
 
 
 def generate_confirmation_token(email):

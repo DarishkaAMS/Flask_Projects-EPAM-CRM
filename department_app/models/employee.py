@@ -19,6 +19,7 @@ class Employee (db.Model, UserMixin):
     first_name = db.Column(db.String(25), nullable=False)
     last_name = db.Column(db.String(25), nullable=False)
     email_address = db.Column(db.String(50), nullable=False, unique=True)
+    confirmed = False
     date_of_birth = db.Column(db.Date)
     salary = db.Column(db.Integer)
     password_hash = db.Column(db.String(length=150), nullable=False)

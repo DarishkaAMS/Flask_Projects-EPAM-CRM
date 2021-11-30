@@ -161,6 +161,7 @@ def delete_employee(id):
     """
     Delete an employee from the database
     """
+    # I DELETE MYSELF!!!!
     employee = Employee.query.get_or_404(id)
     # pylint: disable=no-member
     db.session.delete(employee)
