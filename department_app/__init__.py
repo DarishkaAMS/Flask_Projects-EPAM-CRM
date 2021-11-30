@@ -9,8 +9,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils.functions import database_exists
 
 from dotenv import load_dotenv
-from config import Config
-# from ..config import _check_config_variables_are_set
+from config import Config, _check_config_variables_are_set
+# from ..config import Config, _check_config_variables_are_set
 
 
 db = SQLAlchemy()
