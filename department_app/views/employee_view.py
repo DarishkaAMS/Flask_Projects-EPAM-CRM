@@ -15,13 +15,16 @@ from ..forms.employee import EmployeeAssignForm, EmployeeForm, RegisterForm, Emp
 from . import user
 
 
-@user.route('/employees', methods=['GET', 'POST'])
+@user.route('/employees/<int:page>', methods=['GET', 'POST'])
 @login_required
-def retrieve_employees():
+def retrieve_employees(page=1):
     """
     Show all employees
     """
-    employees = Employee.query.order_by(Employee.first_name).all()
+    # employees = Employee.query.order_by(Employee.first_name).all()
+    employees_per_page = 10
+    employees = Employee.query.order_by(Employee.first_name).paginate(page, employees_per_page, error_out=False)
+    pagination_tag = True
 
     form = EmployeeDateInfoForm()
     if form.validate_on_submit():
@@ -29,16 +32,22 @@ def retrieve_employees():
         session['end_date'] = form.end_date.data
         employee_list = []
 
-        for employee in employees:
+        for employee in employees.items:
+            # print("EML", employee.date_of_birth)
             if employee.date_of_birth:
+                # print("FJDAS")
                 if session['start_date'] < employee.date_of_birth < session['end_date']:
                     employee_list.append(employee)
+                    # print("RRRR")
+        # print("employee_list", employee_list)
+        # for some in employee_list:
+            # print(some.email_address)
 
         # IF date range is wrong
+        pagination_tag = False
+        return render_template('employees/employees.html', employees=employee_list, form=form, pagination_tag=pagination_tag)
 
-        return render_template('employees/employees.html', employees=employee_list, form=form)
-
-    return render_template('employees/employees.html', employees=employees, form=form)
+    return render_template('employees/employees.html', employees=employees, form=form, pagination_tag=pagination_tag)
 
 
 @user.route('/date', methods=['GET', 'POST'])
@@ -170,3 +179,11 @@ def delete_employee(id):
 
     # redirect to the employees page
     return redirect(url_for('user.home_page'))
+
+
+def pagination(page):
+    page = page
+    pages = 5
+    #employees = Employees.query.filter().all()
+    #employees = Employees.query.paginate(page,pages,error_out=False)
+    employees = Employee.query.order_by(Employee.first_name).paginate(page, pages, error_out=False)

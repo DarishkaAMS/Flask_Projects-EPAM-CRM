@@ -30,7 +30,7 @@ Employees
                 <p>
                     <br>
                     {{form.submit(class="btn btn-primary btn-sm")}}
-                                                <a href="{{ url_for('user.retrieve_employees') }}"
+                                                <a href="{{ url_for('user.retrieve_employees', page=1) }}"
                                                    class="btn btn-secondary btn-sm">
                     <i class="fa fa-plus"></i>
                     Reset
@@ -57,7 +57,7 @@ Employees
 
                 </thead>
                 <tbody>
-                {% for employee in employees %}
+                {% for employee in employees.items %}
                 <tr>
 
                     <td>{{employee.first_name}}</td>
@@ -129,6 +129,11 @@ Employees
                 {% endfor %}
                 </tbody>
             </table>
+            {% if employees.has_prev %}
+            <a href="{{ url_for('user.retrieve_employees', page=user.prev_num) }}">&lt;&lt; Newer posts</a>
+            {% else %}&lt;&lt; Newer posts
+            {% endif %} |
+
         </div>
         <div style="text-align: center">
             {% else %}
@@ -140,7 +145,7 @@ Employees
                     <i class="fa fa-plus"></i>
                     Add Employee
                 </a>
-                <a href="{{ url_for('user.retrieve_employees') }}" class="btn btn-secondary btn-lg">
+                <a href="{{ url_for('user.retrieve_employees', page=1) }}" class="btn btn-secondary btn-lg">
                     <i class="fa fa-plus"></i>
                     Go Back
                 </a>

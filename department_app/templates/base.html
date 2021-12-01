@@ -31,7 +31,7 @@
                 <a class="nav-link" href="{{ url_for('user.retrieve_departments') }}">Departments</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('user.retrieve_employees') }}">Employees</a>
+                <a class="nav-link" href="{{ url_for('user.retrieve_employees', page=1) }}">Employees</a>
             </li>
             {% endif %}
         </ul>
