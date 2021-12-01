@@ -71,6 +71,6 @@ class EmployeeDateInfoForm(FlaskForm):
     """
     Form to assign departments and sales to employees
     """
-    start_date = DateField('Start Date', format='%Y-%m-%d', validators=[DataRequired()])
-    end_date = DateField('End Date', format='%Y-%m-%d', validators=[DataRequired()])
+    start_date = DateField(label='Start Date', format='%Y-%m-%d', validators=[DataRequired()])
+    end_date = DateField(label='End Date', format='%Y-%m-%d', validators=[DataRequired()])
     submit = SubmitField('Submit')

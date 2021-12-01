@@ -12,22 +12,34 @@ Employees
     <div class="table-wrapper">
         <br/>
         <br/>
-        <h1 style="text-align:center;">Employees</h1>
+        <h1 style="text-align:center;"> Employees Pool</h1>
         {% if employees %}
         <hr class="intro-divider">
         <div class="center">
-            <h4> Select a date range </h4>
+            <h4> Select a Birth Date Range </h4>
             <form action="" method='POST' name="myform">
-                {{ form.csrt_token }}
+                <div class="input-group date" data-provide="datepicker">
+                    <div class="input-group-addon">
+                         <span class="glyphicon glyphicon-th">
+                {{ form.csrf_token }}
                 {{form.hidden_tag()}}
                 {{ form.start_date.label() }}
-                {{form.start_date(class='datepicker', placeholder="Start Date")}}
+                {{form.start_date(class='form-control', type="date", placeholder="Start Date")}}
                 {{ form.end_date.label() }}
-                {{ form.end_date(class='datepicker', placeholder="Start Date") }}
+                {{ form.end_date(class='form-control', type="date", placeholder="Start Date") }}
                 <p>
-                    {{form.submit()}}
+                    <br>
+                    {{form.submit(class="btn btn-primary btn-sm")}}
+                                                <a href="{{ url_for('user.retrieve_employees') }}" class="btn btn-secondary btn-sm">
+                    <i class="fa fa-plus"></i>
+                    Reset
+                </a>
                 </p>
+                         </span>
+                </div>
+                </div>
             </form>
+
             <table class="table table-striped table-dark">
                 <thead>
                 <tr>
@@ -120,12 +132,16 @@ Employees
         <div style="text-align: center">
             {% else %}
             <div style="text-align: center">
-                <i style="color:pink"> It looks like no Employees have been added. </i>
+                <i style="color:pink"> It looks like there is no Employees here. </i>
                 <hr class="intro-divider">
                 {% endif %}
                 <a href="{{ url_for('user.create_employee') }}" class="btn btn-primary btn-lg">
                     <i class="fa fa-plus"></i>
                     Add Employee
+                </a>
+                <a href="{{ url_for('user.retrieve_employees') }}" class="btn btn-secondary btn-lg">
+                    <i class="fa fa-plus"></i>
+                    Go Back
                 </a>
             </div>
         </div>
