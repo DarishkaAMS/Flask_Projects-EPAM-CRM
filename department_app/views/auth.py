@@ -19,8 +19,9 @@ from ..token import confirm_token, generate_confirmation_token
 from . import user
 
 
-app = create_app()
-mail = Mail(app)
+# app = create_app()
+# mail = Mail()
+# mail.init_app(app)
 
 
 @user.route('/register', methods=['GET', 'POST'])
@@ -60,11 +61,20 @@ def register_page():
 
             db.session.add(employee_to_create)
             db.session.commit()
-            token = generate_confirmation_token(employee_to_create.email_address)
-            confirm_url = url_for('user.confirm_email', token=token, _external=True) # To check user.confirm_email
-            html = render_template('activate.html', confirm_url=confirm_url)
+
+
+            # token = generate_confirmation_token(employee_to_create.email_address)
+            # confirm_url = url_for('user.confirm_email', token=token, _external=True) # To check user.confirm_email
+            # html = render_template('auth/activate.html', confirm_url=confirm_url)
             subject = "Please confirm your email"
-            send_email(employee_to_create.email_address, subject, html)
+            # send_email(employee_to_create.email_address, subject, html)
+
+            # msg = Message(
+            #     subject,
+            #     sender="honeydummyams@gmail.com",
+            #     recipients=['honeydummyams@gmail.com'],
+            # )
+            # mail.send(msg)
 
             login_user(employee_to_create)
             flash(f'Account has been created successfully! You are now logged in '
@@ -96,7 +106,7 @@ def confirm_email(token):
         db.session.add(confirmed_employee)
         db.session.commit()
         flash('You have confirmed your account. Thanks!', 'success')
-    return redirect(url_for('main.home'))
+    return redirect(url_for('home'))
 
 
 def send_email(to, subject, template):
@@ -156,16 +166,16 @@ def logout_page():
 #### error handlers ####
 ########################
 
-@app.errorhandler(403)
+@user.errorhandler(403)
 def forbidden_page(error):
     return render_template("errors/403.html"), 403
 
 
-@app.errorhandler(404)
+@user.errorhandler(404)
 def page_not_found(error):
     return render_template("errors/404.html"), 404
 
 
-@app.errorhandler(500)
+@user.errorhandler(500)
 def server_error_page(error):
     return render_template("errors/500.html"), 500

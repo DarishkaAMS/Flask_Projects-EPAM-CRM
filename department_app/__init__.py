@@ -2,11 +2,12 @@ from dotenv import load_dotenv
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-from flask_mail import Mail
+from flask_mail import Mail, Message
 from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils.functions import database_exists
+# from flask_mail import Mail
 
 from dotenv import load_dotenv
 # from Flask_Projects-EPAM-CRM.config import check_config_variables_are_set, Config
@@ -17,6 +18,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 migrate = Migrate()
+# mail = Mail()
 
 
 def create_app():
@@ -33,6 +35,7 @@ def create_app():
     bcrypt.init_app(app)
     login_manager.init_app(app)
     mail = Mail(app)
+    # mail.init_app(app)
     migrate.init_app(app, db)
 
     #ADD DEPARTMENT
@@ -54,6 +57,15 @@ def create_app():
     from .models.employee import Employee
 
     create_database(app)
+
+    # msg = Message(
+    #     "subject",
+    #     sender="honeydummyams@gmail.com",
+    #     recipients=['honeydummyams@gmail.com'],
+    #     body="This is a test email I sent with Gmail and Python!"
+    # )
+    #
+    # mail.send(msg)
 
     return app
 
@@ -83,14 +95,26 @@ def check_config_variables_are_set(config):
         'SQLALCHEMY_DATABASE_URI is not set, ' \
         'set it in the production config file.'
 
-    # assert config['MAIL_DEFAULT_SENDER'] is not None, \
-    #     'MAIL_DEFAULT_SENDER is not set, ' \
-    #     'set it in the production config file.'
-    # assert config['MAIL_USERNAME'] is not None, \
-    #     'MAIL_USERNAME is not set, set the env variable APP_MAIL_USERNAME ' \
-    #     'or MAIL_USERNAME in the production config file.'
-    # assert config['MAIL_PASSWORD'] is not None, \
-    #     'MAIL_PASSWORD is not set, set the env variable APP_MAIL_PASSWORD ' \
-    #     'or MAIL_PASSWORD in the production config file.'
+    assert config['MAIL_SERVER'] is not None, \
+        'MAIL_SERVER is not set, ' \
+        'set it in the production config file.'
+    assert config['MAIL_PORT'] is not None, \
+        'MAIL_PORT is not set, set the env variable APP_MAIL_USERNAME ' \
+        'or MAIL_USERNAME in the production config file.'
+    assert config['MAIL_USE_TLS'] is not None, \
+        'MAIL_USE_TLS is not set, set the env variable APP_MAIL_PASSWORD ' \
+        'or MAIL_PASSWORD in the production config file.'
+    assert config['MAIL_USE_SSL'] is not None, \
+        'MAIL_USE_SSL is not set, ' \
+        'set it in the production config file.'
+    assert config['MAIL_USERNAME'] is not None, \
+        'MAIL_USERNAME is not set, set the env variable APP_MAIL_USERNAME ' \
+        'or MAIL_USERNAME in the production config file.'
+    assert config['MAIL_PASSWORD'] is not None, \
+        'MAIL_PASSWORD is not set, set the env variable APP_MAIL_PASSWORD ' \
+        'or MAIL_PASSWORD in the production config file.'
+    assert config['MAIL_DEFAULT_SENDER'] is not None, \
+        'MAIL_DEFAULT_SENDER is not set, set the env variable APP_MAIL_PASSWORD ' \
+        'or MAIL_PASSWORD in the production config file.'
 
     print("Success!!!")
