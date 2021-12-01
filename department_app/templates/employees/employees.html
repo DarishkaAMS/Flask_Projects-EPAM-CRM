@@ -19,8 +19,11 @@ Employees
             <h4> Select a date range </h4>
             <form action="" method='POST' name="myform">
                 {{ form.csrt_token }}
-                {{ form.start_date.label }} {{form.start_date(class='datepicker')}} {{form.hidden_tag()}}
-                {{ form.end_date.label }} {{form.end_date(class='datepicker')}} {{form.hidden_tag()}}
+                {{form.hidden_tag()}}
+                {{ form.start_date.label() }}
+                {{form.start_date(class='datepicker', placeholder="Start Date")}}
+                {{ form.end_date.label() }}
+                {{ form.end_date(class='datepicker', placeholder="Start Date") }}
                 <p>
                     {{form.submit()}}
                 </p>

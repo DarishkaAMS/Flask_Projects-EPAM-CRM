@@ -34,6 +34,8 @@ def retrieve_employees():
                 if session['start_date'] < employee.date_of_birth < session['end_date']:
                     employee_list.append(employee)
 
+        # IF date range is wrong
+
         return render_template('employees/employees.html', employees=employee_list, form=form)
 
     return render_template('employees/employees.html', employees=employees, form=form)
