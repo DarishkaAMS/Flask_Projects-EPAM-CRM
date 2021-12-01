@@ -7,6 +7,10 @@ from . import create_app
 # CHANGE
 app = create_app()
 
+load_dotenv()
+SECRET_KEY = os.environ.get('SECRET_KEY')
+SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT')
+
 
 def generate_confirmation_token(email):
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
