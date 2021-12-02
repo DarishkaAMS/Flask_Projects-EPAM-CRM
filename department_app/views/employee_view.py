@@ -173,9 +173,9 @@ def delete_employee(id):
     return redirect(url_for('user.home_page'))
 
 
-def pagination(page):
-    page = page
-    pages = 5
-    #employees = Employees.query.filter().all()
-    #employees = Employees.query.paginate(page,pages,error_out=False)
-    employees = Employee.query.order_by(Employee.first_name).paginate(page, pages, error_out=False)
+# def pagination(page):
+#     page = page
+#     pages = 5
+#     #employees = Employees.query.filter().all()
+#     #employees = Employees.query.paginate(page,pages,error_out=False)
+#     employees = Employee.query.order_by(Employee.first_name).paginate(page, pages, error_out=False)
