@@ -28,22 +28,14 @@ def retrieve_employees(page=1):
 
     form = EmployeeDateInfoForm()
     if form.validate_on_submit():
-        # session['start_date'] = form.start_date.data
-        # session['end_date'] = form.end_date.data
         employee_list = []
-        # from datetime import date
-        # start = date(year=1900, month=11, day=1)
-        # end = date(year=2021, month=11, day=1)
 
         start_date = form.start_date.data
         end_date = form.end_date.data
 
-        print("start_date", start_date)
-        # filtered_employees = Employee.query.filter(start_date <= Employee.date_of_birth)
-        filtered_employees = Employee.query.filter(Employee.date_of_birth <= end_date).filter(start_date <= Employee.date_of_birth)
-        for employee in filtered_employees:
-            print(employee.date_of_birth)
-
+        filtered_employees = Employee.query.filter(Employee.date_of_birth <= end_date).filter(start_date <= Employee.date_of_birth).paginate(page, employees_per_page, error_out=False)
+        # for employee in filtered_employees:
+        #     print(employee.date_of_birth)
 
         # for employee in employees.items:
         #     if employee.date_of_birth:
