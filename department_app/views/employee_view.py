@@ -34,7 +34,9 @@ def retrieve_employees(page=1):
         filtered_employees = Employee.query.filter(Employee.date_of_birth <= end_date).\
             filter(start_date <= Employee.date_of_birth).paginate(page, employees_per_page, error_out=False)
 
-        # IF date range is wrong
+        if not filtered_employees.items:
+            flash('I can\'t find anyone within specified range. Please try again', category='danger')
+
         return render_template('employees/employees.html', employees=filtered_employees, form=form)
 
     return render_template('employees/employees.html', employees=employees, form=form)
