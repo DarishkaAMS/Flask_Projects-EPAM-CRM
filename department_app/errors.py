@@ -1,6 +1,6 @@
 from flask import render_template
 
-from .department_app.views import user
+from .views import user
 
 ########################
 #### error handlers ####

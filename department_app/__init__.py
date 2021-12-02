@@ -1,17 +1,16 @@
-from dotenv import load_dotenv
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-from flask_mail import Mail, Message
+from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils.functions import database_exists
 # from flask_mail import Mail
 
-from dotenv import load_dotenv
 # from Flask_Projects-EPAM-CRM.config import check_config_variables_are_set, Config
 from config import Config
+
 
 
 db = SQLAlchemy()
@@ -43,6 +42,11 @@ def create_app():
     app.register_blueprint(user_blueprint)
     from .rest import employee_api, department_api
 
+    from .errors import forbidden_page, page_not_found, server_error_page
+    app.register_error_handler(403, forbidden_page)
+    app.register_error_handler(404, page_not_found)
+    app.register_error_handler(500, server_error_page)
+
     api = Api(app)
 
     # adding the department resources
@@ -52,9 +56,6 @@ def create_app():
     # adding the employee resources
     api.add_resource(employee_api.EmployeeListApi, '/api/employees')
     api.add_resource(employee_api.Employee, '/api/employees/<id>')
-
-    from .models.department import Department
-    from .models.employee import Employee
 
     create_database(app)
 
