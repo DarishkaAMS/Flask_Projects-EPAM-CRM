@@ -22,7 +22,7 @@ def retrieve_employees(page=1):
     Show all employees
     """
 
-    employees_per_page = 10
+    employees_per_page = 7
     employees = Employee.query.order_by(Employee.first_name).paginate(page, employees_per_page, error_out=False)
 
     form = EmployeeDateInfoForm()

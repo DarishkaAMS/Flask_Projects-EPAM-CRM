@@ -129,10 +129,35 @@ Employees
                 {% endfor %}
                 </tbody>
             </table>
-            {% if employees.has_prev %}
-            <a href="{{ url_for('user.retrieve_employees', page=user.prev_num) }}">&lt;&lt; Newer posts</a>
-            {% else %}&lt;&lt; Newer posts
-            {% endif %} |
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if employees.has_prev %}
+                    <li class="page-item"><a class="page-link" href="{{ url_for('user.retrieve_employees', page=employees.prev_num) }}">Previous</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link btn disabled" href="#">Previous</a></li>
+                    {% endif %}
+                    {% for page in employees.iter_pages(left_edge=3, right_edge=3) %}
+                    {% if page %}
+                    {% if page==employees.page %}
+                    <li class="page-item active"><a class="page-link" href="{{ url_for('user.retrieve_employees', page=page) }}">{{ page
+                        }}</a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="{{ url_for('user.retrieve_employees', page=page) }}">{{ page }}</a>
+                    </li>
+                    {% endif %}
+                    {% else %}
+                    <li class="page-item disabled" id="example_ellipsis"><a href="#" class="page-link">…</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if employees.has_next %}
+                    <li class="page-item"><a class="page-link" href="{{ url_for('user.retrieve_employees', page=employees.next_num) }}">Next</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link btn disabled" href="#">Next</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
 
         </div>
         <div style="text-align: center">
