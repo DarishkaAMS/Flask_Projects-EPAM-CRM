@@ -28,24 +28,32 @@ def retrieve_employees(page=1):
 
     form = EmployeeDateInfoForm()
     if form.validate_on_submit():
-        session['start_date'] = form.start_date.data
-        session['end_date'] = form.end_date.data
+        # session['start_date'] = form.start_date.data
+        # session['end_date'] = form.end_date.data
         employee_list = []
+        # from datetime import date
+        # start = date(year=1900, month=11, day=1)
+        # end = date(year=2021, month=11, day=1)
 
-        for employee in employees.items:
-            # print("EML", employee.date_of_birth)
-            if employee.date_of_birth:
-                # print("FJDAS")
-                if session['start_date'] < employee.date_of_birth < session['end_date']:
-                    employee_list.append(employee)
-                    # print("RRRR")
-        # print("employee_list", employee_list)
-        # for some in employee_list:
-            # print(some.email_address)
+        start_date = form.start_date.data
+        end_date = form.end_date.data
+
+        print("start_date", start_date)
+        # filtered_employees = Employee.query.filter(start_date <= Employee.date_of_birth)
+        filtered_employees = Employee.query.filter(Employee.date_of_birth <= end_date).filter(start_date <= Employee.date_of_birth)
+        for employee in filtered_employees:
+            print(employee.date_of_birth)
+
+
+        # for employee in employees.items:
+        #     if employee.date_of_birth:
+        #         if session['start_date'] < employee.date_of_birth < session['end_date']:
+        #             employee_list.append(employee)
+
 
         # IF date range is wrong
         pagination_tag = False
-        return render_template('employees/employees.html', employees=employee_list, form=form, pagination_tag=pagination_tag)
+        return render_template('employees/employees.html', employees=filtered_employees, form=form, pagination_tag=pagination_tag)
 
     return render_template('employees/employees.html', employees=employees, form=form, pagination_tag=pagination_tag)
 
@@ -117,7 +125,7 @@ def assign_employee(id):
     if form.validate_on_submit():
         employee_to_assign.department = form.department.data
         employee_to_assign.salary = form.salary.data
-        print("employee_to_assign.salary", employee_to_assign.salary)
+        # print("employee_to_assign.salary", employee_to_assign.salary)
         db.session.add(employee_to_assign)
         db.session.commit()
         flash('You have successfully assigned an Employee.', category='success')

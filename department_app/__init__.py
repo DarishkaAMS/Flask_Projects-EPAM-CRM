@@ -116,5 +116,3 @@ def check_config_variables_are_set(config):
     assert config['MAIL_DEFAULT_SENDER'] is not None, \
         'MAIL_DEFAULT_SENDER is not set, set the env variable APP_MAIL_PASSWORD ' \
         'or MAIL_PASSWORD in the production config file.'
-
-    print("Success!!!")

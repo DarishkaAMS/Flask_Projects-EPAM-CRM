@@ -25,6 +25,17 @@ class Employee (db.Model, UserMixin):
     password_hash = db.Column(db.String(length=150), nullable=False)
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
 
+    def __init__(self, first_name, last_name, email_address, date_of_birth, password_hash,
+                 salary=None, confirmed=False, department_id=None):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email_address = email_address
+        self.confirmed = confirmed
+        self.date_of_birth = date_of_birth
+        self.salary = salary
+        self.password_hash = password_hash
+        self.department_id = department_id
+
     def to_dict(self):
         """
         Serialize dictionary from its fields
