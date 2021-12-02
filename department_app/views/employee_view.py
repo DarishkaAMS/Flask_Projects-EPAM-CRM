@@ -21,33 +21,23 @@ def retrieve_employees(page=1):
     """
     Show all employees
     """
-    # employees = Employee.query.order_by(Employee.first_name).all()
+
     employees_per_page = 10
     employees = Employee.query.order_by(Employee.first_name).paginate(page, employees_per_page, error_out=False)
-    pagination_tag = True
 
     form = EmployeeDateInfoForm()
     if form.validate_on_submit():
-        employee_list = []
 
         start_date = form.start_date.data
         end_date = form.end_date.data
 
-        filtered_employees = Employee.query.filter(Employee.date_of_birth <= end_date).filter(start_date <= Employee.date_of_birth).paginate(page, employees_per_page, error_out=False)
-        # for employee in filtered_employees:
-        #     print(employee.date_of_birth)
-
-        # for employee in employees.items:
-        #     if employee.date_of_birth:
-        #         if session['start_date'] < employee.date_of_birth < session['end_date']:
-        #             employee_list.append(employee)
-
+        filtered_employees = Employee.query.filter(Employee.date_of_birth <= end_date).\
+            filter(start_date <= Employee.date_of_birth).paginate(page, employees_per_page, error_out=False)
 
         # IF date range is wrong
-        pagination_tag = False
-        return render_template('employees/employees.html', employees=filtered_employees, form=form, pagination_tag=pagination_tag)
+        return render_template('employees/employees.html', employees=filtered_employees, form=form)
 
-    return render_template('employees/employees.html', employees=employees, form=form, pagination_tag=pagination_tag)
+    return render_template('employees/employees.html', employees=employees, form=form)
 
 
 @user.route('/date', methods=['GET', 'POST'])
