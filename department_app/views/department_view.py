@@ -9,8 +9,8 @@ from flask_login import login_required
 
 # pylint: disable=relative-beyond-top-level
 from .. import db
+from ..forms.department import DepartmentForm, DepartmentUpdateForm
 from ..models.department import Department
-from ..forms.department import DepartmentForm
 
 from . import user
 
@@ -38,7 +38,7 @@ def create_department():
     if form.validate_on_submit():
         department_to_create = Department(
             name=form.name.data,
-            head=form.head.data
+            code=form.code.data
         )
         try:
             db.session.add(department_to_create)
@@ -75,18 +75,21 @@ def update_department(id):
 
     department = Department.query.get_or_404(id)
     form = DepartmentForm(obj=department)
+    # form = DepartmentUpdateForm(obj=department)
 
     if form.validate_on_submit():
         department.name = form.name.data
-        department.head = form.head.data
+        department.code = form.code.data
 
+        print(department.code, type(department.code))
+        db.session.add(department)
         db.session.commit()
         flash(f'You have successfully edited the {department.name} Department.', category='success')
 
         return redirect(url_for('user.retrieve_departments'))
 
     form.name.data = department.name
-    form.head.data = department.head
+    form.code.data = department.code
 
     return render_template('departments/update_department.html', action="Edit",
                            add_dep=add_dep, form=form,

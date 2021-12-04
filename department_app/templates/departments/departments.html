@@ -32,7 +32,7 @@ Departments
                 {% for department in departments %}
                 <tr>
                     <td> {{ department.name }}</td>
-                    <td> {{ department.head }}</td>
+                    <td> {{ department.code }}</td>
                     <td>
                         {% if department.employees %}
                         {{ department.employees.count() }}

@@ -63,9 +63,9 @@ def create_employee():
             first_name=form.first_name.data,
             last_name=form.last_name.data,
             email_address=form.email_address.data,
-            access_level = form.access_level,
+            access_level=form.access_level,
             date_of_birth=form.date_of_birth.data,
-            department=form.department.data,
+            # department=form.department.data,
             salary=form.salary.data,
         )
         try:
@@ -110,7 +110,7 @@ def assign_employee(id):
     if form.validate_on_submit():
         employee_to_assign.department = form.department.data
         employee_to_assign.salary = form.salary.data
-        # print("employee_to_assign.salary", employee_to_assign.salary)
+        # print(employee_to_assign.department, type(employee_to_assign.department))
         db.session.add(employee_to_assign)
         db.session.commit()
         flash('You have successfully assigned an Employee.', category='success')

@@ -14,8 +14,12 @@ class Department(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(25), unique=True)
-    head = db.Column(db.String(25))
+    code = db.Column(db.Integer)
     employees = db.relationship('Employee', backref='department', lazy='dynamic')
+
+    def __init__(self, name, code):
+        self.name = name
+        self.code = code
 
     def to_dict(self):
         """
@@ -25,7 +29,7 @@ class Department(db.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'head': self.head,
+            'code': self.code,
             'employees': [employee.to_dict() for employee in self.employees]
         }
 

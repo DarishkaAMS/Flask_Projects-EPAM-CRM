@@ -20,13 +20,13 @@ Departments
         {% if add_dep %}
         <h1 class="h3 mb-3 font-weight-normal">Add Department</h1>
         {% else %}
-        <h1 class="h3 mb-3 font-weight-normal">Edit Department</h1>
+        <h1 class="h3 mb-3 font-weight-normal">Update Department</h1>
         {% endif %}
         <br>
         {{ form.name.label() }}
         {{ form.name(class="form-control", placeholder="Name") }}
-        {{ form.head.label() }}
-        {{ form.head(class="form-control", placeholder="Head of the department") }}
+        {{ form.code.label() }}
+        {{ form.code(class="form-control", placeholder="Head of the department") }}
         <br>
         {{ form.submit(class="btn btn-lg btn-primary") }}
         <a href="{{ url_for('user.retrieve_departments') }}"
