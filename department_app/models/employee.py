@@ -15,7 +15,7 @@ ACCESS = {
 }
 
 
-class Employee (db.Model, UserMixin):
+class Employee(db.Model, UserMixin):
     """
     Create an Employee instance
     """
@@ -26,14 +26,18 @@ class Employee (db.Model, UserMixin):
     first_name = db.Column(db.String(25), nullable=False)
     last_name = db.Column(db.String(25), nullable=False)
     email_address = db.Column(db.String(50), nullable=False, unique=True)
-    access_level = db.Column(db.Integer)
+    # access_level = db.Column(db.Integer)
+    access_level = db.Column(db.String)
     # confirmed = False
     date_of_birth = db.Column(db.Date)
     salary = db.Column(db.Integer, default=1)
     password_hash = db.Column(db.String(length=150), nullable=False)
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
+    roles = db.relationship('Role', secondary='employees_roles',
+                            backref=db.backref('users', lazy='dynamic'))
+    # employees = db.relationship('Employee', backref='department', lazy='dynamic')
 
-    def __init__(self, first_name, last_name, email_address, access_level, date_of_birth, password_hash,
+    def __init__(self, first_name, last_name, email_address, access_level, date_of_birth, password_hash, roles,
                  salary=None, confirmed=False, department_id=None):
         self.first_name = first_name
         self.last_name = last_name
@@ -42,6 +46,7 @@ class Employee (db.Model, UserMixin):
         self.confirmed = confirmed
         self.date_of_birth = date_of_birth
         self.salary = salary
+        self.roles = roles
         self.password_hash = password_hash
         self.department_id = department_id
 
@@ -73,6 +78,21 @@ class Employee (db.Model, UserMixin):
         """
         # return f"Employee - {self.id}"
         return f"{self.first_name} {self.last_name}"
+
+
+# Define the Role data model
+class Role(db.Model):
+    # __tablename__ = 'roles'
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(50), unique=True)
+
+
+# Define the UserRoles data model
+class UserRoles(db.Model):
+    __tablename__ = 'employees_roles'
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey('employees.id', ondelete='CASCADE'))
+    role_id = db.Column(db.Integer(), db.ForeignKey('role.id', ondelete='CASCADE'))
 
 
 @login_manager.user_loader

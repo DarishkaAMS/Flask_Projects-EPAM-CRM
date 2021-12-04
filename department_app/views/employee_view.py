@@ -7,18 +7,30 @@ This module represents the logic on routes starting with /employees
 from flask import render_template, redirect, url_for, flash, request, session
 from flask_login import login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from functools import wraps
+from flask import url_for, request, redirect, session
 # pylint: disable=relative-beyond-top-level
 from .. import db
 from ..models.employee import Employee
 from ..forms.employee import EmployeeAssignForm, EmployeeForm, RegisterForm, EmployeeDateInfoForm
+# from .access import requires_access_level
+from flask_user import roles_required
 
 from . import user
 
 
+ACCESS = {
+    'guest': 0,
+    'employee': 1,
+    'head_of_dep': 2,
+    'hr': 3
+}
+
+
 @user.route('/employees/<int:page>', methods=['GET', 'POST'])
 @login_required
-def retrieve_employees(page=1):
+@roles_required('hr')
+def roles_required(page=1):
     """
     Show all employees
     """
@@ -182,3 +194,5 @@ def pagination(page):
     #employees = Employees.query.filter().all()
     #employees = Employees.query.paginate(page,pages,error_out=False)
     employees = Employee.query.order_by(Employee.first_name).paginate(page, pages, error_out=False)
+
+

@@ -4,11 +4,14 @@ This module represents the logic on routes starting with /register, /login and /
 # pylint: disable=cyclic-import
 # pylint: disable=import-error
 import datetime
-from flask import render_template, redirect, url_for, flash, request
-# from flask.ext.mail import Message
+from flask import render_template, redirect, url_for, flash, request, session
 from flask_login import login_user, logout_user, login_required
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
+from functools import wraps
+# from flask import url_for, request, redirect, session
+
+from ..models.employee import Employee
 
 # pylint: disable=relative-beyond-top-level
 from .. import create_app, db
@@ -17,11 +20,6 @@ from ..forms.employee import RegisterForm, LoginForm
 from ..token import confirm_token, generate_confirmation_token
 
 from . import user
-
-
-# app = create_app()
-# mail = Mail()
-# mail.init_app(app)
 
 
 @user.route('/register', methods=['GET', 'POST'])
@@ -167,3 +165,4 @@ def logout_page():
     flash('You have been logged out. See Ya!', category='info')
 
     return redirect(url_for('user.home_page'))
+
