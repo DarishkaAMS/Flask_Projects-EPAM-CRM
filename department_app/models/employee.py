@@ -29,7 +29,7 @@ class Employee (db.Model, UserMixin):
     access_level = db.Column(db.Integer)
     # confirmed = False
     date_of_birth = db.Column(db.Date)
-    salary = db.Column(db.Integer)
+    salary = db.Column(db.Integer, default=1)
     password_hash = db.Column(db.String(length=150), nullable=False)
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
 

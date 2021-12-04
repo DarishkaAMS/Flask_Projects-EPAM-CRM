@@ -50,11 +50,13 @@ def register_page():
             # IF EMAIL IS ALREADY Exist
         elif Employee.query.filter_by(email_address=email_address).first():
             flash('I have already registered an Employee with such email', category='danger')
-        else:
 
-            if access_level == "3":
-                department_id = 1
-            print("department_id", access_level,department_id, type(department_id))
+        # elif access_level == "3" and Employee.query.filter_by(department_id=3).first():
+        #     flash('Only 1 HR Manager can have access to this CRM SysTem', category='danger')
+
+        else:
+            department_id = 1 if access_level == "3" else None
+
             employee_to_create = Employee(
                 first_name=first_name,
                 last_name=last_name,

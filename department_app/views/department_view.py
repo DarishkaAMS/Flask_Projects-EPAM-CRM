@@ -106,3 +106,20 @@ def delete_department(id):
         flash(f'You have successfully deleted the {department.name} department.', category='success')
 
     return redirect(url_for('user.retrieve_departments'))
+
+
+# def get_average_salary(department):
+#     """
+#     Get an average salary of all employees in department
+#     :return: the average salary of all employees in department
+#     """
+#     employees = Employee.query.filter_by(department_id=department['id']).all()
+#     average_salary = 0
+#
+#     for employee in employees:
+#         average_salary += employee.salary
+#
+#     if len(employees) > 0:
+#         average_salary /= len(employees)
+#
+#     return round(average_salary, 2)
