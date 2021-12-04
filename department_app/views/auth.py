@@ -51,11 +51,10 @@ def register_page():
         elif Employee.query.filter_by(email_address=email_address).first():
             flash('I have already registered an Employee with such email', category='danger')
         else:
-            if access_level == 3:
-                department_id = 1
-            elif access_level == 2:
-                department_id = 2
 
+            if access_level == "3":
+                department_id = 1
+            print("department_id", access_level,department_id, type(department_id))
             employee_to_create = Employee(
                 first_name=first_name,
                 last_name=last_name,
@@ -63,8 +62,7 @@ def register_page():
                 department_id=department_id,
                 access_level=access_level,
                 date_of_birth=date_of_birth,
-                password_hash=generate_password_hash(form.password_hash.data, method='sha256')
-
+                password_hash=generate_password_hash(form.password_hash.data, method='sha256'),
             )
 
             db.session.add(employee_to_create)
