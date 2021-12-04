@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils.functions import database_exists
+from flask_user import login_required, SQLAlchemyAdapter, UserManager, UserMixin
 # from flask_mail import Mail
 
 # from Flask_Projects-EPAM-CRM.config import check_config_variables_are_set, Config
@@ -33,7 +34,16 @@ def create_app():
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
-    # print(app.config)
+    login_manager.login_view = 'login'
+
+    # Setup Flask-User
+    from .models.employee import Employee
+
+    db_adapter = SQLAlchemyAdapter(db,  Employee)
+    user_manager = UserManager(db_adapter, app)
+
+    # print(login_manager.user_manager, "login_manager")
+
     mail = Mail(app)
     # mail.init_app(app)
     migrate.init_app(app, db)

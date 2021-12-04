@@ -9,7 +9,7 @@ from flask_login import login_user, logout_user, login_required
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
-
+from flask_user import roles_required
 
 # pylint: disable=relative-beyond-top-level
 from .. import create_app, db
@@ -21,6 +21,7 @@ from . import user
 
 
 @user.route('/register', methods=['GET', 'POST'])
+# @roles_required('hr')
 def register_page():
     """
     Handle requests to the /register route
@@ -64,7 +65,7 @@ def register_page():
                 date_of_birth=date_of_birth,
                 password_hash=generate_password_hash(form.password_hash.data, method='sha256'),
             )
-            employee_to_create.roles.append(Role(name="role"))
+            employee_to_create.roles.append(Role(name=role))
             db.session.add(employee_to_create)
             db.session.commit()
 
@@ -85,6 +86,7 @@ def register_page():
             flash(f'Account has been created successfully! You are now logged in '
                   f'as {employee_to_create.first_name} {employee_to_create.last_name}', category='success')
 
+            print("employee_to_create.roles", employee_to_create.roles)
             return redirect(url_for('user.home_page'))
 
             if form.errors != {}:
@@ -95,23 +97,23 @@ def register_page():
 
 
 @user.route('/confirm/<token>')
-@login_required
-def confirm_email(token):
-    try:
-        email_address = confirm_token(token)
-    except:
-        flash('The confirmation link is invalid or has expired.', 'danger')
-    confirmed_employee = Employee.query.filter_by(email_address=email_address).first_or_404()
-    if confirmed_employee.confirmed:
-        flash('Account already confirmed. Please login.', 'success')
-    else:
-        confirmed_employee.confirmed = True
-        confirmed_employee.confirmed_on = datetime.datetime.now()
-        db.session.add(confirmed_employee)
-        db.session.commit()
-        flash('You have confirmed your account. Thanks!', 'success')
-    return redirect(url_for('home'))
-
+# @login_required
+# def confirm_email(token):
+#     try:
+#         email_address = confirm_token(token)
+#     except:
+#         flash('The confirmation link is invalid or has expired.', 'danger')
+#     confirmed_employee = Employee.query.filter_by(email_address=email_address).first_or_404()
+#     if confirmed_employee.confirmed:
+#         flash('Account already confirmed. Please login.', 'success')
+#     else:
+#         confirmed_employee.confirmed = True
+#         confirmed_employee.confirmed_on = datetime.datetime.now()
+#         db.session.add(confirmed_employee)
+#         db.session.commit()
+#         flash('You have confirmed your account. Thanks!', 'success')
+#     return redirect(url_for('home'))
+#
 
 # def send_email(to, subject, template):
 #     msg = Message(
@@ -154,7 +156,7 @@ def login_page():
 
 
 @user.route('/logout')
-@login_required
+# @login_required
 def logout_page():
     """
     Handle requests to the /logout route

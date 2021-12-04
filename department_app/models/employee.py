@@ -71,6 +71,9 @@ class Employee(db.Model, UserMixin):
             'salary': self.salary,
         }
 
+    def has_roles(self, *args):
+        return set(args).issubset({role.name for role in self.roles})
+
     def __repr__(self):
         """
         Representation of the Employee
@@ -84,7 +87,8 @@ class Employee(db.Model, UserMixin):
 class Role(db.Model):
     # __tablename__ = 'roles'
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(50), unique=True)
+    # name = db.Column(db.String(50), unique=True)
+    name = db.Column(db.String(50))
 
 
 # Define the UserRoles data model

@@ -6,6 +6,7 @@ This module represents the logic on routes starting with /departments
 # pylint: disable=import-error
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_required
+from flask_user import roles_required
 
 # pylint: disable=relative-beyond-top-level
 from .. import db
@@ -16,7 +17,8 @@ from . import user
 
 
 @user.route('/departments', methods=['GET', 'POST'])
-@login_required
+# @login_required
+@roles_required('hr')
 def retrieve_departments():
     """
     Show all departments
@@ -27,7 +29,7 @@ def retrieve_departments():
 
 
 @user.route('/departments/create', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def create_department():
     """
     Add a department to the database
@@ -55,7 +57,7 @@ def create_department():
 
 
 @user.route('/departments/department/<int:id>', methods=['GET'])
-@login_required
+# @login_required
 def retrieve_department(id):
     """
     Show department
@@ -66,7 +68,7 @@ def retrieve_department(id):
 
 
 @user.route('/departments/department/<int:id>/update', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def update_department(id):
     """
     Edit a department
@@ -97,7 +99,7 @@ def update_department(id):
 
 
 @user.route('/departments/department/<int:id>/delete', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def delete_department(id):
     """
     Delete a department from the database

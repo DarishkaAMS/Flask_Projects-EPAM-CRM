@@ -28,9 +28,9 @@ ACCESS = {
 
 
 @user.route('/employees/<int:page>', methods=['GET', 'POST'])
-@login_required
+# @login_required
 @roles_required('hr')
-def roles_required(page=1):
+def retrieve_employees(page=1):
     """
     Show all employees
     """
@@ -63,7 +63,7 @@ def date():
 
 
 @user.route('/employees/create', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def create_employee():
     """
     Add an employee to the database
@@ -103,7 +103,7 @@ def create_employee():
 
 
 @user.route('/employees/employee/<int:id>', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def retrieve_employee(id):
     """
     Show employee
@@ -116,7 +116,7 @@ def retrieve_employee(id):
 # pylint: disable=invalid-name
 # pylint: disable=redefined-builtin
 @user.route('/employees/assign/<int:id>', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def assign_employee(id):
     """
     Assign a department to an employee
@@ -141,7 +141,7 @@ def assign_employee(id):
 
 # pylint: disable=invalid-name
 @user.route('/employees/employee/<int:id>/update', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def update_employee(id):
     """
     Edit an employee
@@ -174,7 +174,7 @@ def update_employee(id):
 
 # pylint: disable=invalid-name
 @user.route('/employees/employee/<int:id>/delete', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def delete_employee(id):
     """
     Delete an employee from the database
