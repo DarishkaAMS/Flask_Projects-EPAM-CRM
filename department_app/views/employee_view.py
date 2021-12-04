@@ -133,8 +133,6 @@ def update_employee(id):
     Edit an employee
     """
     add_emp = False
-    # if post.author != current_user:
-    #     abort(403)
     employee = Employee.query.get_or_404(id)
     form = EmployeeForm(obj=employee)
 
@@ -143,9 +141,10 @@ def update_employee(id):
         employee.last_name = form.last_name.data
         employee.email_address = form.email_address.data
         employee.date_of_birth = form.date_of_birth.data
-
+        print(employee.id, employee.first_name)
         db.session.commit()
-        flash('You have successfully edited Your Account.', category='success')
+        flash(f'You have successfully edited {employee.first_name} {employee.last_name} Account.',
+              category='success')
 
         return redirect(url_for('user.retrieve_employee', id=employee.id))
 
