@@ -63,6 +63,7 @@ def create_employee():
             first_name=form.first_name.data,
             last_name=form.last_name.data,
             email_address=form.email_address.data,
+            access_level = form.access_level,
             date_of_birth=form.date_of_birth.data,
             department=form.department.data,
             salary=form.salary.data,

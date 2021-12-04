@@ -37,6 +37,7 @@ def register_page():
         first_name = form.first_name.data
         last_name = form.last_name.data
         email_address = form.email_address.data
+        access_level = form.access_level.data
         date_of_birth = form.date_of_birth.data
         password_hash = form.password_hash.data
         confirm_password = form.confirm_password.data
@@ -50,10 +51,17 @@ def register_page():
         elif Employee.query.filter_by(email_address=email_address).first():
             flash('I have already registered an Employee with such email', category='danger')
         else:
+            if access_level == 3:
+                department_id = 1
+            elif access_level == 2:
+                department_id = 2
+
             employee_to_create = Employee(
                 first_name=first_name,
                 last_name=last_name,
                 email_address=email_address,
+                department_id=department_id,
+                access_level=access_level,
                 date_of_birth=date_of_birth,
                 password_hash=generate_password_hash(form.password_hash.data, method='sha256')
 
@@ -62,11 +70,10 @@ def register_page():
             db.session.add(employee_to_create)
             db.session.commit()
 
-
             # token = generate_confirmation_token(employee_to_create.email_address)
             # confirm_url = url_for('user.confirm_email', token=token, _external=True) # To check user.confirm_email
             # html = render_template('auth/activate.html', confirm_url=confirm_url)
-            subject = "Please confirm your email"
+            # subject = "Please confirm your email"
             # send_email(employee_to_create.email_address, subject, html)
 
             # msg = Message(
@@ -80,7 +87,6 @@ def register_page():
             flash(f'Account has been created successfully! You are now logged in '
                   f'as {employee_to_create.first_name} {employee_to_create.last_name}', category='success')
 
-            # print("DATA, ", employee_to_create)
             return redirect(url_for('user.home_page'))
 
             if form.errors != {}:
@@ -109,14 +115,14 @@ def confirm_email(token):
     return redirect(url_for('home'))
 
 
-def send_email(to, subject, template):
-    msg = Message(
-        subject,
-        recipients=[to],
-        html=template,
-        sender=app.config['MAIL_DEFAULT_SENDER']
-    )
-    mail.send(msg)
+# def send_email(to, subject, template):
+#     msg = Message(
+#         subject,
+#         recipients=[to],
+#         html=template,
+#         sender=app.config['MAIL_DEFAULT_SENDER']
+#     )
+#     mail.send(msg)
 
 
 @user.route('/login', methods=['GET', 'POST'])

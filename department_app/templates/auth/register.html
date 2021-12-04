@@ -26,6 +26,15 @@ Registration Page
         {{ form.last_name(class="form-control", placeholder="Last Name") }}
         {{ form.email_address.label() }}
         {{ form.email_address(class="form-control", placeholder="Email Address") }}
+
+
+        <div class="form-group">
+            {{ form.access_level.label() }}
+            <br>
+            <input type="radio" name="access_level" value="1"/> Employee
+            <input type="radio" name="access_level" value="2"/> Head of Department
+            <input type="radio" name="access_level" value="3"/> HR
+        </div>
         {{ form.date_of_birth.label() }}
         {{ form.date_of_birth(class="form-control", type="date", max="2003-01-01", placeholder="Date of Birth") }}
         {{ form.password_hash.label() }}
