@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-from flask_mail import Mail
+from flask_mail import Mail, Message
 from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
@@ -26,13 +26,14 @@ def create_app():
     :return: the app instance
     """
     app = Flask(__name__)
-    app.config.from_object(Config)
 
+    app.config.from_object(Config)
     check_config_variables_are_set(app.config)
 
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
+    # print(app.config)
     mail = Mail(app)
     # mail.init_app(app)
     migrate.init_app(app, db)
@@ -65,7 +66,6 @@ def create_app():
     #     recipients=['honeydummyams@gmail.com'],
     #     body="This is a test email I sent with Gmail and Python!"
     # )
-    #
     # mail.send(msg)
 
     return app
@@ -86,6 +86,7 @@ def create_database(app):
 
 
 def check_config_variables_are_set(config):
+
     assert config['SECRET_KEY'] is not None, \
         'SECRET_KEY is not set, set it in the production config file.'
     assert config['SECURITY_PASSWORD_SALT'] is not None, \

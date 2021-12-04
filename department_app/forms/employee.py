@@ -3,7 +3,8 @@ form.py file of forms module for storing web form classes
 """
 from flask_wtf import FlaskForm
 from wtforms import DateField, IntegerField, PasswordField, StringField, SubmitField, ValidationError
-from wtforms.ext.sqlalchemy.fields import QuerySelectField
+# from wtforms.ext.sqlalchemy.fields import QuerySelectField
+from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 # pylint: disable=relative-beyond-top-level
