@@ -82,7 +82,7 @@ def create_employee():
                 flash('Something went wrong when creating a new Employee.', category='danger')
 
             # redirect to employee page
-            return redirect(url_for('user.retrieve_employees'))
+            return redirect(url_for('user.retrieve_employees', page=1))
 
     # load employee template
     return render_template('auth/register.html', form=form, add_employee=add_employee)
@@ -119,7 +119,7 @@ def assign_employee(id):
         flash('You have successfully assigned an Employee.', category='success')
 
         # redirect to the employees page
-        return redirect(url_for('user.retrieve_employee', id=employee_to_assign.id))
+        return redirect(url_for('user.retrieve_employees', page=1))
 
     return render_template('employees/assign_employee.html',
                            employee=employee_to_assign, form=form)
@@ -141,12 +141,12 @@ def update_employee(id):
         employee.last_name = form.last_name.data
         employee.email_address = form.email_address.data
         employee.date_of_birth = form.date_of_birth.data
-        print(employee.id, employee.first_name)
+        # print(employee.id, employee.first_name)
         db.session.commit()
         flash(f'You have successfully edited {employee.first_name} {employee.last_name} Account.',
               category='success')
 
-        return redirect(url_for('user.retrieve_employee', id=employee.id))
+        return redirect(url_for('user.retrieve_employees', page=1))
 
     elif request.method == 'GET':
         form.first_name.data = employee.first_name
