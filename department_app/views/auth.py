@@ -33,7 +33,7 @@ def register_page():
     form = RegisterForm()
     # if form.validate_on_submit():
     if request.method == 'POST':
-        form = RegisterForm()
+        # form = RegisterForm()
         first_name = form.first_name.data
         last_name = form.last_name.data
         email_address = form.email_address.data
@@ -56,7 +56,7 @@ def register_page():
 
         else:
             department_id = 1 if access_level == "3" else None
-
+            # try
             employee_to_create = Employee(
                 first_name=first_name,
                 last_name=last_name,

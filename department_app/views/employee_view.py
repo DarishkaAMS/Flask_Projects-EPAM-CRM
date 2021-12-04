@@ -6,6 +6,7 @@ This module represents the logic on routes starting with /employees
 # pylint: disable=import-error
 from flask import render_template, redirect, url_for, flash, request, session
 from flask_login import login_required
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # pylint: disable=relative-beyond-top-level
 from .. import db
@@ -57,29 +58,31 @@ def create_employee():
     """
     add_employee = True
 
-    form = RegisterForm()
-    if form.validate_on_submit():
-        employee_to_add = Employee(
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            email_address=form.email_address.data,
-            access_level=form.access_level,
-            date_of_birth=form.date_of_birth.data,
-            # department=form.department.data,
-            salary=form.salary.data,
-        )
-        try:
-            # pylint: disable=no-member
-            # add employee to the database
-            db.session.add(employee_to_add)
-            db.session.commit()
-            flash('You have successfully added a new employee.', category='success')
-        # pylint: disable=bare-except
-        except:
-            flash('Something went wrong when creating a new employee.', category='danger')
+    if request.method == 'POST':
+        form = RegisterForm()
+        if form.validate_on_submit():
+            access_level = form.access_level.data
+            department_id = 1 if access_level == "3" else None
+            employee_to_add = Employee(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                email_address=form.email_address.data,
+                department_id=department_id,
+                access_level=form.access_level,
+                password_hash=generate_password_hash(form.password_hash.data, method='sha256'),
+            )
+            try:
+                # pylint: disable=no-member
+                # add employee to the database
+                db.session.add(employee_to_add)
+                db.session.commit()
+                flash('You have successfully added a new Employee.', category='success')
+            # pylint: disable=bare-except
+            except:
+                flash('Something went wrong when creating a new Employee.', category='danger')
 
-        # redirect to employee page
-        return redirect(url_for('user.retrieve_employees'))
+            # redirect to employee page
+            return redirect(url_for('user.retrieve_employees'))
 
     # load employee template
     return render_template('auth/register.html', form=form, add_employee=add_employee)
