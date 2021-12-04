@@ -30,6 +30,7 @@ def register_page():
     Handle requests to the /register route
     Add an employee to the database through the registration form
     """
+
     form = RegisterForm()
     # if form.validate_on_submit():
     if request.method == 'POST':

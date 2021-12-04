@@ -57,9 +57,9 @@ def create_employee():
     Add an employee to the database
     """
     add_employee = True
+    form = RegisterForm()
 
     if request.method == 'POST':
-        form = RegisterForm()
         if form.validate_on_submit():
             access_level = form.access_level.data
             department_id = 1 if access_level == "3" else None
