@@ -9,13 +9,11 @@ from flask_login import login_user, logout_user, login_required
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
-# from flask import url_for, request, redirect, session
 
-from ..models.employee import Employee
 
 # pylint: disable=relative-beyond-top-level
 from .. import create_app, db
-from ..models.employee import Employee
+from ..models.employee import Employee, Role
 from ..forms.employee import RegisterForm, LoginForm
 from ..token import confirm_token, generate_confirmation_token
 
@@ -36,7 +34,8 @@ def register_page():
         first_name = form.first_name.data
         last_name = form.last_name.data
         email_address = form.email_address.data
-        access_level = form.access_level.data
+        # access_level = form.access_level.data
+        role = form.roles.data
         date_of_birth = form.date_of_birth.data
         password_hash = form.password_hash.data
         confirm_password = form.confirm_password.data
@@ -54,18 +53,18 @@ def register_page():
         #     flash('Only 1 HR Manager can have access to this CRM SysTem', category='danger')
 
         else:
-            department_id = 1 if access_level == "3" else None
+            # department_id = 1 if access_level == "3" else None
             # try
             employee_to_create = Employee(
                 first_name=first_name,
                 last_name=last_name,
                 email_address=email_address,
-                department_id=department_id,
-                access_level=access_level,
+                # department_id=department_id,
+                # roles=roles,
                 date_of_birth=date_of_birth,
                 password_hash=generate_password_hash(form.password_hash.data, method='sha256'),
             )
-
+            employee_to_create.roles.append(Role(name="role"))
             db.session.add(employee_to_create)
             db.session.commit()
 

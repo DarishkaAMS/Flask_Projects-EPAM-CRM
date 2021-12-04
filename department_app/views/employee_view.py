@@ -73,14 +73,16 @@ def create_employee():
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            access_level = form.access_level.data
-            department_id = 1 if access_level == "3" else None
+            # access_level = form.access_level.data
+            # department_id = 1 if access_level == "3" else None
+            roles = form.roles.data
             employee_to_add = Employee(
                 first_name=form.first_name.data,
                 last_name=form.last_name.data,
                 email_address=form.email_address.data,
-                department_id=department_id,
-                access_level=form.access_level,
+                roles=roles,
+                # department_id=department_id,
+                # access_level=form.access_level,
                 password_hash=generate_password_hash(form.password_hash.data, method='sha256'),
             )
             try:

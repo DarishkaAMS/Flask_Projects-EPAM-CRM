@@ -26,11 +26,11 @@ Registration Page
 
 
         <div class="form-group">
-            {{ form.access_level.label() }}
+            {{ form.roles.label() }}
             <br>
-            <input type="radio" name="access_level" value="employee"/> Employee
-            <input type="radio" name="access_level" value="head_of_department"/> Head of Department
-            <input type="radio" name="access_level" value="hr"/> HR
+            <input type="radio" name="roles" value="employee"/> Employee
+            <input type="radio" name="roles" value="head_of_department"/> Head of Department
+            <input type="radio" name="roles" value="hr"/> HR
         </div>
         {{ form.date_of_birth.label() }}
         {{ form.date_of_birth(class="form-control", type="date", max="2003-01-01", placeholder="Date of Birth") }}

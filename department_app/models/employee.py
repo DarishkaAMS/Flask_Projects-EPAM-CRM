@@ -37,16 +37,16 @@ class Employee(db.Model, UserMixin):
                             backref=db.backref('users', lazy='dynamic'))
     # employees = db.relationship('Employee', backref='department', lazy='dynamic')
 
-    def __init__(self, first_name, last_name, email_address, access_level, date_of_birth, password_hash, roles,
+    def __init__(self, first_name, last_name, email_address, date_of_birth, password_hash,
                  salary=None, confirmed=False, department_id=None):
         self.first_name = first_name
         self.last_name = last_name
         self.email_address = email_address
-        self.access_level = access_level
+        # self.access_level = access_level
         self.confirmed = confirmed
         self.date_of_birth = date_of_birth
         self.salary = salary
-        self.roles = roles
+        # self.roles = roles
         self.password_hash = password_hash
         self.department_id = department_id
 
