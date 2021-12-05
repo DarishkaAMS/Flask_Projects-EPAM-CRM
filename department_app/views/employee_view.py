@@ -116,7 +116,7 @@ def create_employee():
 
 
 @user.route('/employees/employee/<int:id>', methods=['GET', 'POST'])
-@roles_required(['hr', 'employee'])
+@roles_required(['employee'])
 def retrieve_employee(id):
     """
     Handle requests to the /employees/employee/<int:id> route - @roles_required(xxx)
