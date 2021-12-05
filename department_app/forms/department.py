@@ -21,10 +21,10 @@ class DepartmentForm(FlaskForm):
     submit = SubmitField(label='Submit')
 
 
-class DepartmentUpdateForm(FlaskForm):
-    """
-    Form to assign departments and sales to employees
-    """
-    name = StringField(label='Name', validators=[DataRequired()])
-    code = QuerySelectField(query_factory=lambda: Employee.query.all(), get_label="last_name")
-    submit = SubmitField(label='Submit')
+# class DepartmentUpdateForm(FlaskForm):
+#     """
+#     Form to assign departments and sales to employees
+#     """
+#     name = StringField(label='Name', validators=[DataRequired()])
+#     code = QuerySelectField(query_factory=lambda: Employee.query.all(), get_label="last_name")
+#     submit = SubmitField(label='Submit')

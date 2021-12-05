@@ -189,7 +189,7 @@ def update_employee(id):
 
 # pylint: disable=invalid-name
 @user.route('/employees/employee/<int:id>/delete', methods=['GET', 'POST'])
-@roles_required(['hr', 'employee'])
+@roles_required(['hr'])
 def delete_employee(id):
     """
     Handle requests to the /employees/employee/<int:id>/delete route - @roles_required(xxx)
@@ -197,10 +197,10 @@ def delete_employee(id):
     """
 
     employee = Employee.query.get_or_404(id)
-    db.session.delete(employee)
-    db.session.commit()
-
-    flash('You have successfully deleted the employee.', category='success')
-    app.logger.info(f'Employee with ID {employee.id} is deleted')
+    if employee:
+        db.session.delete(employee)
+        db.session.commit()
+        app.logger.info(f'Employee with ID {employee.id} is deleted')
+        flash('You have successfully deleted the employee.', category='success')
 
     return redirect(url_for('user.home_page'))
