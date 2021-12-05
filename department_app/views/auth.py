@@ -143,8 +143,8 @@ def login_page():
                 flash(f'Success! You are logged in as '
                       f'{attempted_employee.first_name} {attempted_employee.last_name}', category='success')
 
-                next = request.args.get('next')
-                print(next)
+                # next = request.args.get('next')
+                # print(next)
                 # is_safe_url should check if the url is safe for redirects.
                 # See http://flask.pocoo.org/snippets/62/ for an example.
                 # if not is_safe_url(next):
