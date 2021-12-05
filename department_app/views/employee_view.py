@@ -123,25 +123,23 @@ def retrieve_employee(id):
     Retrieve the employee from the DB by specified ID
     """
     employee = Employee.query.get_or_404(id)
-
+    app.logger.info(f'Employee with ID {employee.id} has been retrieved')
     return render_template('employees/employee.html', employee=employee)
 
 
-# pylint: disable=invalid-name
-# pylint: disable=redefined-builtin
 @user.route('/employees/assign/<int:id>', methods=['GET', 'POST'])
-# @login_required
+@roles_required(['hr'])
 def assign_employee(id):
     """
-    Assign a department to an employee
+    Handle requests to the /employees/assign/<int:id> route - @roles_required(xxx)
+    Assign a department and salary to an employee specified by ID
     """
     employee_to_assign = Employee.query.get_or_404(id)
     form = EmployeeAssignForm(obj=employee_to_assign)
 
-    if form.validate_on_submit():
+    if request.method == 'POST':
         employee_to_assign.department = form.department.data
         employee_to_assign.salary = form.salary.data
-        # print(employee_to_assign.department, type(employee_to_assign.department))
         db.session.add(employee_to_assign)
         db.session.commit()
         flash('You have successfully assigned an Employee.', category='success')
