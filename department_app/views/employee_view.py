@@ -19,14 +19,6 @@ from flask_user import roles_required
 from . import user
 
 
-ACCESS = {
-    'guest': 0,
-    'employee': 1,
-    'head_of_dep': 2,
-    'hr': 3
-}
-
-
 @user.route('/employees/<int:page>', methods=['GET', 'POST'])
 # @login_required
 @roles_required(['hr', 'head_of_department'])

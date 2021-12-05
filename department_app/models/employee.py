@@ -72,16 +72,8 @@ class Employee(db.Model, UserMixin):
         }
 
     def has_roles(self, *args):
-        # print(type(*args), *args)
-        # allowed_rolse = set(*args)
         for role in self.roles:
-            # print("role ==", role.name, type(role.name))
-            # print("ROLES", role.name)
-            # print(role.name in set(*args))
             return role.name in set(*args)
-
-        # print(set(*args).issubset({role.name for role in self.roles}))
-        # return set(*args).issubset({role.name for role in self.roles})
         # return set(args).issubset({role.name for role in self.roles})
 
     def __repr__(self):
@@ -100,9 +92,8 @@ class Role(db.Model):
     # name = db.Column(db.String(50), unique=True)
     name = db.Column(db.String(50))
 
-    def __init__(self, name, desc):
+    def __init__(self, name):
         self.name = name
-        self.description = desc
 
     def __repr__(self):
         return f'<Role: {self.name}>'
@@ -127,6 +118,7 @@ class UserRoles(db.Model):
 
     def __repr__(self):
         return f'<Role: {self.role_id}>'
+
 
 @login_manager.user_loader
 def load_user(user_id):
