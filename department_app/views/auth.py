@@ -19,12 +19,15 @@ from ..forms.employee import RegisterForm, LoginForm
 
 from . import user
 
+app = create_app()
+
 
 @user.route('/register', methods=['GET', 'POST'])
 def register_page():
     """
     Handle requests to the /register route
-    Add an employee to the database through the registration form
+    Add an employee to the database through the RegisterForm form with the required checks,
+    log the Employee in in case of the successful registration. Otherwise flash errors
     """
     form = RegisterForm()
     if request.method == 'POST':
@@ -70,6 +73,7 @@ def register_page():
             # mail.send(msg)
 
             login_user(employee_to_create)
+            app.logger.info(f'Employee with ID {employee_to_create.id} has been create')
             flash(f'Account has been created successfully! You are now logged in '
                   f'as {employee_to_create.first_name} {employee_to_create.last_name}', category='success')
             return redirect(url_for('user.home_page'))
@@ -125,17 +129,14 @@ def login_page():
         if attempted_employee:
             if check_password_hash(attempted_employee.password_hash, password_hash):
                 login_user(attempted_employee)
-                app = create_app()
                 app.logger.info(f'Employee with ID {attempted_employee.id} has logged in successfully')
                 flash(f'Success! You are logged in as '
                       f'{attempted_employee.first_name} {attempted_employee.last_name}', category='success')
                 return redirect(url_for('user.home_page'))
             else:
-                flash('Incorrect password, please, try again.', category='danger')
+                flash('Email and password do not match! Please try again!', category='danger')
         elif not attempted_employee:
-            flash('This Employee does not exist!', category='danger')
-        else:
-            flash('Email and password are not match! Please try again!', category='danger')
+            flash('I don\'t know employee with such email! :P', category='danger')
 
     return render_template('auth/login.html', form=form)
 
@@ -148,6 +149,7 @@ def logout_page():
     Allow employee to logout moving to home page.
     """
     logout_user()
+    app.logger.info(f'Employee has logged out successfully')
     flash('You have been logged out. See Ya!', category='info')
 
     return redirect(url_for('user.home_page'))
