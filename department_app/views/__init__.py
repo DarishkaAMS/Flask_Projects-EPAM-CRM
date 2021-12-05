@@ -1,8 +1,9 @@
 """
 __init__.py file of views module with
 imported auth, employee_view and department_view submodules
-Register the user blueprint and specify the logic on '/' and '/home' addresses
+Register user blueprint, '/' and '/home' routes
 """
+
 
 # pylint: disable=cyclic-import
 from flask import Blueprint
@@ -22,10 +23,6 @@ from . import department_view
 @user.route('/home')
 def home_page():
     """
-    Render the home page template on the / or /home route
+    Render the home page template on the '/' or '/home' routes
     """
-    if 'user' in session:
-        user = session['user']
-        print(user)
-    # return render_template('home.html', user=user)
     return render_template('home.html')
