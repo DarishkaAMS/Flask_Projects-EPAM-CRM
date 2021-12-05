@@ -14,9 +14,7 @@ user = Blueprint('user', __name__)
 # pylint: disable=import-self
 # pylint: disable=wrong-import-position
 # because the blueprint must be registered before importing the views
-from . import auth
-from . import employee_view
-from . import department_view
+from . import auth, employee_view, department_view
 from .. import create_app
 
 @user.route('/')
