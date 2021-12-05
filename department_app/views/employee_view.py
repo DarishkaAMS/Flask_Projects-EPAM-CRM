@@ -121,7 +121,7 @@ def create_employee():
 def retrieve_employee(id):
     """
     Handle requests to the /employees/employee/<int:id> route - @roles_required(xxx)
-    Retrieve the employee from the DB by specified ID
+    Retrieve the employee with specified ID from the DB
     """
     employee = Employee.query.get_or_404(id)
     app.logger.info(f'Employee with ID {employee.id} has been retrieved')
@@ -133,7 +133,7 @@ def retrieve_employee(id):
 def assign_employee(id):
     """
     Handle requests to the /employees/assign/<int:id> route - @roles_required(xxx)
-    Assign a department and salary to an employee specified by ID
+    Assign a department and salary to an employee with specified ID
     """
     employee_to_assign = Employee.query.get_or_404(id)
     form = EmployeeAssignForm(obj=employee_to_assign)
@@ -154,14 +154,14 @@ def assign_employee(id):
                            employee=employee_to_assign, form=form)
 
 
-# pylint: disable=invalid-name
 @user.route('/employees/employee/<int:id>/update', methods=['GET', 'POST'])
-# @login_required
+@roles_required(['hr', 'head_of_department', 'employee'])
 def update_employee(id):
     """
-    Edit an employee
+    Handle requests to the /employees/employee/<int:id>/update route - @roles_required(xxx)
+    Update an employee with specified ID
     """
-    add_emp = False
+
     employee = Employee.query.get_or_404(id)
     form = EmployeeForm(obj=employee)
 
@@ -170,9 +170,9 @@ def update_employee(id):
         employee.last_name = form.last_name.data
         employee.email_address = form.email_address.data
         employee.date_of_birth = form.date_of_birth.data
-        # print(employee.id, employee.first_name)
         db.session.commit()
-        flash(f'You have successfully edited {employee.first_name} {employee.last_name} Account.',
+        app.logger.info(f'Employee with ID {employee.id} is updated')
+        flash(f'You have successfully updated {employee.first_name} {employee.last_name} Account.',
               category='success')
 
         return redirect(url_for('user.retrieve_employees', page=1))
@@ -183,25 +183,26 @@ def update_employee(id):
         form.email_address.data = employee.email_address
         form.date_of_birth.data = employee.date_of_birth
 
-    return render_template('employees/update_employee.html', title='Update Employee',
-                           form=form, legend='Update Employee')
+    app.logger.info(f'Employee with ID {employee.id} is about to be updated')
+    return render_template('employees/update_employee.html', form=form)
 
 
 # pylint: disable=invalid-name
 @user.route('/employees/employee/<int:id>/delete', methods=['GET', 'POST'])
-# @login_required
+@roles_required(['hr', 'employee'])
 def delete_employee(id):
     """
-    Delete an employee from the database
+    Handle requests to the /employees/employee/<int:id>/delete route - @roles_required(xxx)
+    Delete an employee with specified ID redirecting to the home page.
     """
-    # I DELETE MYSELF!!!!
+
     employee = Employee.query.get_or_404(id)
-    # pylint: disable=no-member
     db.session.delete(employee)
     db.session.commit()
-    flash('You have successfully deleted the employee.', category='success')
 
-    # redirect to the employees page
+    flash('You have successfully deleted the employee.', category='success')
+    app.logger.info(f'Employee with ID {employee.id} is deleted')
+
     return redirect(url_for('user.home_page'))
 
 
