@@ -31,7 +31,7 @@ app = create_app()
 def retrieve_employees(page=1):
     """
     Handle requests to the /employees/<int:page> route - @roles_required(xxx)
-    Retrieve all employee from the DB with the pagination support 
+    Retrieve all employee from the DB ordered by the First Name with the pagination support
     Filter employees based on specified start date and end date
     """
 
@@ -116,10 +116,11 @@ def create_employee():
 
 
 @user.route('/employees/employee/<int:id>', methods=['GET', 'POST'])
-# @login_required
+@roles_required(['hr', 'employee'])
 def retrieve_employee(id):
     """
-    Show employee
+    Handle requests to the /employees/employee/<int:id> route - @roles_required(xxx)
+    Retrieve the employee from the DB by specified ID
     """
     employee = Employee.query.get_or_404(id)
 
