@@ -105,7 +105,8 @@ def create_employee():
             db.session.commit()
 
             app.logger.info(f'Employee with ID {employee_to_create.id} has been created')
-            flash('You have successfully added a new Employee.', category='success')
+            flash(f'You have successfully added a new Employee - '
+                  f'{employee_to_create.first_name} {employee_to_create.last_name}.', category='success')
             return redirect(url_for('user.retrieve_employees', page=1))
 
     if form.errors != {}:
@@ -116,7 +117,7 @@ def create_employee():
 
 
 @user.route('/employees/employee/<int:id>', methods=['GET', 'POST'])
-@roles_required(['employee'])
+@roles_required(['hr', 'head_of_department', 'employee'])
 def retrieve_employee(id):
     """
     Handle requests to the /employees/employee/<int:id> route - @roles_required(xxx)
@@ -142,11 +143,13 @@ def assign_employee(id):
         employee_to_assign.salary = form.salary.data
         db.session.add(employee_to_assign)
         db.session.commit()
-        flash('You have successfully assigned an Employee.', category='success')
+        app.logger.info(f'Employee with ID {employee_to_assign.id} has been assigned')
+        flash(f'You have successfully assigned an {employee_to_assign.first_name} {employee_to_assign.last_name}.',
+              category='success')
 
-        # redirect to the employees page
         return redirect(url_for('user.retrieve_employees', page=1))
 
+    app.logger.info(f'Employee with ID {employee_to_assign.id} is about to be assigned')
     return render_template('employees/assign_employee.html',
                            employee=employee_to_assign, form=form)
 
