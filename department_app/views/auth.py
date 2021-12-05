@@ -77,7 +77,7 @@ def register_page():
             # mail.send(msg)
 
             login_user(employee_to_create)
-            app.logger.info(f'Employee with ID {employee_to_create.id} has been create')
+            app.logger.info(f'Employee with ID {employee_to_create.id} has been created')
             flash(f'Account has been created successfully! You are now logged in '
                   f'as {employee_to_create.first_name} {employee_to_create.last_name}', category='success')
             return redirect(url_for('user.home_page'))

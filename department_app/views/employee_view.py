@@ -17,7 +17,7 @@ from functools import wraps
 from flask import url_for, request, redirect, session
 # pylint: disable=relative-beyond-top-level
 from .. import create_app, db
-from ..models.employee import Employee
+from ..models.employee import Employee, Role
 from ..forms.employee import EmployeeAssignForm, EmployeeForm, EmployeeDateInfoForm, RegisterForm
 from flask_user import roles_required
 
@@ -30,7 +30,7 @@ app = create_app()
 @roles_required(['hr', 'head_of_department', 'employee'])
 def retrieve_employees(page=1):
     """
-    Handle requests to the /employees/<int:page> route - @roles_required(['hr', 'head_of_department'])
+    Handle requests to the /employees/<int:page> route - @roles_required(xxx)
     Retrieve all employee from the DB with the pagination support 
     Filter employees based on specified start date and end date
     """
@@ -65,40 +65,53 @@ def retrieve_employees(page=1):
 
 
 @user.route('/employees/create', methods=['GET', 'POST'])
-# @login_required
+@roles_required(['hr'])
 def create_employee():
     """
-    Add an employee to the database
+    Handle requests to the /employees/create route - @roles_required(xxx)
+    Add an employee to the DB using RegisterForm and required checks
+    Redirect to employees page after successful employee creation
     """
     add_employee = True
-    form = RegisterForm()
 
+    form = RegisterForm()
     if request.method == 'POST':
-        if form.validate_on_submit():
-            roles = form.roles.data
-            employee_to_add = Employee(
-                first_name=form.first_name.data,
-                last_name=form.last_name.data,
-                email_address=form.email_address.data,
-                roles=roles,
-                # department_id=department_id,
-                # access_level=form.access_level,
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        email_address = form.email_address.data
+        role = form.role.data
+        date_of_birth = form.date_of_birth.data
+        password_hash = form.password_hash.data
+        confirm_password = form.confirm_password.data
+
+        if len(password_hash) < 6:
+            flash('Password must be at least 6 characters.', category='danger')
+        elif password_hash != confirm_password:
+            flash('Passwords don\'t match.', category='danger')
+        elif Employee.query.filter_by(email_address=email_address).first():
+            flash('I have already registered an Employee with such email', category='danger')
+        elif not role:
+            flash('We won\'t go any further unless you specify Employee role', category='danger')
+        else:
+            employee_to_create = Employee(
+                first_name=first_name,
+                last_name=last_name,
+                email_address=email_address,
+                date_of_birth=date_of_birth,
                 password_hash=generate_password_hash(form.password_hash.data, method='sha256'),
             )
-            try:
-                # pylint: disable=no-member
-                # add employee to the database
-                db.session.add(employee_to_add)
-                db.session.commit()
-                flash('You have successfully added a new Employee.', category='success')
-            # pylint: disable=bare-except
-            except:
-                flash('Something went wrong when creating a new Employee.', category='danger')
+            employee_to_create.roles.append(Role(name=role))
+            db.session.add(employee_to_create)
+            db.session.commit()
 
-            # redirect to employee page
+            app.logger.info(f'Employee with ID {employee_to_create.id} has been created')
+            flash('You have successfully added a new Employee.', category='success')
             return redirect(url_for('user.retrieve_employees', page=1))
 
-    # load employee template
+    if form.errors != {}:
+        for err_msg in form.errors.values():
+            flash(f'There was an error with creating a user: {err_msg}', category='danger')
+
     return render_template('auth/register.html', form=form, add_employee=add_employee)
 
 
