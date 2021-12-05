@@ -1,5 +1,5 @@
 """
-This module consists of the:
+File of Department forms module for storing web form classes:
  - DepartmentForm to add or edit a department
  - DepartmentUpdateForm to assign departments and sales to employees
 """

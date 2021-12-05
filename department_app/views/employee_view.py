@@ -1,5 +1,11 @@
 """
-This module represents the logic on routes starting with /employees
+This module represents the logic on routes starting with:
+ - /employees/<int:page>
+ - /employees/create
+ - /employees/employee/<int:id>
+ - /employees/assign/<int:id>
+ - /employees/employee/<int:id>/update
+ - /employees/employee/<int:id>/delete
 """
 
 # pylint: disable=cyclic-import
@@ -12,15 +18,13 @@ from flask import url_for, request, redirect, session
 # pylint: disable=relative-beyond-top-level
 from .. import db
 from ..models.employee import Employee
-from ..forms.employee import EmployeeAssignForm, EmployeeForm, RegisterForm, EmployeeDateInfoForm
-# from .access import requires_access_level
+from ..forms.employee import EmployeeAssignForm, EmployeeForm, EmployeeDateInfoForm, RegisterForm
 from flask_user import roles_required
 
 from . import user
 
 
 @user.route('/employees/<int:page>', methods=['GET', 'POST'])
-# @login_required
 @roles_required(['hr', 'head_of_department'])
 def retrieve_employees(page=1):
     """

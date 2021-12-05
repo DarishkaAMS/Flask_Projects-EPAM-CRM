@@ -1,6 +1,12 @@
 """
-form.py file of forms module for storing web form classes
+File of Employee forms module for storing web form classes:
+ - RegisterForm for employees to create a new account
+ - LoginForm for employees to login
+ - EmployeeForm to add or edit an employee
+ - EmployeeAssignForm to assign departments and sales to employees
+ - EmployeeDateInfoForm to get filter start and end date params
 """
+
 from flask_wtf import FlaskForm
 from wtforms import DateField, IntegerField, PasswordField, StringField, SubmitField, ValidationError
 from wtforms_sqlalchemy.fields import QuerySelectField
@@ -13,7 +19,7 @@ from ..models.department import Department
 
 class RegisterForm(FlaskForm):
     """
-    Form for employees to create new account
+    Form for employees to create a new account
     """
     first_name = StringField(label='First Name*:', validators=[Length(min=2, max=30), DataRequired()])
     last_name = StringField(label='Last Name*:', validators=[Length(min=2, max=30), DataRequired()])
@@ -67,7 +73,7 @@ class EmployeeAssignForm(FlaskForm):
 
 class EmployeeDateInfoForm(FlaskForm):
     """
-    Form to assign departments and sales to employees
+    Form to get filter start and end date params
     """
     start_date = DateField(label='Start Date', format='%Y-%m-%d', validators=[DataRequired()])
     end_date = DateField(label='End Date', format='%Y-%m-%d', validators=[DataRequired()])
