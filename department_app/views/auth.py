@@ -10,6 +10,7 @@ from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from flask_user import roles_required
+import logging
 
 # pylint: disable=relative-beyond-top-level
 from .. import create_app, db
@@ -140,6 +141,8 @@ def login_page():
         if attempted_employee:
             if check_password_hash(attempted_employee.password_hash, password_hash):
                 login_user(attempted_employee)
+                app = create_app()
+                app.logger.info(f'Employee with ID {attempted_employee.id} has logged in successfully')
                 flash(f'Success! You are logged in as '
                       f'{attempted_employee.first_name} {attempted_employee.last_name}', category='success')
 
