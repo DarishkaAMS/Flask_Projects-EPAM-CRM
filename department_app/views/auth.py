@@ -86,7 +86,7 @@ def register_page():
             flash(f'Account has been created successfully! You are now logged in '
                   f'as {employee_to_create.first_name} {employee_to_create.last_name}', category='success')
 
-            print("employee_to_create.roles", employee_to_create.roles)
+            # print("employee_to_create.roles", employee_to_create.roles)
             return redirect(url_for('user.home_page'))
 
             if form.errors != {}:
@@ -96,7 +96,7 @@ def register_page():
     return render_template('auth/register.html', form=form)
 
 
-@user.route('/confirm/<token>')
+# @user.route('/confirm/<token>')
 # @login_required
 # def confirm_email(token):
 #     try:
@@ -142,6 +142,13 @@ def login_page():
                 login_user(attempted_employee)
                 flash(f'Success! You are logged in as '
                       f'{attempted_employee.first_name} {attempted_employee.last_name}', category='success')
+
+                # next = flask.request.args.get('next')
+                # is_safe_url should check if the url is safe for redirects.
+                # See http://flask.pocoo.org/snippets/62/ for an example.
+                # if not is_safe_url(next):
+                #     return flask.abort(400)
+
                 return redirect(url_for('user.home_page'))
             else:
                 flash('Incorrect password, please, try again.', category='danger')
@@ -156,7 +163,7 @@ def login_page():
 
 
 @user.route('/logout')
-# @login_required
+@login_required
 def logout_page():
     """
     Handle requests to the /logout route

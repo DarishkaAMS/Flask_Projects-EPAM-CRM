@@ -6,7 +6,7 @@ Register the user blueprint and specify the logic on '/' and '/home' addresses
 
 # pylint: disable=cyclic-import
 from flask import Blueprint
-from flask import render_template
+from flask import render_template, session, g
 
 user = Blueprint('user', __name__)
 
@@ -24,4 +24,14 @@ def home_page():
     """
     Render the home page template on the / or /home route
     """
+    # from ..models.employee import Employee
+    # user = Employee.find_by_email(session['email'])
+    # print('session', session.current, type(session))
+
+    # print(g.user)
+
+    if 'user' in session:
+        user = session['user']
+        print(user)
+    # return render_template('home.html', user=user)
     return render_template('home.html')
