@@ -1,5 +1,5 @@
 """
-This module represents the logic on routes starting with:
+This module represents the logic on employees routes starting with:
  - /employees/<int:page>
  - /employees/create
  - /employees/employee/<int:id>

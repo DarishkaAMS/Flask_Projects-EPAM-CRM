@@ -1,5 +1,10 @@
 """
-This module represents the logic on routes starting with /departments
+This module represents the logic on department routes starting with:
+    - /departments
+    - /departments/create
+    - /departments/department/<int:id>
+    - /departments/department/<int:id>/update
+    - /departments/department/<int:id>/delete
 """
 
 # pylint: disable=cyclic-import
@@ -17,11 +22,11 @@ from . import user
 
 
 @user.route('/departments', methods=['GET', 'POST'])
-# @login_required
-@roles_required(['hr'])
+@roles_required(['hr', 'head_of_department'])
 def retrieve_departments():
     """
-    Show all departments
+    Handle requests to the /departments route - @roles_required(xxx)
+    Retrieve all departments from the DB ordered by the Name
     """
     departments = Department.query.order_by(Department.name).all()
 
@@ -111,20 +116,3 @@ def delete_department(id):
         flash(f'You have successfully deleted the {department.name} department.', category='success')
 
     return redirect(url_for('user.retrieve_departments'))
-
-
-# def get_average_salary(department):
-#     """
-#     Get an average salary of all employees in department
-#     :return: the average salary of all employees in department
-#     """
-#     employees = Employee.query.filter_by(department_id=department['id']).all()
-#     average_salary = 0
-#
-#     for employee in employees:
-#         average_salary += employee.salary
-#
-#     if len(employees) > 0:
-#         average_salary /= len(employees)
-#
-#     return round(average_salary, 2)
