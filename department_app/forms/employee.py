@@ -18,6 +18,7 @@ class RegisterForm(FlaskForm):
     first_name = StringField(label='First Name*:', validators=[Length(min=2, max=30), DataRequired()])
     last_name = StringField(label='Last Name*:', validators=[Length(min=2, max=30), DataRequired()])
     email_address = StringField(label='Email Address*:', validators=[Email(), DataRequired()])
+    role = StringField(label='Role*:', validators=[DataRequired()])
     date_of_birth = DateField(label='Date of Birth:', format='%Y-%m-%d')
     password_hash = PasswordField(label='Password*', validators=[Length(min=6), DataRequired()])
     confirm_password = PasswordField(label='Confirm Password*', validators=[

@@ -3,9 +3,8 @@ This module represents the logic on routes starting with /register, /login and /
 """
 # pylint: disable=cyclic-import
 # pylint: disable=import-error
-import datetime
-from flask import render_template, redirect, url_for, flash, request, session
-from flask_login import login_user, logout_user, login_required
+from flask import flash, redirect, render_template, request, url_for
+from flask_login import login_user, login_required, logout_user
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
@@ -16,7 +15,7 @@ import logging
 from .. import create_app, db
 from ..models.employee import Employee, Role
 from ..forms.employee import RegisterForm, LoginForm
-from ..token import confirm_token, generate_confirmation_token
+# from ..token import confirm_token, generate_confirmation_token
 
 from . import user
 
@@ -32,33 +31,24 @@ def register_page():
         first_name = form.first_name.data
         last_name = form.last_name.data
         email_address = form.email_address.data
-        # access_level = form.access_level.data
-        role = form.roles.data
+        role = form.role.data
         date_of_birth = form.date_of_birth.data
         password_hash = form.password_hash.data
         confirm_password = form.confirm_password.data
-        confirmed = False
 
         if len(password_hash) < 6:
             flash('Password must be at least 6 characters.', category='danger')
         elif password_hash != confirm_password:
             flash('Passwords don\'t match.', category='danger')
-            # IF EMAIL IS ALREADY Exist
         elif Employee.query.filter_by(email_address=email_address).first():
             flash('I have already registered an Employee with such email', category='danger')
-
-        # elif access_level == "3" and Employee.query.filter_by(department_id=3).first():
-        #     flash('Only 1 HR Manager can have access to this CRM SysTem', category='danger')
-
+        elif not role:
+            flash('We won\'t go any further unless you specify Employee role', category='danger')
         else:
-            # department_id = 1 if access_level == "3" else None
-            # try
             employee_to_create = Employee(
                 first_name=first_name,
                 last_name=last_name,
                 email_address=email_address,
-                # department_id=department_id,
-                # roles=roles,
                 date_of_birth=date_of_birth,
                 password_hash=generate_password_hash(form.password_hash.data, method='sha256'),
             )
@@ -84,9 +74,9 @@ def register_page():
                   f'as {employee_to_create.first_name} {employee_to_create.last_name}', category='success')
             return redirect(url_for('user.home_page'))
 
-            if form.errors != {}:
-                for err_msg in form.errors.values():
-                    flash(f'There was an error with creating a user: {err_msg}', category='danger')
+    if form.errors != {}:
+        for err_msg in form.errors.values():
+            flash(f'There was an error with creating a user: {err_msg}', category='danger')
 
     return render_template('auth/register.html', form=form)
 
@@ -142,10 +132,8 @@ def login_page():
                 return redirect(url_for('user.home_page'))
             else:
                 flash('Incorrect password, please, try again.', category='danger')
-
         elif not attempted_employee:
             flash('This Employee does not exist!', category='danger')
-
         else:
             flash('Email and password are not match! Please try again!', category='danger')
 

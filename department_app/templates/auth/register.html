@@ -25,11 +25,11 @@ Registration Page
         {{ form.email_address(class="form-control", placeholder="Email Address") }}
 
         <div class="form-group">
-            {{ form.roles.label() }}
+            {{ form.role.label() }}
             <br>
-            <input type="radio" name="roles" value="employee"/> Employee
-            <input type="radio" name="roles" value="head_of_department"/> Head of Department
-            <input type="radio" name="roles" value="hr"/> HR
+            <input type="radio" name="role" value="employee"/> Employee
+            <input type="radio" name="role" value="head_of_department"/> Head of Department
+            <input type="radio" name="role" value="hr"/> HR
         </div>
         {{ form.date_of_birth.label() }}
         {{ form.date_of_birth(class="form-control", type="date", max="2003-01-01", placeholder="Date of Birth") }}

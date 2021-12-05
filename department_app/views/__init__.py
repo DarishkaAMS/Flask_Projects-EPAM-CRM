@@ -17,7 +17,7 @@ user = Blueprint('user', __name__)
 from . import auth
 from . import employee_view
 from . import department_view
-
+from .. import create_app
 
 @user.route('/')
 @user.route('/home')
@@ -25,4 +25,6 @@ def home_page():
     """
     Render the home page template on the '/' or '/home' routes
     """
+    app = create_app()
+    app.logger.info(f'User visited homepage')
     return render_template('home.html')
