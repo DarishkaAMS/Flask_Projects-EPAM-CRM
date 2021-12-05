@@ -7,6 +7,11 @@ from .views import user
 ########################
 
 
+@user.errorhandler(401)
+def forbidden_page(error):
+    return render_template("errors/401.html"), 401
+
+
 @user.errorhandler(403)
 def forbidden_page(error):
     return render_template("errors/403.html"), 403

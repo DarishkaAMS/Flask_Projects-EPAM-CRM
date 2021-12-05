@@ -24,12 +24,6 @@ def home_page():
     """
     Render the home page template on the / or /home route
     """
-    # from ..models.employee import Employee
-    # user = Employee.find_by_email(session['email'])
-    # print('session', session.current, type(session))
-
-    # print(g.user)
-
     if 'user' in session:
         user = session['user']
         print(user)

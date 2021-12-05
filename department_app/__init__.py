@@ -13,7 +13,6 @@ from flask_user import login_required, SQLAlchemyAdapter, UserManager, UserMixin
 from config import Config
 
 
-
 db = SQLAlchemy()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
@@ -54,6 +53,7 @@ def create_app():
     from .rest import employee_api, department_api
 
     from .errors import forbidden_page, page_not_found, server_error_page
+    app.register_error_handler(401, forbidden_page)
     app.register_error_handler(403, forbidden_page)
     app.register_error_handler(404, page_not_found)
     app.register_error_handler(500, server_error_page)
