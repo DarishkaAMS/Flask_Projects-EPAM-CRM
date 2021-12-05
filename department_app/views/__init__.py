@@ -1,7 +1,7 @@
 """
-__init__.py file of views module with
-imported auth, employee_view and department_view submodules
-Register user blueprint, '/' and '/home' routes
+__init__.py file of views module with imported auth, employee_view and department_view submodules
+Register user blueprint
+Represent the logic on '/' and '/home' routes
 """
 
 
