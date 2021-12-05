@@ -31,7 +31,7 @@ def register_page():
     form = RegisterForm()
     # if form.validate_on_submit():
     if request.method == 'POST':
-        # form = RegisterForm()
+
         first_name = form.first_name.data
         last_name = form.last_name.data
         email_address = form.email_address.data

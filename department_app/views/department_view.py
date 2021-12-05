@@ -18,7 +18,7 @@ from . import user
 
 @user.route('/departments', methods=['GET', 'POST'])
 # @login_required
-@roles_required('hrd')
+@roles_required('hr')
 def retrieve_departments():
     """
     Show all departments

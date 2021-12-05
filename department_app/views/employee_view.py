@@ -29,7 +29,7 @@ ACCESS = {
 
 @user.route('/employees/<int:page>', methods=['GET', 'POST'])
 # @login_required
-@roles_required('hr')
+@roles_required(['hr', 'head_of_department'])
 def retrieve_employees(page=1):
     """
     Show all employees
