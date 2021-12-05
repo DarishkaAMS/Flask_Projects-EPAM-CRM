@@ -41,10 +41,9 @@ def create_app():
     db_adapter = SQLAlchemyAdapter(db,  Employee)
     user_manager = UserManager(db_adapter, app)
 
-    # print(login_manager.user_manager, "login_manager")
-
     mail = Mail(app)
     # mail.init_app(app)
+
     migrate.init_app(app, db)
 
     #ADD DEPARTMENT

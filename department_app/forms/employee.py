@@ -3,7 +3,6 @@ form.py file of forms module for storing web form classes
 """
 from flask_wtf import FlaskForm
 from wtforms import DateField, IntegerField, PasswordField, StringField, SubmitField, ValidationError
-# from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
@@ -14,16 +13,12 @@ from ..models.department import Department
 
 class RegisterForm(FlaskForm):
     """
-    Form for users to create new account
+    Form for employees to create new account
     """
     first_name = StringField(label='First Name*:', validators=[Length(min=2, max=30), DataRequired()])
     last_name = StringField(label='Last Name*:', validators=[Length(min=2, max=30), DataRequired()])
     email_address = StringField(label='Email Address*:', validators=[Email(), DataRequired()])
-    # access_level = StringField(label='Access Level*:', validators=[DataRequired()])
-    roles = StringField(label='Access Level*:', validators=[DataRequired()])
     date_of_birth = DateField(label='Date of Birth:', format='%Y-%m-%d')
-    # department = StringField(label='Department')
-    # salary = IntegerField(label='Salary')
     password_hash = PasswordField(label='Password*', validators=[Length(min=6), DataRequired()])
     confirm_password = PasswordField(label='Confirm Password*', validators=[
         EqualTo('password'),
@@ -40,10 +35,9 @@ class RegisterForm(FlaskForm):
             raise ValidationError('Hmm... I have already seen this e-mail address. Please try some other one')
 
 
-# Do We Need this?
 class LoginForm(FlaskForm):
     """
-    Form for users to login
+    Form for employees to login
     """
     email_address = StringField(label='Email:', validators=[DataRequired(), Email()])
     password_hash = PasswordField(label='Password:', validators=[DataRequired()])

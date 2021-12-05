@@ -22,17 +22,13 @@ from . import user
 
 
 @user.route('/register', methods=['GET', 'POST'])
-# @roles_required('hr')
 def register_page():
     """
     Handle requests to the /register route
     Add an employee to the database through the registration form
     """
-
     form = RegisterForm()
-    # if form.validate_on_submit():
     if request.method == 'POST':
-
         first_name = form.first_name.data
         last_name = form.last_name.data
         email_address = form.email_address.data
@@ -86,8 +82,6 @@ def register_page():
             login_user(employee_to_create)
             flash(f'Account has been created successfully! You are now logged in '
                   f'as {employee_to_create.first_name} {employee_to_create.last_name}', category='success')
-
-            # print("employee_to_create.roles", employee_to_create.roles)
             return redirect(url_for('user.home_page'))
 
             if form.errors != {}:
@@ -145,14 +139,6 @@ def login_page():
                 app.logger.info(f'Employee with ID {attempted_employee.id} has logged in successfully')
                 flash(f'Success! You are logged in as '
                       f'{attempted_employee.first_name} {attempted_employee.last_name}', category='success')
-
-                # next = request.args.get('next')
-                # print(next)
-                # is_safe_url should check if the url is safe for redirects.
-                # See http://flask.pocoo.org/snippets/62/ for an example.
-                # if not is_safe_url(next):
-                #     return flask.abort(400)
-
                 return redirect(url_for('user.home_page'))
             else:
                 flash('Incorrect password, please, try again.', category='danger')

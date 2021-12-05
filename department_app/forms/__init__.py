@@ -1,5 +1,5 @@
 """
-__init__.py file of models module with
+__init__.py file of forms module with
 imported employee and department submodules
 """
 

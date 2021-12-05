@@ -1,10 +1,14 @@
 """
-This module consists of the class Employee to work with `employees` table
+This module consists of the:
+ - Employee class to work with the `employees` table
+ - Role class to work with the `roles` table
+ - UserRoles class to work with the `employees_roles` table
+ - load_user function to return Employee by the specified employee_id
 """
-from datetime import date
+
 from flask_login import UserMixin
 
-from .. import bcrypt, db, login_manager
+from .. import db, login_manager
 from .department import Department
 
 ACCESS = {
@@ -17,18 +21,14 @@ ACCESS = {
 
 class Employee(db.Model, UserMixin):
     """
-    Create an Employee instance
+    Define the Employee data model
     """
-
     __tablename__ = 'employees'
 
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(25), nullable=False)
     last_name = db.Column(db.String(25), nullable=False)
     email_address = db.Column(db.String(50), nullable=False, unique=True)
-    # access_level = db.Column(db.Integer)
-    access_level = db.Column(db.String)
-    # confirmed = False
     date_of_birth = db.Column(db.Date)
     salary = db.Column(db.Integer, default=1)
     password_hash = db.Column(db.String(length=150), nullable=False)
@@ -37,15 +37,12 @@ class Employee(db.Model, UserMixin):
                             backref=db.backref('users', lazy='dynamic'))
 
     def __init__(self, first_name, last_name, email_address, date_of_birth, password_hash,
-                 salary=None, confirmed=False, department_id=None):
+                 salary=1, department_id=None):
         self.first_name = first_name
         self.last_name = last_name
         self.email_address = email_address
-        # self.access_level = access_level
-        self.confirmed = confirmed
         self.date_of_birth = date_of_birth
         self.salary = salary
-        # self.roles = roles
         self.password_hash = password_hash
         self.department_id = department_id
 
@@ -84,17 +81,16 @@ class Employee(db.Model, UserMixin):
         return f"{self.first_name} {self.last_name}"
 
 
-# Define the Role data model
 class Role(db.Model):
-    # __tablename__ = 'roles'
+    """
+    Define the Role data model
+    """
+    __tablename__ = 'role'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50))
 
     def __init__(self, name):
         self.name = name
-
-    def __repr__(self):
-        return f'<Role: {self.name}>'
 
     def __eq__(self, other):
         return (self.name == other or
@@ -106,23 +102,37 @@ class Role(db.Model):
     def __hash__(self):
         return hash(self.name)
 
+    def __repr__(self):
+        """
+        Representation of the Role
+        :return: a string representing the role by its name
+        """
+        return f'<Role: {self.name}>'
 
-# Define the UserRoles data model
+
 class UserRoles(db.Model):
+    """
+    Define the UserRoles data model
+    """
     __tablename__ = 'employees_roles'
+
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column(db.Integer(), db.ForeignKey('employees.id', ondelete='CASCADE'))
     role_id = db.Column(db.Integer(), db.ForeignKey('role.id', ondelete='CASCADE'))
 
     def __repr__(self):
+        """
+        Representation of the UserRoles
+        :return: a string representing the user role by User/Employee ID
+        """
         return f'<Role: {self.role_id}>'
 
 
 @login_manager.user_loader
-def load_user(user_id):
+def load_user(employee_id):
     """
     Load User
-    :param user_id:
-    :return:
+    :param employee_id:
+    :return Employee by the specified employee_id:
     """
-    return Employee.query.get(int(user_id))
+    return Employee.query.get(int(employee_id))

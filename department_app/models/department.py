@@ -1,5 +1,6 @@
 """
-This module consists of the class Department to work with `departments` table
+This module consists of the:
+ - Department class to work with the `departments` table
 """
 
 from .. import db
@@ -7,7 +8,7 @@ from .. import db
 
 class Department(db.Model):
     """
-    Create a Department instance
+    Define the Department data model
     """
 
     __tablename__ = 'departments'
