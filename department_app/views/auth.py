@@ -118,7 +118,7 @@ def register_page():
 def login_page():
     """
     Handle requests to the /login route
-    Add an employee to the database through the login form
+    Log an employee in through the LoginForm form with the required checks
     """
     form = LoginForm()
     if form.validate_on_submit():
