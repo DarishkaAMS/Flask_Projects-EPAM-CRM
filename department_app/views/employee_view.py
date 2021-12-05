@@ -16,19 +16,23 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from flask import url_for, request, redirect, session
 # pylint: disable=relative-beyond-top-level
-from .. import db
+from .. import create_app, db
 from ..models.employee import Employee
 from ..forms.employee import EmployeeAssignForm, EmployeeForm, EmployeeDateInfoForm, RegisterForm
 from flask_user import roles_required
 
 from . import user
 
+app = create_app()
+
 
 @user.route('/employees/<int:page>', methods=['GET', 'POST'])
-@roles_required(['hr', 'head_of_department'])
+@roles_required(['hr', 'head_of_department', 'employee'])
 def retrieve_employees(page=1):
     """
-    Show all employees
+    Handle requests to the /employees/<int:page> route - @roles_required(['hr', 'head_of_department'])
+    Retrieve all employee from the DB with the pagination support 
+    Filter employees based on specified start date and end date
     """
 
     employees_per_page = 7
@@ -39,23 +43,25 @@ def retrieve_employees(page=1):
 
         start_date = form.start_date.data
         end_date = form.end_date.data
-
         filtered_employees = Employee.query.filter(Employee.date_of_birth <= end_date).\
             filter(start_date <= Employee.date_of_birth).paginate(page, employees_per_page, error_out=False)
 
         if not filtered_employees.items:
+            app.logger.info(f'Employee unsuccessfully filtered employees with {start_date} and {end_date}')
             flash('I can\'t find anyone within specified range. Please try again', category='danger')
 
+        app.logger.info(f'Employee successfully filtered employees with {start_date} and {end_date}')
         return render_template('employees/employees.html', employees=filtered_employees, form=form)
 
+    app.logger.info(f'User visited employees/employees page')
     return render_template('employees/employees.html', employees=employees, form=form)
 
-
-@user.route('/date', methods=['GET', 'POST'])
-def date():
-    start_date = session['start_date']
-    end_date = session['end_date']
-    return render_template('employees/date.html')
+#
+# @user.route('/date', methods=['GET', 'POST'])
+# def date():
+#     start_date = session['start_date']
+#     end_date = session['end_date']
+#     return render_template('employees/date.html')
 
 
 @user.route('/employees/create', methods=['GET', 'POST'])
@@ -69,8 +75,6 @@ def create_employee():
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            # access_level = form.access_level.data
-            # department_id = 1 if access_level == "3" else None
             roles = form.roles.data
             employee_to_add = Employee(
                 first_name=form.first_name.data,

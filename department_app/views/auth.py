@@ -1,6 +1,10 @@
 """
-This module represents the logic on routes starting with /register, /login and /logout
+This module represents the logic on routes starting with:
+ - /register
+ - /login
+ - /logout
 """
+
 # pylint: disable=cyclic-import
 # pylint: disable=import-error
 from flask import flash, redirect, render_template, request, url_for
