@@ -145,8 +145,8 @@ def login_page():
 @login_required
 def logout_page():
     """
-    Handle requests to the /logout route
-    Allow employee to logout moving to home page.
+    Handle requests to the /logout route - @login_required
+    Allow employee to logout redirecting to the home page.
     """
     logout_user()
     app.logger.info(f'Employee has logged out successfully')
