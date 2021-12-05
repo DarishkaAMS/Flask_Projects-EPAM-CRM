@@ -35,7 +35,6 @@ class Employee(db.Model, UserMixin):
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
     roles = db.relationship('Role', secondary='employees_roles',
                             backref=db.backref('users', lazy='dynamic'))
-    # employees = db.relationship('Employee', backref='department', lazy='dynamic')
 
     def __init__(self, first_name, last_name, email_address, date_of_birth, password_hash,
                  salary=None, confirmed=False, department_id=None):
@@ -89,7 +88,6 @@ class Employee(db.Model, UserMixin):
 class Role(db.Model):
     # __tablename__ = 'roles'
     id = db.Column(db.Integer(), primary_key=True)
-    # name = db.Column(db.String(50), unique=True)
     name = db.Column(db.String(50))
 
     def __init__(self, name):
