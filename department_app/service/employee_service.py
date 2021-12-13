@@ -36,9 +36,9 @@ def add_employee(first_name, last_name, email_address, department_id, date_of_bi
         first_name=first_name,
         last_name=last_name,
         email_address=email_address,
-        department_id=department_id,
+        # department_id=department_id,
         date_of_birth=date_of_birth,
-        salary=salary,
+        # salary=salary,
         password=password,
     )
 

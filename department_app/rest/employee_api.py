@@ -30,12 +30,18 @@ class EmployeeListApi(Resource):
                     end_date=args['end_date']
                 ))
             # display employees who was born in a specified date
-            elif len(args) == 1:
-                return jsonify(employee_service.get_employees_born_on(date=args['date']))
+            # elif len(args) == 1:
+            #     return jsonify(employee_service.get_employees_born_on(date=args['date']))
         except ValueError:
             return {'message': 'This date looks fishy'}, 400
         # display all employees
         return jsonify(employee_service.get_all_employees())
+
+
+class Employee(Resource):
+    """
+    Class for Employee Resource available at /employees/<id> url
+    """
 
     @staticmethod
     def post():
@@ -49,7 +55,10 @@ class EmployeeListApi(Resource):
             return {'message': 'Wrong data'}, 400
         elif employee_json['first_name'] == '' or \
                 employee_json['last_name'] == '' or \
-                employee_json['salary'] == '' or \
+                employee_json['email_address'] == '' or \
+                employee_json['role'] == '' or \
+                employee_json['role'] == '' or \
+                employee_json['role'] == '' or \
                 employee_json['date_of_birth'] == '':
             return {'message': 'Wrong data'}, 400
         try:
@@ -57,20 +66,14 @@ class EmployeeListApi(Resource):
                 first_name=employee_json['first_name'],
                 last_name=employee_json['last_name'],
                 email_address=employee_json['email_address'],
-                department_id=employee_json['department_id'],
+                # department_id=employee_json['department_id'],
                 date_of_birth=employee_json['date_of_birth'],
-                salary=employee_json['salary'],
+                # salary=employee_json['salary'],
                 password=employee_json['password'],
             )
         except KeyError:
             return {'message': 'Data looks wrong'}, 400
         return 'Employee account is created successfully!', 201
-
-
-class Employee(Resource):
-    """
-    Class for Employee Resource available at /employees/<id> url
-    """
 
     @staticmethod
     def get(id):
@@ -95,9 +98,9 @@ class Employee(Resource):
                 first_name=employee_json['first_name'],
                 last_name=employee_json['last_name'],
                 email_address=employee_json['email_address'],
-                department_id=employee_json['department_id'],
+                # department_id=employee_json['department_id'],
                 date_of_birth=employee_json['date_of_birth'],
-                salary=employee_json['salary'],
+                # salary=employee_json['salary'],
             )
         except KeyError:
             return {'message': 'Check your key'}, 400
@@ -117,8 +120,8 @@ class Employee(Resource):
                 email=employee_json.get('email'),
                 first_name=employee_json.get('first_name'),
                 last_name=employee_json.get('last_name'),
-                department_id=employee_json.get('department_id'),
-                salary=employee_json.get('salary'),
+                # department_id=employee_json.get('department_id'),
+                # salary=employee_json.get('salary'),
                 date_of_birth=employee_json.get('date_of_birth')
             )
         except KeyError:
