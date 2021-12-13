@@ -57,8 +57,6 @@ class Employee(Resource):
                 employee_json['last_name'] == '' or \
                 employee_json['email_address'] == '' or \
                 employee_json['role'] == '' or \
-                employee_json['role'] == '' or \
-                employee_json['role'] == '' or \
                 employee_json['date_of_birth'] == '':
             return {'message': 'Wrong data'}, 400
         try:
