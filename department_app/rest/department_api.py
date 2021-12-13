@@ -21,6 +21,12 @@ class DepartmentListApi(Resource):
         """
         return jsonify(department_service.get_all_departments())
 
+
+class Department(Resource):
+    """
+    Class for Department Resource available at '/api/departments/<id>' url
+    """
+
     @staticmethod
     def post():
         """
@@ -36,17 +42,12 @@ class DepartmentListApi(Resource):
         try:
             department_service.add_department(
                 name=department_json['name'],
-                head=department_json['head']
+                code=department_json['code']
             )
         except KeyError:
             return {'message': 'Something is wrong with the data'}, 400
         return 'Department is created successfully! ', 201
 
-
-class Department(Resource):
-    """
-    Class for Department Resource available at '/api/departments/<id>' url
-    """
     @staticmethod
     def get(id):
         """
@@ -68,7 +69,7 @@ class Department(Resource):
             department_service.update_department(
                 id,
                 name=department_json['name'],
-                head=department_json['head']
+                code=department_json['code']
             )
         except KeyError:
             return {'message': 'Wrong data'}, 400
@@ -85,7 +86,7 @@ class Department(Resource):
             department_service.update_department_patch(
                 id,
                 name=department_json.get('name'),
-                description=department_json.get('description')
+                code=department_json.get('code')
             )
         except KeyError:
             return {'message': 'Wrong data'}, 400

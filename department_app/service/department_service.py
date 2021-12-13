@@ -17,45 +17,45 @@ def get_all_departments():
     return [department.to_dict() for department in departments]
 
 
-def add_department(name, head):
+def add_department(name, code):
     """
     Add a new Department to the departments table
     :param name: the Department's name
-    :param head: the Department's head
+    :param code: the Department's code
     """
-    department = Department(name=name, head=head)
+    department = Department(name=name, code=code)
 
     db.session.add(department)
     db.session.commit()
 
 
-def update_department(id, name, head):
+def update_department(id, name, code):
     """
     Update an existing Department by id
     :param id: id of updating Department
     :param name: the Department's name
-    :param head: the Department's head
+    :param code: the Department's code
     """
     department = Department.query.get_or_404(id)
     department.name = name
-    department.head = head
+    department.code = code
 
     db.session.add(department)
     db.session.commit()
 
 
-def update_department_patch(id, name, head):
+def update_department_patch(id, name, code):
     """
     Update an existing department without overwriting the unspecified elements with null
     :param id: id of updating Department
     :param name: the Department's name
-    :param head: the Department's head
+    :param code: the Department's code
     """
     department = Department.query.get_or_404(id)
     if name:
         department.name = name
-    elif head:
-        department.description = head
+    elif code:
+        department.description = code
 
     db.session.add(department)
     db.session.commit()
@@ -100,7 +100,7 @@ def get_average_salary(department):
     return round(average_salary, 2)
 
 
-#Do we really need this?
+# Do we really need this?
 def get_average_age(department):
     """
     Get an average age of all employees in the specified Department
