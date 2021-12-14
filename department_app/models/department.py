@@ -2,6 +2,7 @@
 This module consists of the:
  - Department class to work with the `departments` table
 """
+from uuid import uuid4
 
 from .. import db
 
@@ -12,11 +13,13 @@ class Department(db.Model):
     """
 
     __tablename__ = 'departments'
-
-    id = db.Column(db.Integer, primary_key=True)
+    # id = db.Column(db.Integer(), primary_key=True)
+    # department_id = db.Column(db.Integer(), primary_key=True)
+    department_id = db.Column(db.String(36), primary_key=True, index=True, default=uuid4)
     name = db.Column(db.String(25), unique=True)
     code = db.Column(db.Integer)
-    employees = db.relationship('Employee', backref='department', lazy='dynamic')
+    employees = db.relationship('Employee', backref='departments', lazy='dynamic')
+    # employees = db.relationship('Employee', backref='department', lazy='dynamic')
 
     def __init__(self, name, code):
         self.name = name
@@ -28,7 +31,7 @@ class Department(db.Model):
         :return: the department in json format
         """
         return {
-            'id': self.id,
+            'department_id': self.department_id,
             'name': self.name,
             'code': self.code,
             'employees': [employee.to_dict() for employee in self.employees]
