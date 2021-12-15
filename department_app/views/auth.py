@@ -76,6 +76,7 @@ def register_page():
             # )
             # mail.send(msg)
 
+            # print("employee_to_create", employee_to_create.id)
             login_user(employee_to_create)
             app.logger.info(f'Employee with ID {employee_to_create.id} has been created')
             flash(f'Account has been created successfully! You are now logged in '

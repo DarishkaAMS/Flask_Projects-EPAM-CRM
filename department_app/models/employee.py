@@ -3,7 +3,7 @@ This module consists of the:
  - Employee class to work with the `employees` table
  - Role class to work with the `roles` table
  - UserRoles class to work with the `employees_roles` table
- - load_user function to return Employee by the specified employee_id
+ - load_user function to return Employee by the specified employee's id
 """
 
 from flask_login import UserMixin
@@ -25,8 +25,8 @@ class Employee(db.Model, UserMixin):
     Define the Employee data model
     """
     __tablename__ = 'employees'
-    employee_id = db.Column(db.Integer(), primary_key=True)
-    # employee_id = db.Column(db.String(36), primary_key=True, index=True, default=uuid4)
+    # id = db.Column(db.String(36), primary_key=True, index=True, default=uuid4)
+    id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(25), nullable=False)
     last_name = db.Column(db.String(25), nullable=False)
     email_address = db.Column(db.String(50), nullable=False, unique=True)
@@ -59,7 +59,7 @@ class Employee(db.Model, UserMixin):
         :return: the employee in json format
         """
         return {
-            'employee_id': self.employee_id,
+            'id': self.id,
             'first_name': self.first_name,
             'last_name': self.last_name,
             'email_address': self.email_address,
@@ -120,7 +120,8 @@ class UserRoles(db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     # id = db.Column(db.String(36), primary_key=True, index=True, default=uuid4)
-    user_id = db.Column(db.Integer(), db.ForeignKey('employees.employee_id', ondelete='CASCADE'))
+    # user_id = db.Column(db.Integer(), db.ForeignKey('employees.employee_id', ondelete='CASCADE'))
+    user_id = db.Column(db.Integer(), db.ForeignKey('employees.id', ondelete='CASCADE'))
     role_id = db.Column(db.Integer(), db.ForeignKey('role.id', ondelete='CASCADE'))
 
     def __repr__(self):
@@ -139,5 +140,5 @@ def load_user(employee_id):
     :return Employee by the specified employee_id:
     """
     # Do not convert into the INT!!!
-    return Employee.query.get(employee_id)
-    # return Employee.query.get(int(employee_id))
+    # return Employee.query.get(employee_id)
+    return Employee.query.get(int(employee_id))
